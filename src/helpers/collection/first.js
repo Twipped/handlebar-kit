@@ -6,7 +6,7 @@ exports.first = function (Handlebars) {
 	 *
 	 * @category collections
 	 * @signature {{first input[ count]}}
-	 * @param  {Array}  input Collection
+	 * @param  {Array|Object|String}  input Collection or String
 	 * @param  {Number} [count] Number of items to exclude
 	 * @return {Array} Array excluding the number of items specified
 	 *
@@ -28,20 +28,49 @@ exports.first = function (Handlebars) {
 		}
 
 		if (!options.fn) {
-			return count > 1 ? input.slice(0, count) : input[0];
+			if (input && typeof input === 'object' && !Array.isArray(input)) {
+				input = Object.values(input);
+			}
+			if (Array.isArray(input) || typeof input === 'string') return count > 1 ? input.slice(0, count) : input[0];
 		} else {
-			var results = count ? input.slice(0, count) : [input[0]];
-			if (results.length) {
-				var data = Handlebars.createFrame(options.data);
-				return results.map(function (result, i) {
+			
+			// received a string
+			if (typeof input === 'string') {
+				if (!input.length) return options.inverse(this);
+				return options.fn(result, input.slice(0, count));
+			}
+
+			var data = Handlebars.createFrame(options.data);
+
+			// received an object collection
+			if (input && typeof input === 'object' && !Array.isArray(input)) {
+				var keys = Object.keys(input);
+				if (!keys.length) {
+					return options.inverse(this);
+				}
+
+				return keys.slice(0, count).map(function (key, i) {
+					var result = input[key];
 					data.index = i;
+					data.key = key;
 					data.first = (i === 0);
-					data.last  = (i === results.length - 1);
+					data.last  = (i === keys.length - 1);
 					return options.fn(result, {data: data});
-				}).join('');
-			} else {
+				}).join ('');
+			}
+
+			var results = count ? input.slice(0, count) : [input[0]];
+			if (!results.length) {
 				return options.inverse(this);
 			}
+
+			return results.map(function (result, i) {
+				data.index = i;
+				data.key = i;
+				data.first = (i === 0);
+				data.last  = (i === results.length - 1);
+				return options.fn(result, {data: data});
+			}).join('');
 		}
 	};
 	/***/
