@@ -1,13 +1,14 @@
 {
   "name": "helper-hoard",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "A portable collection of handlebars helper functions for use in node and the browser.",
   "main": "build/hoard.all.js",
   "scripts": {
     "test": "npm run build-all && nodeunit tests/*/*.js",
     "build": "npm run build-all && npm run build-all-minified",
     "build-all": "./bin/build -o build/hoard.all.js",
-    "build-all-minified": "./bin/build -mo build/hoard.all.min.js"
+    "build-all-minified": "./bin/build -mo build/hoard.all.min.js",
+    "docs": "node docs/index.js"
   },
   "bin": {
     "helper-hoard": "./bin/build"
@@ -25,6 +26,8 @@
   "devDependencies": {
     "async": "^0.9.0",
     "commander": "^2.6.0",
+    "commonmark": "^0.17.1",
+    "dox": "^0.6.1",
     "glob": "^4.3.5",
     "handlebars": "^3.0.0",
     "nodeunit": "^0.9.0",
