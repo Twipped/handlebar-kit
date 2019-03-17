@@ -1,26 +1,36 @@
 
 exports.max = function () {
-	return function () {
-		if (arguments.length <= 1) {
-			throw new Error('Handlebars Helper "max" needs 1 parameter minimum');
+
+	/**
+	 * Finds the maximum of all passed values
+	 * @category math
+	 * @name max
+	 *
+	 * @signature {{max value1 value2 ... valueN}}
+	 * @param  {number} value1
+	 * @param  {number} value2
+	 * @param  {number} [valueN]
+	 * @return {number}
+	 */
+	return function max (...values) {
+		if (values.length <= 1) {
+			throw new Error('Handlebars Helper "max" needs at least 1 parameter');
 		}
 
 		var value;
 
-		//with the arguments array as an entry point, descend into any sub-arrays for values to min against
-		(function descend(level) {
+		function descend (level) {
 			if (Array.isArray(level)) {
 				level.forEach(descend);
+			} else if (value === undefined) {
+				value = parseFloat(level);
 			} else {
-				if (value === undefined) {
-					value = parseInt(level, 10);
-				} else {
-					value = Math.max(value, parseInt(level, 10));
-				}
+				value = Math.max(value, parseFloat(level));
 			}
-		})([].slice.call(arguments, 0, arguments.length - 1));
+		}
+
+		descend(...values.slice(0, -1));
 
 		return value;
-		
 	};
 };

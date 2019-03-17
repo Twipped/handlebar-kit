@@ -1,9 +1,20 @@
 
 exports.humanBytes = function () {
-	return function (value) {
+
+	/**
+	 * Converts a byte count into a human readable format
+	 * Example: 1624 becomes 1.6KB
+	 * @category strings
+	 * @name humanBytes
+	 *
+	 * @signature {{humanBytes bytecount}}
+	 * @param  {number} bytecount
+	 * @return {string}
+	 */
+	return function humanBytes (value) {
 		var bytes = Math.abs(parseInt(value, 10));
 		if (isNaN(bytes)) {
-			console.error("Handlebars helper fileSize couldn't parse '" + value + "'");
+			// console.error("Handlebars helper humanBytes couldn't parse '" + value + "'");
 			return value; // Graceful degradation
 		}
 

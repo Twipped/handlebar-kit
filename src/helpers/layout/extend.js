@@ -1,6 +1,19 @@
 
 exports.extend = function (Handlebars) {
-	return function (layout, options) {
+
+	/**
+	 * Defines collection of layout cells to be filled into a layout partial. This function wraps a
+	 * series of `append`, `prepend` and `content` calls. The content instructions inside are evaluated
+	 * and then the named partial is evaluated using the data defined by those instructions. All other
+	 * contained text is disposed of.
+	 * @category layout
+	 * @name extend
+	 *
+	 * @signature {{#extend name}}<TEMPLATE>{{/extend}}
+	 * @param  {string} layout  The name of the Handlebars partial to be used.
+	 * @return {string}
+	 */
+	return function extend (layout, options) {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "extend" needs 1 parameter');
 		}

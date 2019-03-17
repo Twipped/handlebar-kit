@@ -1,11 +1,24 @@
+/* eslint no-console: 0 */
 
 exports.log = function () {
-	return function () {
-		if (arguments.length === 1) {
+
+	/**
+	 * Sends the passed arguments to console.log
+	 * @category debug
+	 * @name log
+	 *
+	 * @signature {{log}}
+	 * @return {null} Sends the current context to console.log
+	 *
+	 * @signature {{log argument1 ... argumentN}}
+	 * @param  {...[mixed]} args Arguments to send to console.log
+	 * @return {null}
+	 */
+	return function log (...args) {
+		if (args.length === 1) {
 			console.log(this);
 		} else {
-			var args = [].slice.call(arguments, 0, arguments.length - 1);
-			console.log(args);
+			console.log(...args.slice(0, -1));
 		}
 	};
 };

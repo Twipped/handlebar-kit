@@ -1,22 +1,32 @@
 
 exports.add = function () {
-	return function () {
-		if (arguments.length <= 1) {
-			throw new Error('Handlebars Helper "block" needs 1 parameter minimum');
+
+	/**
+	 * Add all values provided and return the result
+	 * @category math
+	 * @name add
+	 *
+	 * @signate {{add value1 value2 ... valueN}}
+	 * @param {...[Array<number>|number]} values Numbers or arrays of numbers to be added together
+	 * @return {number}
+	 */
+	return function add (...values) {
+		if (values.length <= 1) {
+			throw new Error('Handlebars Helper "add" needs 1 parameter minimum');
 		}
 
-		var value = 0;
+		var result = 0;
 
-		//with the arguments array as an entry point, descend into any sub-arrays for values to add to the total.
-		(function descend(level) {
+		function descend (level) {
 			if (Array.isArray(level)) {
 				level.forEach(descend);
 			} else {
-				value += parseInt(level, 10);
+				result += parseFloat(level);
 			}
-		})([].slice.call(arguments, 0, arguments.length - 1));
+		}
 
-		return value;
-		
+		descend(...values.slice(0, -1));
+
+		return result;
 	};
 };

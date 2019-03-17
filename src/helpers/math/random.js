@@ -1,15 +1,44 @@
 
 exports.random = function () {
-	return function (low, high) {
+
+	/**
+	 * Generates a random number using Math.random()
+	 * @category math
+	 * @name random
+	 *
+	 * @signature {{random}}
+	 * @describe  Generates an random floating point between 0 and 1
+	 * @return {number}
+	 *
+	 * @signature {{random max}}
+	 * @describe Generates an integer between zero and the `max` value, or max and 0 if max is negative
+	 * @param  {number} max [description]
+	 * @return {number}
+	 *
+	 * @signature {{random min max}}
+	 * @describe Generates an integer between the `min` and `max` values
+	 * @param  {number} min  [description]
+	 * @param  {number} max [description]
+	 * @return {number}
+	 */
+	return function random (min, max) {
 		switch (arguments.length) {
 		case 1:
 			return Math.random();
 		case 2:
-			low = 0;
-			high = arguments[0];
+			if (min > 0) {
+				max = min;
+				min = 0;
+			} else {
+				max = 0;
+			}
 			break;
+		default:
+			// do nothing
 		}
 
-		return Math.floor(Math.random()*(high-low)+low);
+		if (max === min) return max; // no need to do that math
+
+		return Math.floor((Math.random() * (max - min )) + min);
 	};
 };

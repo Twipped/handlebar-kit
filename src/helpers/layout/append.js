@@ -1,6 +1,16 @@
 
 exports.append = function () {
-	return function (name, options) {
+
+	/**
+	 * Appends the contained content to a layout block
+	 * @category layout
+	 * @name append
+	 *
+	 * @signature {{#append name}}<TEMPLATE>{{/append}}
+	 * @param  {string} name    Name of the content block to append to
+	 * @return {null}
+	 */
+	return function append (name, options) {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "append" needs 1 parameter');
 		}

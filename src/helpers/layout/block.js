@@ -1,6 +1,20 @@
 
 exports.block = function (Handlebars) {
-	return function (name, options) {
+
+	/**
+	 * Defines a pluggable content block in a layout partial
+	 * @category layout
+	 * @name block
+	 *
+	 * @signature {{block name}}
+	 * @param  {string} name    Name of the block
+	 * @return {string} Defines an area for content to be inserted.`
+	 *
+	 * @signature {{#block name}}<TEMPLATE>{{/block}}
+	 * @param  {string} name    Name of the block
+	 * @return {string} Defines an area of content that can be appended, prepended, or replaced.`
+	 */
+	return function block (name, options) {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "block" needs 1 parameter');
 		}

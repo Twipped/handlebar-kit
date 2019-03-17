@@ -1,20 +1,26 @@
 
 exports.content = function () {
-	return function (name, mode, options) {
+
+	/**
+	 * Replaces the contents of a layout block with the contained content
+	 * @category layout
+	 * @name content
+	 *
+	 * @signature {{#block name}}<TEMPLATE>{{/block}}
+	 * @param  {string} name    Name of the block to fill
+	 * @return {null}
+	 */
+	return function content (name, options) {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "content" needs 1 parameter');
 		}
 
 		options = arguments[arguments.length - 1];
 
-		if (!mode || arguments.length === 2) {
-			mode = options.hash && options.hash.mode || 'replace';
-		}
-
 		this._blocks = this._blocks || {};
 
 		this._blocks[name] = {
-			mode: mode.toLowerCase(),
+			mode: 'replace',
 			fn: options.fn,
 		};
 	};

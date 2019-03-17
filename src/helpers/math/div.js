@@ -1,25 +1,42 @@
 
 exports.div = function () {
-	return function () {
-		if (arguments.length <= 1) {
-			throw new Error('Handlebars Helper "div" needs 1 parameter minimum');
+
+	/**
+	 * Divides two or more values.
+	 * If more than two values are provided, the result of the previous two division will be divided with the next.
+	 * If any value is 0, the result of the division will be zero.
+	 * @category math
+	 * @name div
+	 *
+	 * @signature {{div value1 value2 ... valueN}}
+	 * @param  {number} value1
+	 * @param  {number} value2
+	 * @param  {number} [valueN]
+	 * @return {number}
+	 */
+	return function div (...values) {
+		if (values.length === 2 && !Array.isArray(values[0])) {
+			throw new Error('Handlebars Helper "div" needs at least 2 parameters minimum when passing non-arrays');
+		}
+		if (values.length === 1) {
+			throw new Error('Handlebars Helper "div" needs at least 1 parameter minimum');
 		}
 
 		var value;
 
-		//with the arguments array as an entry point, descend into any sub-arrays for values to divide the initial value by.
-		(function descend(level) {
+		function descend (level) {
 			if (Array.isArray(level)) {
 				level.forEach(descend);
-			} else {
-				if (value === undefined) {
-					value = parseInt(level, 10);
-				} else if (level) {
-					value = value / parseInt(level, 10);
-				}			}
-		})([].slice.call(arguments, 0, arguments.length - 1));
+			} else if (value === undefined) {
+				value = parseFloat(level);
+			} else if (level) {
+				level = parseFloat(level);
+				value = level ? (value / level) : 0;
+			}
+		}
+
+		descend(...values.slice(0, -1));
 
 		return value;
-		
 	};
 };

@@ -1,6 +1,19 @@
 
 exports.numberFormat = function () {
-	return function (number, precision, decimalPoint, thousands) {
+
+	/**
+	 * Format a floating point number
+	 * @category strings
+	 * @name contains
+	 *
+	 * @signature {{numberFormat value [precision] [decimalPoint] [thousandsSeparator]}}
+	 * @param  {number} value
+	 * @param  {number} [precision]    Number of decimal points to display (default is 0)
+	 * @param  {string} [decimalPoint] Character to use for the decimal point (Default is a single period)
+	 * @param  {string} [thousandsSeparator]    Character to use to mark thousands (eg, 1,000) (Default is a single comma)
+	 * @return {string}
+	 */
+	return function numberFormat (value, precision, decimalPoint, thousands) {
 		// account for options argument
 		var argc = arguments.length - 1;
 
@@ -10,6 +23,10 @@ exports.numberFormat = function () {
 
 		if (argc === 3 || thousands === undefined) {
 			thousands = ',';
+		}
+
+		if (!thousands) {
+			thousands = '';
 		}
 
 		if (argc === 2 || decimalPoint === undefined) {
