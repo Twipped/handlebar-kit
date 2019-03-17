@@ -1,11 +1,23 @@
 
-exports.padLeft = function () {
-	return function (input, length, using, options) {
+exports.padStart = function () {
+
+	/**
+	 * Pads a string with characters on the left side.
+	 * @category strings
+	 * @name padStart
+	 *
+	 * @signature {{padStart input length [using]}}
+	 * @param  {string} input
+	 * @param  {number} length
+	 * @param  {string} [using] Optional character to pad with. Defaults to a single space.
+	 * @return {string}
+	 */
+	return function padStart (input, length, using, options) {
 		options = arguments[arguments.length - 1];
 		switch (arguments.length) {
 		case 1:
 			if (!options.fn) {
-				throw new Error('Handlebars Helper "padLeft" needs 2 parameters minimum');
+				throw new Error('Handlebars Helper "padStart" needs 2 parameters minimum');
 			}
 
 			input = options.fn(this);
@@ -29,7 +41,8 @@ exports.padLeft = function () {
 			return input;
 		}
 
-		return input + new Array(length - input.length + 1).join(using);
+		return new Array(length - input.length + 1).join(using) + input;
 
 	};
+	/***/
 };

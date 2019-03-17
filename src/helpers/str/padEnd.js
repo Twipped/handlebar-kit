@@ -1,12 +1,24 @@
 
-exports.padRight = function () {
-	return function (input, length, using, options) {
+exports.padEnd = function () {
+
+	/**
+	 * Pads a string with characters on the right side.
+	 * @category strings
+	 * @name padEnd
+	 *
+	 * @signature {{padEnd input length [using]}}
+	 * @param  {string} input
+	 * @param  {number} length
+	 * @param  {string} [using] Optional character to pad with. Defaults to a single space.
+	 * @return {string}
+	 */
+	return function padEnd (input, length, using, options) {
 		options = arguments[arguments.length - 1];
 
 		switch (arguments.length) {
 		case 1:
 			if (!options.fn) {
-				throw new Error('Handlebars Helper "padRight" needs 2 parameters minimum');
+				throw new Error('Handlebars Helper "padEnd" needs 2 parameters minimum');
 			}
 
 			input = options.fn(this);
@@ -31,7 +43,8 @@ exports.padRight = function () {
 			return input;
 		}
 
-		return new Array(length - input.length + 1).join(using) + input;
+		return input + (new Array(length - input.length + 1)).join(using);
 
 	};
+	/***/
 };
