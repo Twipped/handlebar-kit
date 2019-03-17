@@ -33,4 +33,5 @@ exports.max = function () {
 
 		return value;
 	};
+	/***/
 };

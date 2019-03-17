@@ -18,4 +18,5 @@ exports.pow = function () {
 
 		return Math.pow(base, exponent);
 	};
+	/***/
 };

@@ -2,7 +2,7 @@
 exports.endsWith = function () {
 
 	/**
-	 * Tests if the needle value exists inside the haystack
+	 * Tests if the haystack ends with the needle value
 	 * @category strings
 	 * @name endsWith
 	 *
@@ -34,4 +34,5 @@ exports.endsWith = function () {
 
 		return result ? options.fn(this) : options.inverse(this);
 	};
+	/***/
 };

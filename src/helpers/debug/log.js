@@ -21,4 +21,5 @@ exports.log = function () {
 			console.log(...args.slice(0, -1));
 		}
 	};
+	/***/
 };

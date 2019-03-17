@@ -1,6 +1,19 @@
 
 exports.replace = function () {
-	return function (haystack, needle, replacement, options) {
+
+	/**
+	 * Searches for a needle within a haystack and substitutes a replacement for that match.
+	 * Pass a truthy value for the `regex` parameter to use a regular expression as the needle.
+	 * @category strings
+	 * @name replace
+	 *
+	 * @signature {{replace haystack needle replacement [regex=1]}}
+	 * @param  {[type]} haystack
+	 * @param  {[type]} needle
+	 * @param  {[type]} replacement
+	 * @return {[type]}
+	 */
+	return function replace (haystack, needle, replacement, options) {
 		options = arguments[arguments.length - 1];
 
 		var hashNeedle = options.hash && options.hash.search;
@@ -51,4 +64,5 @@ exports.replace = function () {
 		return haystack.replace(needle, replacement);
 
 	};
+	/***/
 };

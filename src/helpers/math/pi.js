@@ -12,4 +12,5 @@ exports.pi = function () {
 	return function pi () {
 		return Math.PI;
 	};
+	/***/
 };

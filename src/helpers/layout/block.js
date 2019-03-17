@@ -45,4 +45,5 @@ exports.block = function (Handlebars) {
 
 		return new Handlebars.SafeString(result);
 	};
+	/***/
 };

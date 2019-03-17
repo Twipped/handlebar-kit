@@ -24,4 +24,5 @@ exports.content = function () {
 			fn: options.fn,
 		};
 	};
+	/***/
 };

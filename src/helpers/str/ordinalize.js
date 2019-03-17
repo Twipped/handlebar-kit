@@ -1,6 +1,16 @@
 
 exports.ordinalize = function () {
-	return function (value) {
+
+	/**
+	 * Adds a ordinal suffix to a number (eg, 1st, 2nd, 3rd)
+	 * @category strings
+	 * @name ordinalize
+	 *
+	 * @signature {{ordinalize value}}
+	 * @param  {number} value
+	 * @return {string}
+	 */
+	return function ordinalize (value) {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "ordinalize" needs 1 parameter');
 		}
@@ -22,4 +32,5 @@ exports.ordinalize = function () {
 		}
 
 	};
+	/***/
 };

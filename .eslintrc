@@ -4,6 +4,8 @@
 		"node/no-unpublished-require": 0,
 		"promise/no-native": 0,
 		"max-len": 0,
+		"prefer-rest-params": 0,
+		"spaced-comment": ["error", "always", { "exceptions": ["-", "+", "*"] }],
 
 		'node/no-unsupported-features/es-syntax': [ 'error', { 'version': '>=8.14.0' } ],
 		'node/no-unsupported-features/es-builtins': [ 'error', { 'version': '>=8.14.0' } ],

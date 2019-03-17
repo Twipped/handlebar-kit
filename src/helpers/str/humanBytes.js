@@ -41,4 +41,5 @@ exports.humanBytes = function () {
 		// The number we have is higher than our highest unit, so express it as a value of our highest unit
 		return (resValue * Math.pow(10, metric.length + 2 - resInt)) + ' ' + metric[metric.length - 1];
 	};
+	/***/
 };

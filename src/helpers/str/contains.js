@@ -39,4 +39,5 @@ exports.contains = function () {
 		return result ? options.fn(this) : options.inverse(this);
 
 	};
+	/***/
 };

@@ -68,4 +68,5 @@ exports.numberFormat = function () {
 		return precision ? result.join(decimalPoint) : result[0];
 
 	};
+	/***/
 };

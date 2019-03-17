@@ -43,6 +43,7 @@ exports.date = function () {
 				input = moment(new Date(input));
 			}
 			break;
+		default: // do nothing
 		}
 
 		if (!input.isValid()) {
@@ -54,5 +55,3 @@ exports.date = function () {
 
 	/***/
 };
-
-exports.date.needs = [ 'moment' ];

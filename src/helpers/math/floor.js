@@ -18,4 +18,5 @@ exports.floor = function () {
 
 		return Math.floor(value);
 	};
+	/***/
 };

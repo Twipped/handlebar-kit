@@ -1,6 +1,19 @@
 
 exports.urldecode = function () {
-	return function (input, options) {
+
+	/**
+	 * Parses URI encoded string back into its original format
+	 * @category strings
+	 * @name urldecode
+	 *
+	 * @signature {{urldecode input}}
+	 * @param  {string} input
+	 * @return {string}
+	 *
+	 * @signature {{#urldecode}}<TEMPLATE>{{/urldecode}}
+	 * @return {string}
+	 */
+	return function urldecode (input, options) {
 		options = arguments[arguments.length - 1];
 
 		if (arguments.length < 2) {
@@ -14,4 +27,5 @@ exports.urldecode = function () {
 		return decodeURIComponent(input);
 
 	};
+	/***/
 };

@@ -41,4 +41,5 @@ exports.random = function () {
 
 		return Math.floor((Math.random() * (max - min )) + min);
 	};
+	/***/
 };

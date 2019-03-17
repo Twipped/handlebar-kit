@@ -33,4 +33,5 @@ exports.min = function () {
 
 		return value;
 	};
+	/***/
 };

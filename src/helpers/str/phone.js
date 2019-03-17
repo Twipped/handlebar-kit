@@ -1,6 +1,17 @@
 
 exports.phone = function () {
-	return function (number) {
+
+	/**
+	 * Strips non-numeric characters and reformats as a US phone number (eg (XXX) XXX-XXXX)
+	 * Returns the value stripped of non-numerics if the result is not ten digits long
+	 * @category strings
+	 * @name phone
+	 *
+	 * @signature {{phone number}}
+	 * @param  {string|number} number
+	 * @return {string}
+	 */
+	return function phone (number) {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "phoneNumber" needs 1 parameter minimum');
 		}
@@ -20,4 +31,5 @@ exports.phone = function () {
 
 		return stack.join('');
 	};
+	/***/
 };

@@ -32,4 +32,5 @@ exports.mean = function () {
 		return count ? (result / count) : 0;
 
 	};
+	/***/
 };

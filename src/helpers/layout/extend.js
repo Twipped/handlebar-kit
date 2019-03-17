@@ -39,4 +39,5 @@ exports.extend = function (Handlebars) {
 
 		return new Handlebars.SafeString(template(context));
 	};
+	/***/
 };

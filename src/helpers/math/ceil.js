@@ -17,4 +17,5 @@ exports.ceil = function () {
 
 		return Math.ceil(parseFloat(value));
 	};
+	/***/
 };
