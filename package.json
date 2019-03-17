@@ -1,44 +1,35 @@
 {
-  "name": "helper-hoard",
-  "version": "0.2.0",
+  "name": "handlebar-kit",
+  "version": "1.0.0",
   "description": "A portable collection of handlebars helper functions for use in node and the browser.",
   "main": "build/hoard.all.js",
   "scripts": {
-    "test": "npm run build-all && nodeunit tests/*/*.js",
-    "build": "npm run build-all && npm run build-all-minified",
-    "build-all": "./bin/build -o build/hoard.all.js",
-    "build-all-minified": "./bin/build -mo build/hoard.all.min.js",
-    "docs": "node docs/index.js"
-  },
-  "bin": {
-    "helper-hoard": "./bin/build"
+    "docs": "node docs/index.js",
+    "lint": "eslint ./ --fix"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ChiperSoft/HandlebarsHelperHoard"
+    "url": "https://github.com/Twipped/handlebar-kit"
   },
   "keywords": [
     "handlebars",
     "helpers"
   ],
-  "author": "Jarvis Badgley <chiper@chipersoft.com> (http://chipersoft.com/)",
+  "author": "Jocelyn Badgley <joc@twipped.com> (http://twipped.com/)",
   "license": "MIT",
   "devDependencies": {
-    "async": "^0.9.0",
-    "commander": "^2.6.0",
-    "commonmark": "^0.17.1",
     "dox": "^0.6.1",
-    "glob": "^4.3.5",
-    "handlebars": "^3.0.0",
-    "nodeunit": "^0.9.0",
-    "nsdeclare": "^0.1.0",
-    "uglify-js": "^2.4.16"
     "eslint": "~5.15.2",
     "eslint-config-twipped": "~3.0.0",
     "eslint-plugin-node": "~8.0.1",
     "eslint-plugin-promise": "~4.0.1",
+    "date-fns": "~1.30.1",
+    "handlebars": "^4.0.0",
+    "highlight.js": "~9.15.6",
+    "markdown-it": "~8.4.2",
+    "markdown-it-anchor": "~5.0.2"
   },
-  "dependencies": {
-    "moment": "^2.8.4"
+  "peerDependencies": {
+    "handlebars": ">= 3.0.0"
   }
 }
