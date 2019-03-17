@@ -50,9 +50,9 @@ exports.length = function () {
 
 		if (target === false ? results : results === target) {
 			return options.fn(this);
-		} else {
-			return options.inverse(this);
 		}
+		return options.inverse(this);
+
 	};
 	/***/
 };

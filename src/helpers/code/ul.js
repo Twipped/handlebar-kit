@@ -19,10 +19,10 @@ exports.ul = function (Handlebars) {
 
 		options = arguments[arguments.length - 1];
 
-		var stack = ['<ul'];
+		var stack = [ '<ul' ];
 
 		if (options.hash) {
-			Object.keys(options.hash).forEach(function (key) {
+			Object.keys(options.hash).forEach((key) => {
 				stack.push(' ' + key + '="' + options.hash[key] + '"');
 			});
 		}
@@ -30,25 +30,23 @@ exports.ul = function (Handlebars) {
 		stack.push('>');
 
 		if (!Array.isArray(input)) {
-			input = [input];
+			input = [ input ];
 		}
 
 		if (!options.fn) {
-			input.forEach(function (item) {
+			input.forEach((item) => {
 				stack.push('<li>' + Handlebars.Utils.escapeExpression(item) + '</li>');
 			});
+		} else if (input.length) {
+			var data = Handlebars.createFrame(options.data);
+			input.forEach((item, i) => {
+				data.index = i;
+				data.first = (i === 0);
+				data.last  = (i === input.length - 1);
+				stack.push('<li>' + options.fn(item, { data }) + '</li>');
+			});
 		} else {
-			if (input.length) {
-				var data = Handlebars.createFrame(options.data);
-				input.forEach(function (item, i) {
-					data.index = i;
-					data.first = (i === 0);
-					data.last  = (i === input.length - 1);
-					stack.push('<li>' + options.fn(item, {data: data}) + '</li>');
-				});
-			} else {
-				stack.push('<li>' + options.inverse(this) + '</li>');
-			}
+			stack.push('<li>' + options.inverse(this) + '</li>');
 		}
 
 		stack.push('</ul>');

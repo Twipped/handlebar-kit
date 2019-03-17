@@ -23,11 +23,11 @@ exports.all = function () {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "all" needs 1 parameter');
 		}
-		var i,c, yes = false;
+		var i; var c; var yes = false;
 		if (Array.isArray(input)) {
 			yes = !!input[0];
 			for (i = 1, c = input.length; i < c; i++) {
-				
+
 				if (!(yes = yes && truthy(input[i]))) break;
 
 			}

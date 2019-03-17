@@ -15,7 +15,7 @@ exports.content = function () {
 
 		this._blocks[name] = {
 			mode: mode.toLowerCase(),
-			fn: options.fn
+			fn: options.fn,
 		};
 	};
 };

@@ -27,7 +27,7 @@ exports.humanNumber = function () {
 					number = 1;
 					i++;
 				}
-				
+
 				number += abbr[i];
 				break;
 			}

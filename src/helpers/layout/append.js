@@ -11,7 +11,7 @@ exports.append = function () {
 
 		this._blocks[name] = {
 			mode: 'append',
-			fn: options.fn
+			fn: options.fn,
 		};
 	};
 };

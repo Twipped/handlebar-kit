@@ -7,11 +7,11 @@ exports.startsWith = function () {
 			throw new Error('Handlebars Helper "startsWith" needs 2 parameters');
 		}
 
-		//make sure we have strings
-		haystack = ''+haystack;
-		needle = ''+needle;
+		// make sure we have strings
+		haystack = String(haystack);
+		needle = String(needle);
 
-		var result = haystack.substr(0,needle.length) === needle;
+		var result = haystack.substr(0, needle.length) === needle;
 
 		if (!options.fn) {
 			return result || '';

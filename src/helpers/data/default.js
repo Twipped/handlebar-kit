@@ -18,7 +18,7 @@ exports.default = function () {
 	 *
 	 * @signature {{#default value fallback}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/default}}
 	 */
-	
+
 	return function (value, fallback, options) {
 		options = arguments[arguments.length - 1];
 

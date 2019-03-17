@@ -17,9 +17,9 @@ exports.jsfiddle = function (Handlebars) {
 		} else if (Array.isArray(tabs)) {
 			tabs = tabs.join(',');
 		}
-		
+
 		var result = '<iframe width="100%" height="300" src="http://jsfiddle.net/' + fiddleId + '/embedded/' + tabs + '/presentation/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>';
-		
+
 		return new Handlebars.SafeString(result);
 	};
 	/***/

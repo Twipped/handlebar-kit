@@ -11,7 +11,7 @@ exports.script = function (Handlebars) {
 	return function script (url, type) {
 		if (arguments.length === 2) type = undefined;
 
-		function makeLink(src) {
+		function makeLink (src) {
 			if (type) {
 				return new Handlebars.SafeString('<script type="' + type + '" src="' + src + '"></script>');
 			}
@@ -29,9 +29,9 @@ exports.script = function (Handlebars) {
 
 		if (Array.isArray(url)) {
 			return new Handlebars.SafeString(url.map(makeLink).join('\n'));
-		} else {
-			return new Handlebars.SafeString(makeLink(url));
 		}
+		return new Handlebars.SafeString(makeLink(url));
+
 	};
 	/***/
 };

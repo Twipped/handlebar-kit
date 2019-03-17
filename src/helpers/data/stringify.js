@@ -12,7 +12,7 @@ exports.stringify = function (Handlebars) {
 	 * @param  {boolean} pretty Controls if the json should be tab indented.
 	 * @return {string} The formatted JSON.
 	 */
-	
+
 	return function stringify (input, pretty, options) {
 
 		if (arguments.length === 1) {
@@ -23,10 +23,8 @@ exports.stringify = function (Handlebars) {
 
 		if (arguments.length === 2) {
 			pretty = undefined;
-		} else {
-			if (pretty && typeof pretty !== 'string') {
-				pretty = '  ';
-			}
+		} else if (pretty && typeof pretty !== 'string') {
+			pretty = '  ';
 		}
 
 		return new Handlebars.SafeString(JSON.stringify(input, undefined, pretty));

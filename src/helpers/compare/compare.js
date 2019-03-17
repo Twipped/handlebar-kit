@@ -33,7 +33,7 @@ exports.compare = function () {
 	 * @param  {string} [operator] If omitted, is assumed to be strict equality.
 	 * @param  {mixed} right    Right side of the comparison
 	 */
-	
+
 	return function compare (left, operator, right, options) {
 		if (arguments.length < 3) {
 			throw new Error('Handlebars Helper "compare" needs 2 parameters');
@@ -47,18 +47,18 @@ exports.compare = function () {
 		}
 
 		var operators = {
-			'==':     function(l, r) {return l == r; },
-			'===':    function(l, r) {return l === r; },
-			'!=':     function(l, r) {return l != r; },
-			'!==':    function(l, r) {return l !== r; },
-			'<':      function(l, r) {return l < r; },
-			'>':      function(l, r) {return l > r; },
-			'<=':     function(l, r) {return l <= r; },
-			'>=':     function(l, r) {return l >= r; },
-			'typeof': function(l, r) {return typeof l === r; },
-			'!typeof':function(l, r) {return typeof l !== r; },
-			'%':      function(l, r) {return l % r; },
-			'!%':     function(l, r) {return l % r === 0; }
+			'==':      (l, r) => l == r, // eslint-disable-line eqeqeq
+			'===':     (l, r) => l === r,
+			'!=':      (l, r) => l != r, // eslint-disable-line eqeqeq
+			'!==':     (l, r) => l !== r,
+			'<':       (l, r) => l < r,
+			'>':       (l, r) => l > r,
+			'<=':      (l, r) => l <= r,
+			'>=':      (l, r) => l >= r,
+			'typeof':  (l, r) => typeof l === r, // eslint-disable-line valid-typeof
+			'!typeof': (l, r) => typeof l !== r, // eslint-disable-line valid-typeof
+			'%':       (l, r) => l % r,
+			'!%':      (l, r) => l % r === 0,
 		};
 
 		if (!operators[operator]) {

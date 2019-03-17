@@ -25,7 +25,7 @@ exports.and = function () {
 		var args = [].slice.call(arguments, 1);
 		options = args.pop();
 
-		var i = 0, c = args.length, result = a;
+		var i = 0; var c = args.length; var result = a;
 		for (; i < c; i++) {
 			result = result && truthy(args[i]);
 			if (!result) break;
@@ -35,9 +35,9 @@ exports.and = function () {
 
 		if (result) {
 			return options.fn(result);
-		} else {
-			return options.inverse(this);
 		}
+		return options.inverse(this);
+
 	};
 
 	/***/

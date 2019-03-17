@@ -6,19 +6,20 @@ exports.ordinalize = function () {
 		}
 
 		var normal = Math.abs(Math.round(value));
-		if ([11, 12, 13].indexOf(normal % 100) >= 0) {
-			return "" + value + "th";
-		} else {
-			switch (normal % 10) {
-			case 1:
-				return "" + value + "st";
-			case 2:
-				return "" + value + "nd";
-			case 3:
-				return "" + value + "rd";
-			default:
-				return "" + value + "th";
-			}
+		value = String(value);
+		if ([ 11, 12, 13 ].indexOf(normal % 100) >= 0) {
+			return value + 'th';
 		}
+		switch (normal % 10) {
+		case 1:
+			return value + 'st';
+		case 2:
+			return value + 'nd';
+		case 3:
+			return value + 'rd';
+		default:
+			return value + 'th';
+		}
+
 	};
 };

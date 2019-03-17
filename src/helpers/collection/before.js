@@ -26,23 +26,23 @@ exports.before = function (Handlebars) {
 		if (arguments.length === 2) {
 			count = undefined;
 		}
-		
+
 		var results = input.slice(0, -count);
 		if (!options.fn) {
 			return results;
-		} else {
-			if (results.length) {
-				var data = Handlebars.createFrame(options.data);
-				return results.map(function (result, i) {
-					data.index = i;
-					data.first = (i === 0);
-					data.last  = (i === results.length - 1);
-					return options.fn(result, {data: data});
-				}).join('');
-			} else {
-				return options.inverse(this);
-			}
 		}
+		if (results.length) {
+			var data = Handlebars.createFrame(options.data);
+			return results.map((result, i) => {
+				data.index = i;
+				data.first = (i === 0);
+				data.last  = (i === results.length - 1);
+				return options.fn(result, { data });
+			}).join('');
+		}
+		return options.inverse(this);
+
+
 	};
 	/***/
 };

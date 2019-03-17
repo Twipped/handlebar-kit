@@ -29,20 +29,20 @@ exports.last = function (Handlebars) {
 
 		if (!options.fn) {
 			return count > 1 ? input.slice(-count) : input[input.length - 1];
-		} else {
-			var results = count ? input.slice(-count) : [input[input.length - 1]];
-			if (results.length) {
-				var data = Handlebars.createFrame(options.data);
-				return results.map(function (result, i) {
-					data.index = i;
-					data.first = (i === 0);
-					data.last  = (i === results.length - 1);
-					return options.fn(result, {data: data});
-				}).join('');
-			} else {
-				return options.inverse(this);
-			}
 		}
+		var results = count ? input.slice(-count) : [ input[input.length - 1] ];
+		if (results.length) {
+			var data = Handlebars.createFrame(options.data);
+			return results.map((result, i) => {
+				data.index = i;
+				data.first = (i === 0);
+				data.last  = (i === results.length - 1);
+				return options.fn(result, { data });
+			}).join('');
+		}
+		return options.inverse(this);
+
+
 
 	};
 };

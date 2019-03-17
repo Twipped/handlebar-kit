@@ -33,7 +33,7 @@ exports.first = function (Handlebars) {
 			}
 			if (Array.isArray(input) || typeof input === 'string') return count > 1 ? input.slice(0, count) : input[0];
 		} else {
-			
+
 			// received a string
 			if (typeof input === 'string') {
 				if (!input.length) return options.inverse(this);
@@ -49,27 +49,27 @@ exports.first = function (Handlebars) {
 					return options.inverse(this);
 				}
 
-				return keys.slice(0, count).map(function (key, i) {
+				return keys.slice(0, count).map((key, i) => {
 					var result = input[key];
 					data.index = i;
 					data.key = key;
 					data.first = (i === 0);
 					data.last  = (i === keys.length - 1);
-					return options.fn(result, {data: data});
-				}).join ('');
+					return options.fn(result, { data });
+				}).join('');
 			}
 
-			var results = count ? input.slice(0, count) : [input[0]];
+			var results = count ? input.slice(0, count) : [ input[0] ];
 			if (!results.length) {
 				return options.inverse(this);
 			}
 
-			return results.map(function (result, i) {
+			return results.map((result, i) => {
 				data.index = i;
 				data.key = i;
 				data.first = (i === 0);
 				data.last  = (i === results.length - 1);
-				return options.fn(result, {data: data});
+				return options.fn(result, { data });
 			}).join('');
 		}
 	};

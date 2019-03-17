@@ -1,17 +1,17 @@
 
 function load (Handlebars) {
-	var args = [],
-		c,
-		helper;
+	var args = [];
+	var c;
+	var helper;
 
 	// flatten the arguments tree
-	(function descend(level) {
+	(function descend (level) {
 		if (Array.isArray(level)) {
 			level.forEach(descend);
 		} else {
 			args.push(level);
 		}
-	})(Array.prototype.slice.call(arguments, 1));
+	}(Array.prototype.slice.call(arguments, 1)));
 
 	c = args.length;
 

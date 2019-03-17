@@ -11,12 +11,10 @@ exports.ucsentences = function () {
 			}
 		}
 
-		if(input && typeof input === "string") {
-			return input.replace(/((?:\S[^\.\?\!]*)[\.\?\!]*)/g, function (txt) {
-				return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-			});
-		} else {
-			return '';
+		if (input && typeof input === 'string') {
+			return input.replace(/((?:\S[^\.\?\!]*)[\.\?\!]*)/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 		}
+		return '';
+
 	};
 };

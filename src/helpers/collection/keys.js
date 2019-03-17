@@ -15,24 +15,24 @@ exports.keys = function (Handlebars) {
 		if (!Array.isArray(input) && typeof input === 'object') {
 			input = Object.keys(input);
 		} else {
-			input = input.map(function (v, k) { return k; });
+			input = input.map((v, k) => k);
 		}
 
 		if (!options.fn) {
 			return input;
-		} else {
-			if (input.length) {
-				var data = Handlebars.createFrame(options.data);
-				return input.map(function (result, i) {
-					data.index = i;
-					data.first = (i === 0);
-					data.last  = (i === input.length - 1);
-					return options.fn(result, {data: data});
-				}).join('');
-			} else {
-				return options.inverse(this);
-			}
 		}
+		if (input.length) {
+			var data = Handlebars.createFrame(options.data);
+			return input.map((result, i) => {
+				data.index = i;
+				data.first = (i === 0);
+				data.last  = (i === input.length - 1);
+				return options.fn(result, { data });
+			}).join('');
+		}
+		return options.inverse(this);
+
+
 	};
 	/***/
 };

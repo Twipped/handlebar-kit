@@ -18,7 +18,7 @@ exports.date = function () {
 	 * @param {string} [parse] If a `parse` attribute is provided, it will be used for instructing moment on how to parse the input.
 	 * @return {string}
 	 */
-	
+
 	return function date (format, input, options) {
 		var moment = (typeof require === 'function' && require('moment')) || ((typeof window !== 'undefined' && window) || (typeof global !== 'undefined' && global) || {}).moment;
 		if (!moment) {
@@ -55,4 +55,4 @@ exports.date = function () {
 	/***/
 };
 
-exports.date.needs = ['moment'];
+exports.date.needs = [ 'moment' ];

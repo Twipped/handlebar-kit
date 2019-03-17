@@ -9,8 +9,8 @@ exports.link = function (Handlebars) {
 	 */
 	return function link (url, rel) {
 		if (arguments.length === 2) rel = undefined;
-		
-		function makeLink(src) {
+
+		function makeLink (src) {
 			if (rel) {
 				return new Handlebars.SafeString('<link rel="' + rel + '" href="' + src + '">');
 			}
@@ -28,9 +28,9 @@ exports.link = function (Handlebars) {
 
 		if (Array.isArray(url)) {
 			return new Handlebars.SafeString(url.map(makeLink).join('\n'));
-		} else {
-			return new Handlebars.SafeString(makeLink(url));
 		}
+		return new Handlebars.SafeString(makeLink(url));
+
 
 	};
 	/***/

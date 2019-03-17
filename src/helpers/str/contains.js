@@ -7,6 +7,10 @@ exports.contains = function () {
 			throw new Error('Handlebars Helper "contains" needs 2 parameters');
 		}
 
+		// make sure we have strings
+		haystack = String(haystack);
+		needle = String(needle);
+
 		if (options.hash && options.hash.regex) {
 			needle = new RegExp(needle);
 		}

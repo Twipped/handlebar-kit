@@ -12,7 +12,7 @@ exports.inject = function () {
 	 * @signature {{#inject key=value [key2=value2] ...}}<TEMPLATE>{{/inject}}
 	 * @describe Inserts into the context of the tag block.
 	 */
-	
+
 	return function inject (options) {
 		var context = this;
 
@@ -23,7 +23,7 @@ exports.inject = function () {
 		}
 
 		if (options.hash) {
-			Object.keys(options.hash).forEach(function (key) {
+			Object.keys(options.hash).forEach((key) => {
 
 				var value = options.hash[key];
 				if (String(value)[0] === '{') {

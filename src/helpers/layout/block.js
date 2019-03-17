@@ -8,10 +8,10 @@ exports.block = function (Handlebars) {
 		options = arguments[arguments.length - 1];
 
 		this._blocks = this._blocks || {};
-		
+
 		var block = this._blocks[name];
 
-		var optionsFn = options.fn || function () {return '';};
+		var optionsFn = options.fn || function () { return ''; };
 
 		var result;
 		switch (block && block.fn && block.mode) {

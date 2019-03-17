@@ -11,6 +11,6 @@ exports.lowercase = function () {
 			}
 		}
 
-		return (''+input).toLowerCase();
+		return String(input).toLowerCase();
 	};
 };

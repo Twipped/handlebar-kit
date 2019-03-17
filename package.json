@@ -33,6 +33,10 @@
     "nodeunit": "^0.9.0",
     "nsdeclare": "^0.1.0",
     "uglify-js": "^2.4.16"
+    "eslint": "~5.15.2",
+    "eslint-config-twipped": "~3.0.0",
+    "eslint-plugin-node": "~8.0.1",
+    "eslint-plugin-promise": "~4.0.1",
   },
   "dependencies": {
     "moment": "^2.8.4"

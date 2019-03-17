@@ -11,44 +11,44 @@ Handlebars.registerPartial('testingPartial5', '<div>{{#block "title"}}<h1>{{#blo
 module.exports = makeTests([
 	{
 		template: ' {{extend "testingPartial1"}}',
-		output: ' <div>yes</div>'
+		output: ' <div>yes</div>',
 	},
 	{
 		template: ' {{{extend "testingPartial1"}}}',
-		output: ' <div>yes</div>'
+		output: ' <div>yes</div>',
 	},
 
 	{
 		template: ' {{#extend "testingPartial2"}}{{/extend}}',
-		output: ' <div>yes</div>'
+		output: ' <div>yes</div>',
 	},
 
 	{
 		template: ' {{#extend "testingPartial3"}}{{#content "target"}}<br>{{/content}}{{/extend}}',
-		output: ' <div><br></div>'
+		output: ' <div><br></div>',
 	},
 	{
 		template: ' {{#extend "testingPartial4"}}{{#content "target"}}<br>{{/content}}{{/extend}}',
-		output: ' <div><br></div>'
+		output: ' <div><br></div>',
 	},
 	{
 		template: ' {{#extend "testingPartial5"}}{{#content "titleText"}}Hello!{{a}}{{/content}}{{/extend}}',
-		input: {a:'<br>'},
-		output: ' <div><h1>Hello!&lt;br&gt;</h1></div>'
+		input: { a: '<br>' },
+		output: ' <div><h1>Hello!&lt;br&gt;</h1></div>',
 	},
 	{
 		template: ' {{#extend "testingPartial5"}}{{#content "title" "append"}}Hello!{{a}}{{/content}}{{/extend}}',
-		input: {a:'<br>'},
-		output: ' <div><h1>Title</h1>Hello!&lt;br&gt;</div>'
+		input: { a: '<br>' },
+		output: ' <div><h1>Title</h1>Hello!&lt;br&gt;</div>',
 	},
 	{
 		template: ' {{#extend "testingPartial5"}}{{#append "title"}}Hello!{{a}}{{/append}}{{/extend}}',
-		input: {a:'<br>'},
-		output: ' <div><h1>Title</h1>Hello!&lt;br&gt;</div>'
+		input: { a: '<br>' },
+		output: ' <div><h1>Title</h1>Hello!&lt;br&gt;</div>',
 	},
 	{
 		template: ' {{#extend "testingPartial5"}}{{#prepend "title"}}Hello!{{a}}{{/prepend}}{{/extend}}',
-		input: {a:'<br>'},
-		output: ' <div>Hello!&lt;br&gt;<h1>Title</h1></div>'
+		input: { a: '<br>' },
+		output: ' <div>Hello!&lt;br&gt;<h1>Title</h1></div>',
 	},
 ]);

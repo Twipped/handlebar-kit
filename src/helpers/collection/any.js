@@ -23,7 +23,7 @@ exports.any = function () {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "any" needs 1 parameter');
 		}
-		var i,c, yes = false;
+		var i; var c; var yes = false;
 		if (Array.isArray(input)) {
 			for (i = 0, c = input.length; i < c; i++) {
 				if (truthy(input[i])) {

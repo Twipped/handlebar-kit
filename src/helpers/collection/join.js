@@ -32,14 +32,14 @@ exports.join = function (Handlebars) {
 
 		if (options.fn) {
 			var data = Handlebars.createFrame(options.data);
-			input = input.map(function (result, i) {
+			input = input.map((result, i) => {
 				data.index = i;
 				data.first = (i === 0);
 				data.last  = (i === input.length - 1);
-				return options.fn(result, {data: data});
+				return options.fn(result, { data });
 			});
 		}
-		
+
 		return input.join(separator);
 	};
 	/***/

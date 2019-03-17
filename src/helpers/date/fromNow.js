@@ -12,7 +12,7 @@ exports.fromNow = function () {
 	 * @param {string} [parse] If a `parse` attribute is provided, it will be used for instructing moment on how to parse the input.
 	 * @return {string}
 	 */
-	
+
 	return function fromNow (input, options) {
 		var moment = (typeof require === 'function' && require('moment')) || ((typeof window !== 'undefined' && window) || (typeof global !== 'undefined' && global) || {}).moment;
 		if (!moment) {
@@ -42,4 +42,4 @@ exports.fromNow = function () {
 	/***/
 };
 
-exports.fromNow.needs = ['moment'];
+exports.fromNow.needs = [ 'moment' ];

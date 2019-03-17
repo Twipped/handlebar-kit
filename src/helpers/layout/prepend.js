@@ -11,7 +11,7 @@ exports.prepend = function () {
 
 		this._blocks[name] = {
 			mode: 'prepend',
-			fn: options.fn
+			fn: options.fn,
 		};
 	};
 };

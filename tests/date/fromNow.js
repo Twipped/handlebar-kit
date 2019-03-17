@@ -7,22 +7,22 @@ var future = moment().add(2, 'weeks').format();
 module.exports = makeTests([
 	{
 		template: '{{fromNow a}}',
-		input: {a:past},
-		output: '2 months ago'
+		input: { a: past },
+		output: '2 months ago',
 	},
 	{
 		template: '{{fromNow a}}',
-		input: {a:future},
-		output: 'in 14 days'
+		input: { a: future },
+		output: 'in 14 days',
 	},
 	{
 		template: '{{fromNow a}}',
-		input: {a:'invalid'},
-		output: ''
+		input: { a: 'invalid' },
+		output: '',
 	},
 	{
 		template: '{{fromNow a}}',
-		input: {a:''},
-		output: ''
-	}
+		input: { a: '' },
+		output: '',
+	},
 ]);

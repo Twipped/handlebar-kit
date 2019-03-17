@@ -85,17 +85,17 @@ exports.filter = function (Handlebars) {
 
 		if (!options.fn) return results;
 
-		if(results && results.length > 0) {
+		if (results && results.length > 0) {
 			var data = Handlebars.createFrame(options.data);
-			return results.map(function (result, i) {
+			return results.map((result, i) => {
 				data.index = i;
 				data.first = (i === 0);
 				data.last  = (i === results.length - 1);
-				return options.fn(result, {data: data});
+				return options.fn(result, { data });
 			}).join('');
-		} else {
-			return options.inverse(this);
 		}
+		return options.inverse(this);
+
 
 	};
 	/***/

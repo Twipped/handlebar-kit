@@ -13,24 +13,24 @@ exports.values = function (Handlebars) {
 	 */
 	return function values (input, options) {
 		if (!Array.isArray(input) && typeof input === 'object') {
-			input = Object.keys(input).map(function (k) { return input[k]; });
+			input = Object.keys(input).map((k) => input[k]);
 		}
 
 		if (!options.fn) {
 			return input;
-		} else {
-			if (input.length) {
-				var data = Handlebars.createFrame(options.data);
-				return input.map(function (result, i) {
-					data.index = i;
-					data.first = (i === 0);
-					data.last  = (i === input.length - 1);
-					return options.fn(result, {data: data});
-				}).join('');
-			} else {
-				return options.inverse(this);
-			}
 		}
+		if (input.length) {
+			var data = Handlebars.createFrame(options.data);
+			return input.map((result, i) => {
+				data.index = i;
+				data.first = (i === 0);
+				data.last  = (i === input.length - 1);
+				return options.fn(result, { data });
+			}).join('');
+		}
+		return options.inverse(this);
+
+
 	};
 	/***/
 };

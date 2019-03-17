@@ -7,7 +7,7 @@ exports.urlencode = function () {
 			if (!options.fn) {
 				throw new Error('Handlebars Helper "urlencode" needs 1 parameter minimum');
 			}
-			
+
 			input = options.fn(this);
 		}
 

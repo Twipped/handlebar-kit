@@ -4,7 +4,7 @@ exports.or = function () {
 	function truthy (value) {
 		if (Array.isArray(value)) {
 			if (value.length) return true;
-			else return false;
+			return false;
 		}
 		return !!value;
 	}
@@ -29,9 +29,9 @@ exports.or = function () {
 		var args = [].slice.call(arguments);
 		options = args.pop();
 
-		var i = 0,
-			c = args.length,
-			result;
+		var i = 0;
+		var c = args.length;
+		var result;
 
 
 		for (; i < c; i++) {
@@ -45,9 +45,9 @@ exports.or = function () {
 
 		if (truthy(result)) {
 			return options.fn(result);
-		} else {
-			return options.inverse(this);
 		}
+		return options.inverse(this);
+
 	};
 
 	/***/
