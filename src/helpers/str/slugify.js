@@ -1,7 +1,6 @@
 
 exports.slugify = function () {
-	return function (input, delimiter, separators, options) {
-		options = arguments[arguments.length - 1];
+	return function (input, delimiter, separators) {
 
 		switch (arguments.length) {
 		case 1:
@@ -13,12 +12,13 @@ exports.slugify = function () {
 		case 3:
 			separators = false;
 			break;
+		default: // do nothing
 		}
 
 		delimiter = delimiter || '-';
 		var i = separators && separators.length;
 		var slug = input;
-		var regexEscape = new RegExp(/[[\/\\^$*+?.()|{}\]]/g);
+		var regexEscape = new RegExp(/[[/\\^$*+?.()|{}\]]/g);
 		var regexDelimiter = delimiter.replace(regexEscape, '\\$&');
 		var prohibited = new RegExp('([^a-z0-9' + regexDelimiter + '])', 'g');
 		var consecutive = new RegExp('(' + regexDelimiter + '+)', 'g');
