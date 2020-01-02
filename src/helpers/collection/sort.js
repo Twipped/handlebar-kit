@@ -7,7 +7,7 @@ exports.sort = function (Handlebars) {
 	 * @category collections
 	 * @signature {{sort input[ key]}}
 	 * @param  {array<mixed>} input
-	 * @param  {string} [key] If the input is an array of objects, pass this argument to indicate what key should be compared.
+	 * @param  {string} [key] If the input is a collection of objects, pass this argument to indicate what key should be compared.
 	 * @return {array}
 	 *
 	 * @signature {{#sort input[ key]}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/sort}}
@@ -21,6 +21,10 @@ exports.sort = function (Handlebars) {
 
 		if (arguments.length === 2) {
 			key = undefined;
+		}
+
+		if (typeof input === 'object' && !Array.isArray(input)) {
+			input = Object.values(input);
 		}
 
 		var results = input.concat();

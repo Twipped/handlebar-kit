@@ -3,7 +3,7 @@ exports.reverse = function () {
 
 	/**
 	 * Reverses the order of a string or array, or negates an integer.
-	 * @category collection
+	 * @category collection,string,integer
 	 * @name reverse
 	 *
 	 * @signature (reverse input)

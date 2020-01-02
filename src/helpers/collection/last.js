@@ -4,7 +4,7 @@ exports.last = function (Handlebars) {
 	 * Returns the last N items in the passed array.
 	 * May be used inline or as an iterator. Else condition evaluates if result is empty.
 	 *
-	 * @category collections
+	 * @category collections,strings
 	 * @signature {{last input[ count]}}
 	 * @param  {Array|Object|String}  input Collection or String
 	 * @param  {Number} [count] Number of items to exclude

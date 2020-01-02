@@ -4,13 +4,14 @@ exports.first = function (Handlebars) {
 	 * Returns the first N items in the passed array.
 	 * May be used inline or as an iterator. Else condition evaluates if result is empty.
 	 *
-	 * @category collections
+	 * @category collections,strings
 	 * @signature {{first input[ count]}}
 	 * @param  {Array|Object|String}  input Collection or String
 	 * @param  {Number} [count] Number of items to exclude
 	 * @return {Array} Array excluding the number of items specified
 	 *
 	 * @signature {{#first input[ count]}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/first}}
+	 * @param {Array|Object|String} [varname] [description]
 	 * @example
 	 * // items = ['a','b','c','d','e','f']
 	 * {{#first items, 2}}<span>{{this}}</span>{{/first}}

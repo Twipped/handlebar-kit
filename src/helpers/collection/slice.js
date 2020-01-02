@@ -1,10 +1,10 @@
 
 exports.slice = function (Handlebars) {
 	/**
-	 * Returns a slice of an array.
+	 * Returns a slice of an array, object map, or string
 	 * May be used inline or as an iterator. Else condition evaluates if result is empty.
 	 *
-	 * @category collections
+	 * @category collections,strings
 	 * @signature {{slice input start[ count]}}
 	 * @param  {array<mixed>} input
 	 * @param  {integer} start  Index to slice from
@@ -26,6 +26,15 @@ exports.slice = function (Handlebars) {
 		case 3:
 			count = undefined;
 			break;
+		default: // do nothing
+		}
+
+		if (typeof input === 'object' && !Array.isArray(input)) {
+			input = Object.values(input);
+		}
+
+		if (typeof input !== 'string' && !Array.isArray(input)) {
+			throw new Error('Handlebars Helper "slice" did not receive a string or collection.');
 		}
 
 		var results = input.slice(start, count);
@@ -33,6 +42,14 @@ exports.slice = function (Handlebars) {
 		if (!options.fn) {
 			return results;
 		}
+
+		if (typeof input === 'string') {
+			if (input.length) {
+				return options.fn(results);
+			}
+			return options.inverse(this);
+		}
+
 		if (results.length) {
 			var data = Handlebars.createFrame(options.data);
 			return results.map((result, i) => {
@@ -43,7 +60,6 @@ exports.slice = function (Handlebars) {
 			}).join('');
 		}
 		return options.inverse(this);
-
 
 	};
 	/***/

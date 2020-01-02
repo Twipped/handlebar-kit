@@ -17,7 +17,7 @@ exports.length = function () {
 	 * @param {integer} target The target length to check against
 	 * @return {boolean}
 	 *
-	 * @signature {{#length input target}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/length}}
+	 * @signature {{#length input}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/length}}
 	 * @describe Evaluates block content if the length is greater than 0, else if it is not.
 	 * @param {array|object|string} input
 	 *

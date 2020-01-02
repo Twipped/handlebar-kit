@@ -3,7 +3,7 @@ exports.notEmpty = function () {
 	/**
 	 * Opposite of {{empty}}
 	 *
-	 * @category collections
+	 * @category collections,strings
 	 * @signature {{notEmpty input}}
 	 * @param  {string|array|object} input
 	 * @return {boolean}

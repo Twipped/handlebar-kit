@@ -13,7 +13,7 @@ exports.values = function (Handlebars) {
 	 */
 	return function values (input, options) {
 		if (!Array.isArray(input) && typeof input === 'object') {
-			input = Object.keys(input).map((k) => input[k]);
+			input = Object.values(input);
 		}
 
 		if (!options.fn) {
@@ -29,7 +29,6 @@ exports.values = function (Handlebars) {
 			}).join('');
 		}
 		return options.inverse(this);
-
 
 	};
 	/***/
