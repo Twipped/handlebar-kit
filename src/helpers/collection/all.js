@@ -23,24 +23,18 @@ exports.all = function () {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "all" needs 1 parameter');
 		}
-		var i; var c; var yes = false;
+
+		if (input && typeof input === 'object' && !Array.isArray(input)) {
+			input = Object.values(input);
+		}
+
+		var yes = true;
 		if (Array.isArray(input)) {
-			yes = !!input[0];
-			for (i = 1, c = input.length; i < c; i++) {
-
+			for (let i = 0; i < input.length; i++) {
 				if (!(yes = yes && truthy(input[i]))) break;
-
 			}
-		} else if (input && typeof input === 'object') {
-			var keys = Object.keys(input);
-			yes = !!keys[0];
-			for (i = 1, c = keys.length; i < c; i++) {
-
-				if (!(yes = yes && truthy(input[i]))) break;
-
-			}
-		} else if (input) {
-			yes = truthy(input[i]);
+		} else {
+			yes = truthy(input);
 		}
 
 		if (!options.fn) return yes || '';
