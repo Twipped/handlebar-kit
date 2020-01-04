@@ -2,4 +2,5 @@
 /npm-debug.log
 /.nyc_output
 /docs
+/oldtests
 /dist
