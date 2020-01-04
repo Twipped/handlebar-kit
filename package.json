@@ -2,10 +2,14 @@
   "name": "handlebar-kit",
   "version": "1.0.0",
   "description": "A portable collection of handlebars helper functions for use in node and the browser.",
-  "main": "build/hoard.all.js",
+  "main": "dist/index.js",
   "scripts": {
+    "test": "tap src/test.js",
+    "test-util": "tap src/test-util.js",
     "docs": "node docs/index.js",
-    "lint": "eslint ./ --fix"
+    "lint": "eslint ./ --fix",
+    "build": "rollup -c",
+    "clean": "rm -rf ./dist"
   },
   "repository": {
     "type": "git",
@@ -15,21 +19,38 @@
     "handlebars",
     "helpers"
   ],
+  "engines": {
+    "node": ">=8.14.0"
+  },
   "author": "Jocelyn Badgley <joc@twipped.com> (http://twipped.com/)",
   "license": "MIT",
   "devDependencies": {
-    "dox": "^0.6.1",
-    "eslint": "~5.15.2",
-    "eslint-config-twipped": "~3.0.0",
-    "eslint-plugin-node": "~8.0.1",
-    "eslint-plugin-promise": "~4.0.1",
-    "date-fns": "~1.30.1",
-    "handlebars": "^4.0.0",
-    "highlight.js": "~9.15.6",
-    "markdown-it": "~8.4.2",
-    "markdown-it-anchor": "~5.0.2"
+    "@babel/core": "~7.7.7",
+    "@babel/preset-env": "~7.7.7",
+    "@rollup/plugin-node-resolve": "~6.1.0",
+    "date-fns": "~2.8.1",
+    "dox": "~0.9.0",
+    "eslint": "~6.8.0",
+    "eslint-config-twipped": "~3.3.0",
+    "eslint-plugin-node": "~11.0.0",
+    "eslint-plugin-promise": "~4.2.1",
+    "handlebars": "~4.5.3",
+    "highlight.js": "~9.17.1",
+    "markdown-it": "~10.0.0",
+    "markdown-it-anchor": "~5.2.5",
+    "rollup": "~1.27.14",
+    "rollup-plugin-babel": "~4.3.3",
+    "rollup-plugin-banner": "~0.2.1",
+    "rollup-plugin-terser": "~5.1.3",
+    "tap": "~14.10.5"
   },
   "peerDependencies": {
     "handlebars": ">= 3.0.0"
-  }
+  },
+  "files": [
+    "dist",
+    "docs",
+    "CHANGELOG.md"
+  ],
+  "dependencies": {}
 }
