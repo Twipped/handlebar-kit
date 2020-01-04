@@ -1,0 +1,60 @@
+
+import { isArray, isString, isObject, hasOwn } from '../util';
+
+export default function contains () {
+
+	/**
+	 * Tests if the needle value exists inside the haystack
+	 * @category strings
+	 * @name contains
+	 *
+	 * @signature {{contains haystack needle [regex=true]}}
+	 * @param  {string|Array<mixed>|object} haystack String or array to search inside, or object to check for key
+	 * @param  {string|RegExp|mixed} needle String to search for. If haystack is a string
+	 * and `regex=true` or needle is a RegExp, then the needle is evaluated as a regular expression.
+	 * If haystack is an object, needle is used as a key name.
+	 * @describe Returns true if the haystack contains the needle
+	 * @return {boolean}
+	 *
+	 * @signature {{#contains haystack needle [regex=true]}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/contains}}
+	 * @param  {string} haystack String to search inside
+	 * @param  {string} needle String to search for. If `regex=true` then the string is evaluated as a regular expression.
+	 * @describe If the string does contain that value, block will evaluate with the result value as the current context ({this}).
+	 */
+	return function containsHelper (...args) {
+		if (args.length !== 3) {
+			throw new Error('Handlebars Helper "contains" needs 2 parameters');
+		}
+
+		const options = args.pop();
+		const [ haystack, needle ] = args;
+		let result;
+
+		if (isArray(haystack)) {
+			result = haystack.includes(needle);
+		} else if (isString(haystack)) {
+			if ((options.hash && options.hash.regex) || needle instanceof RegExp) {
+				result = !!haystack.match(new RegExp(needle));
+			} else {
+				result = haystack.includes(needle);
+			}
+		} else if (isObject(haystack)) {
+			result = hasOwn(haystack, needle);
+		} else {
+			result = false;
+		}
+
+		if (!options.fn) {
+			return result;
+		}
+
+		return result ? options.fn(this) : options.inverse(this);
+
+	};
+	/***/
+}
+
+export function test (t) {
+	// t.simple({
+	// });
+}
