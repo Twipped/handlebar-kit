@@ -1,5 +1,5 @@
 
-import { flatten } from '../util';
+import { flatten, isArray } from '../util';
 
 export default function sub () {
 
@@ -18,7 +18,7 @@ export default function sub () {
 	return function subHelper (...args) {
 		args.pop();
 
-		if (args.length <= 1) {
+		if (args.length < 2 && !isArray(args[0])) {
 			throw new Error('Handlebars Helper "sub" needs 1 parameter minimum');
 		}
 
@@ -31,6 +31,26 @@ export default function sub () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{sub a b c d}}',
+			input: { a: [ 1, 2, 3 ], b: 4, c: 5, d: 6 },
+			output: '-19',
+		},
+		{
+			template: '{{sub a b}}',
+			input: { a: [ 1, 2, 3 ], b: 0 },
+			output: '-4',
+		},
+		{
+			template: '{{sub a}}',
+			input: { a: [ 1, 2, 3 ] },
+			output: '-4',
+		},
+		{
+			template: '{{sub a b}}',
+			input: { a: 10, b: 2 },
+			output: '8',
+		},
+	);
 }

@@ -22,6 +22,31 @@ export default function padStart () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{padStart a}}',
+			input: { a: '1234567890' },
+			output: '1234567890',
+		},
+		{
+			template: '{{padStart a b}}',
+			input: { a: '1234567890', b: 10 },
+			output: '1234567890',
+		},
+		{
+			template: '{{padStart a b}}',
+			input: { a: '1234567890', b: 12 },
+			output: '  1234567890',
+		},
+		{
+			template: '{{{padStart a b c}}}',
+			input: { a: '1234567890', b: 12, c: '.' },
+			output: '..1234567890',
+		},
+		{
+			template: '{{{padStart a b c}}}',
+			input: { a: '1234567890', b: 13, c: 'abcdefg' },
+			output: 'abc1234567890',
+		},
+	);
 }

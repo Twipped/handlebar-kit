@@ -37,7 +37,7 @@ export default function endsWith () {
 		}
 
 		if (!options.fn) {
-			return result;
+			return result || '';
 		}
 
 		return result ? options.fn(this) : options.inverse(this);
@@ -46,6 +46,26 @@ export default function endsWith () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{endsWith a b}}',
+			input: { a: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur et', b: 'et' },
+			output: 'true',
+		},
+		{
+			template: '{{endsWith a b}}',
+			input: { a: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur et', b: 'es' },
+			output: '',
+		},
+		{
+			template: '{{#endsWith a b}}yes{{else}}no{{/endsWith}}',
+			input: { a: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur et', b: 'et' },
+			output: 'yes',
+		},
+		{
+			template: '{{#endsWith a b}}yes{{else}}no{{/endsWith}}',
+			input: { a: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur et', b: 'es' },
+			output: 'no',
+		},
+	);
 }

@@ -32,7 +32,7 @@ export default function date () {
 
 		switch (args.length) {
 		case 0:
-			format = 'YYYY-MM-DD HH:mm:ss';
+			format = 'yyyy-MM-dd HH:mm:ss';
 			input = new Date();
 			break;
 		case 1:
@@ -40,9 +40,9 @@ export default function date () {
 			input = new Date();
 			break;
 		case 2:
-			var parsePattern = options.hash && options.hash.parse || undefined;
-			if (parse) {
-				input = parse(parsePattern, args[0]);
+			var parsePattern = options.hash && options.hash.parse;
+			if (parsePattern) {
+				input = parse(args[0], parsePattern, new Date());
 			} else {
 				input = new Date(args[0]);
 			}
@@ -53,7 +53,7 @@ export default function date () {
 		}
 
 		if (!isValid(input)) {
-			console.trace('Invalid input for Handlebars Helper "date"', { input, ...options.hash }); // eslint-disable-line
+			// console.trace('Invalid input for Handlebars Helper "date"', { input, ...options.hash }); // eslint-disable-line
 			return '';
 		}
 
@@ -64,6 +64,35 @@ export default function date () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{date}}',
+			output: dateFormat(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+		},
+		{
+			template: '{{date a}}',
+			input: { a: 'MMM Mo, yyyy' },
+			output: dateFormat(new Date(), 'MMM Mo, yyyy'),
+		},
+		{
+			template: '{{date b a}}',
+			input: { a: 'MMM Mo, yyyy', b: '1-1-2010' },
+			output: 'Jan 1st, 2010',
+		},
+		{
+			template: '{{date b a}}',
+			input: { a: 'MMM do, yyyy', b: '2020-01-05T01:49:05.156Z' },
+			output: 'Jan 4th, 2020',
+		},
+		{
+			template: '{{date b a parse=c}}',
+			input: { a: 'MMM do, yyyy', b: '12,02,2010', c: 'MM,dd,yyyy' },
+			output: 'Dec 2nd, 2010',
+		},
+		{
+			template: '{{date b a}}',
+			input: { a: 'MMM Mo, yyyy', b: 'dsaADFASDF' },
+			output: '',
+		},
+	);
 }

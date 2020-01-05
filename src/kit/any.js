@@ -55,6 +55,150 @@ export default function any () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{any a }}',
+			input: { a: [ 0 ] },
+			output: '',
+		},
+		{
+			template: '{{any a }}',
+			input: { a: [ 0, 0 ] },
+			output: '',
+		},
+		{
+			template: '{{any a }}',
+			input: { a: [ 0, 1 ] },
+			output: '1',
+		},
+		{
+			template: '{{any a }}',
+			input: { a: [ 1, 2 ] },
+			output: '1',
+		},
+		{
+			template: '{{any a }}',
+			input: { a: {} },
+			output: '',
+		},
+		{
+			template: '{{any a }}',
+			input: { a: { a: true } },
+			output: 'true',
+		},
+		{
+			template: '{{any a}}',
+			input: { a: [ 0, [] ] },
+			output: '',
+		},
+		{
+			template: '{{any a}}',
+			input: { a: [ 0, [ -0 ] ] },
+			output: '0',
+		},
+		{
+			template: '{{any a}}',
+			input: { a: [ 0, [ 'a' ] ] },
+			output: 'a',
+		},
+		{
+			template: '{{any a}}',
+			input: { a: [ 0, [ 1 ] ] },
+			output: '1',
+		},
+		{
+			template: '{{any a}}',
+			input: { a: [ [], [] ] },
+			output: '',
+		},
+
+		{
+			template: '{{#any a }}yes{{else}}no{{/any}}',
+			input: { a: [ 0 ] },
+			output: 'no',
+		},
+		{
+			template: '{{#any a }}yes{{else}}no{{/any}}',
+			input: { a: [ 0, 0 ] },
+			output: 'no',
+		},
+		{
+			template: '{{#any a }}yes{{else}}no{{/any}}',
+			input: { a: [ 0, 1 ] },
+			output: 'yes',
+		},
+		{
+			template: '{{#any a }}yes{{else}}no{{/any}}',
+			input: { a: [ 1, 2 ] },
+			output: 'yes',
+		},
+		{
+			template: '{{#any a }}yes{{else}}no{{/any}}',
+			input: { a: {} },
+			output: 'no',
+		},
+		{
+			template: '{{#any a }}yes{{else}}no{{/any}}',
+			input: { a: { a: true } },
+			output: 'yes',
+		},
+
+		{
+			template: '{{any a b c}}',
+			input: { a: 1, b: 2, c: 0 },
+			output: '1',
+		},
+		{
+			template: '{{any a b c}}',
+			input: { a: 0, b: 1, c: 2 },
+			output: '1',
+		},
+		{
+			template: '{{any a b}}',
+			input: { a: '0', b: '1' },
+			output: '0',
+		},
+		{
+			template: '{{any a}}',
+			input: { a: 1, b: 2, c: 0 },
+			output: '1',
+		},
+		{
+			template: '{{any c}}',
+			input: { a: 1, b: 2, c: 0 },
+			output: '',
+		},
+		{
+			template: '{{any a b c}}',
+			input: { a: [], b: [ 1 ], c: 2 },
+			output: '1',
+		},
+		{
+			template: '{{any "<div>"}}',
+			output: '&lt;div&gt;',
+		},
+		{
+			template: '{{{any "<div>"}}}',
+			output: '<div>',
+		},
+		{
+			template: '{{#any a b c}}content{{/any}}',
+			input: { a: 1, b: 2, c: 0 },
+			output: 'content',
+		},
+		{
+			template: '{{#any a b}}content{{/any}}',
+			input: { a: 0, b: 0 },
+			output: '' },
+		{
+			template: '{{#any a b}}content{{else}}other content{{/any}}',
+			input: { a: 0, b: '' },
+			output: 'other content',
+		},
+		{
+			template: '{{#any a}}content{{/any}}',
+			input: { a: 1, b: 2 },
+			output: 'content',
+		},
+	);
 }

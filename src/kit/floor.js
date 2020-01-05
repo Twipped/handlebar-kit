@@ -22,6 +22,31 @@ export default function floor () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{floor a}}',
+			input: { a: 1 },
+			output: '1',
+		},
+		{
+			template: '{{floor a}}',
+			input: { a: 0 },
+			output: '0',
+		},
+		{
+			template: '{{floor a}}',
+			input: { a: 0.1 },
+			output: '0',
+		},
+		{
+			template: '{{floor a}}',
+			input: { a: 0.55 },
+			output: '0',
+		},
+		{
+			template: '{{floor a}}',
+			input: { a: 5.6 },
+			output: '5',
+		},
+	);
 }

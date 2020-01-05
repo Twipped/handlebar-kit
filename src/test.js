@@ -19,10 +19,10 @@ import { test as floor }        from './kit/floor';
 import { test as fromNow }      from './kit/fromNow';
 import { test as gt }           from './kit/gt';
 import { test as gte }          from './kit/gte';
-import { test as humanBytes }   from './kit/humanBytes';
-import { test as humanNumber }  from './kit/humanNumber';
-import { test as humanSeconds } from './kit/humanSeconds';
-import { test as humanTime }    from './kit/humanTime';
+import { test as bytes }        from './kit/bytes';
+import { test as number }       from './kit/number';
+import { test as seconds }      from './kit/seconds';
+import { test as time }         from './kit/time';
 import { test as includes }     from './kit/includes';
 import { test as inject }       from './kit/inject';
 import { test as is }           from './kit/is';
@@ -83,10 +83,10 @@ const tests = {
 	fromNow,
 	gt,
 	gte,
-	humanBytes,
-	humanNumber,
-	humanSeconds,
-	humanTime,
+	bytes,
+	number,
+	seconds,
+	time,
 	includes,
 	inject,
 	is,
@@ -129,27 +129,73 @@ const tests = {
 	urldecode,
 	urlencode,
 	values,
+	layout: (t) => {
+		t.multi(
+			{
+				template: ' {{extend "testingPartial1"}}',
+				output: ' <div>yes</div>',
+			},
+			{
+				template: ' {{{extend "testingPartial1"}}}',
+				output: ' <div>yes</div>',
+			},
+
+			{
+				template: ' {{#extend "testingPartial2"}}{{/extend}}',
+				output: ' <div>yes</div>',
+			},
+
+			{
+				template: ' {{#extend "testingPartial3"}}{{#content "target"}}<br>{{/content}}{{/extend}}',
+				output: ' <div><br></div>',
+			},
+			{
+				template: ' {{#extend "testingPartial4"}}{{#content "target"}}<br>{{/content}}{{/extend}}',
+				output: ' <div><br></div>',
+			},
+			{
+				template: ' {{#extend "testingPartial5"}}{{#content "titleText"}}Hello!{{a}}{{/content}}{{/extend}}',
+				input: { a: '<br>' },
+				output: ' <div><h1>Hello!&lt;br&gt;</h1></div>',
+			},
+			{
+				template: ' {{#extend "testingPartial5"}}{{#content "title" "append"}}Hello!{{a}}{{/content}}{{/extend}}',
+				input: { a: '<br>' },
+				output: ' <div><h1>Title</h1>Hello!&lt;br&gt;</div>',
+			},
+			{
+				template: ' {{#extend "testingPartial5"}}{{#append "title"}}Hello!{{a}}{{/append}}{{/extend}}',
+				input: { a: '<br>' },
+				output: ' <div><h1>Title</h1>Hello!&lt;br&gt;</div>',
+			},
+			{
+				template: ' {{#extend "testingPartial5"}}{{#prepend "title"}}Hello!{{a}}{{/prepend}}{{/extend}}',
+				input: { a: '<br>' },
+				output: ' <div>Hello!&lt;br&gt;<h1>Title</h1></div>',
+			},
+		);
+	},
 };
 
 Kit.load(Handlebars);
 
+Handlebars.registerPartial('testingPartial1', '<div>yes</div>');
+Handlebars.registerPartial('testingPartial2', '<div>{{#block "target"}}yes{{/block}}</div>');
+Handlebars.registerPartial('testingPartial3', '<div>{{block "target"}}</div>');
+Handlebars.registerPartial('testingPartial4', '<div>{{{block "target"}}}</div>');
+Handlebars.registerPartial('testingPartial5', '<div>{{#block "title"}}<h1>{{#block "titleText"}}Title{{/block}}</h1>{{/block}}</div>');
+
 for (const [ name, test ] of Object.entries(tests)) {
 	tap.test(name, (ts) => {
-		if (!test) {
-			ts.skip(name);
-			ts.end();
-			return;
-		}
-
 		let i = 1;
 		ts.simple = ({ template, input, output }) => {
-			ts.test(`${name}#${i++}: ${template}`, (t) => {
-				var actual = Handlebars.compile(template)(input);
-				var expected = output;
+			var actual = Handlebars.compile(template)(input);
+			var expected = output;
 
-				t.strictEqual(actual, expected);
-				t.end();
-			});
+			ts.strictEqual(actual, expected, `${name}#${i++}: ${template} ${JSON.stringify(input)}`);
+		};
+		ts.multi = (...sets) => {
+			sets.forEach(ts.simple);
 		};
 		test(ts, name);
 		ts.end();

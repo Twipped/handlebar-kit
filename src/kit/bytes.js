@@ -1,20 +1,20 @@
 
-export default function humanBytes () {
+export default function bytes () {
 
 	/**
 	 * Converts a byte count into a human readable format
 	 * Example: 1624 becomes 1.6KB
 	 * @category strings
-	 * @name humanBytes
+	 * @name bytes
 	 *
-	 * @signature {{humanBytes bytecount}}
+	 * @signature {{bytes bytecount}}
 	 * @param  {number} bytecount
 	 * @return {string}
 	 */
-	return function humanBytesHelper (value) {
+	return function bytesHelper (value) {
 		var bytes = Math.abs(parseInt(value, 10));
 		if (isNaN(bytes)) {
-			// console.error("Handlebars helper humanBytes couldn't parse '" + value + "'");
+			// console.error("Handlebars helper bytes couldn't parse '" + value + "'");
 			return value; // Graceful degradation
 		}
 
@@ -44,6 +44,51 @@ export default function humanBytes () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{bytes a}}',
+			input: { a: 1 },
+			output: '1 byte',
+		},
+		{
+			template: '{{bytes a}}',
+			input: { a: -1 },
+			output: '1 byte',
+		},
+		{
+			template: '{{bytes a}}',
+			input: { a: 2 },
+			output: '2 bytes',
+		},
+		{
+			template: '{{bytes a}}',
+			input: { a: 1100 },
+			output: '1.1 KB',
+		},
+		{
+			template: '{{bytes a}}',
+			input: { a: 150001 },
+			output: '150 KB',
+		},
+		{
+			template: '{{bytes a}}',
+			input: { a: 15000001 },
+			output: '15 MB',
+		},
+		{
+			template: '{{bytes a}}',
+			input: { a: 1500000001 },
+			output: '1.5 GB',
+		},
+		{
+			template: '{{bytes a}}',
+			input: { a: 15000000000001 },
+			output: '15 TB',
+		},
+		{
+			template: '{{bytes a}}',
+			input: { a: 1000000000000001 },
+			output: '1000 TB',
+		},
+	);
 }

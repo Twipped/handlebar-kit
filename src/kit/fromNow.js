@@ -1,4 +1,4 @@
-import formatDistance from 'date-fns/formatDistance';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
 
@@ -16,7 +16,7 @@ export default function fromNow () {
 	 */
 
 	return function fromNowHelper (...args) {
-		const options = args.pop();
+		args.pop();
 		let input;
 
 		switch (args.length) {
@@ -26,24 +26,47 @@ export default function fromNow () {
 			input = new Date(args[0]);
 			break;
 		case 2:
-			input = parse(args[1], args[0]);
+			input = parse(args[0], args[1]);
 			break;
 		default:
 			return '';
 		}
 
 		if (!isValid(input)) {
-			console.trace('Invalid input for Handlebars Helper "fromNow"', { input, ...options.hash }); // eslint-disable-line
+			// console.trace('Invalid input for Handlebars Helper "fromNow"', { input, ...options.hash }); // eslint-disable-line
 			return '';
 		}
 
-		return formatDistance(new Date(), input);
+		return formatDistanceToNow(input, { addSuffix: true });
 	};
 
 	/***/
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	const past = new Date(); past.setDate(past.getDate() - 70);
+	const future = new Date(); future.setDate(future.getDate() + 14);
+
+	t.multi(
+		{
+			template: '{{fromNow a}}',
+			input: { a: past },
+			output: '2 months ago',
+		},
+		{
+			template: '{{fromNow a}}',
+			input: { a: future },
+			output: 'in 14 days',
+		},
+		{
+			template: '{{fromNow a}}',
+			input: { a: 'invalid' },
+			output: '',
+		},
+		{
+			template: '{{fromNow a}}',
+			input: { a: '' },
+			output: '',
+		},
+	);
 }

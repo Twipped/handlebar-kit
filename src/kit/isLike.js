@@ -37,6 +37,61 @@ export default function isLike () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{isLike a b}}',
+			input: { a: 1, b: 2 },
+			output: '',
+		},
+		{
+			template: '{{isLike a b}}',
+			input: { a: 2, b: 1 },
+			output: '',
+		},
+		{
+			template: '{{isLike a b}}',
+			input: { a: 2, b: 2 },
+			output: 'true',
+		},
+		{
+			template: '{{isLike a b}}',
+			input: { a: '2', b: 2 },
+			output: 'true',
+		},
+		{
+			template: '{{isLike a b}}',
+			input: { a: '2', b: '1' },
+			output: '',
+		},
+		{
+			template: '{{#isLike a b}}yes{{else}}no{{/isLike}}',
+			input: { a: 1, b: 2 },
+			output: 'no',
+		},
+		{
+			template: '{{#isLike a b}}yes{{else}}no{{/isLike}}',
+			input: { a: 2, b: 1 },
+			output: 'no',
+		},
+		{
+			template: '{{#isLike a b}}yes{{else}}no{{/isLike}}',
+			input: { a: 2, b: 2 },
+			output: 'yes',
+		},
+		{
+			template: '{{#isLike a b}}yes{{else}}no{{/isLike}}',
+			input: { a: 2, b: '2' },
+			output: 'yes',
+		},
+		{
+			template: '{{#isLike a b}}yes{{else}}no{{/isLike}}',
+			input: { a: '2', b: '1' },
+			output: 'no',
+		},
+		{
+			template: '{{#isLike 2 2 "2" 1}}yes{{else}}no{{/isLike}}',
+			input: {},
+			output: 'yes',
+		},
+	);
 }

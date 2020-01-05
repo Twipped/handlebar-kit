@@ -22,6 +22,21 @@ export default function pow () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{pow a b}}',
+			input: { a: 10, b: 4 },
+			output: '10000',
+		},
+		{
+			template: '{{pow a b}}',
+			input: { a: 6, b: 0 },
+			output: '1',
+		},
+		{
+			template: '{{pow a b}}',
+			input: { a: 6, b: 1 },
+			output: '6',
+		},
+	);
 }

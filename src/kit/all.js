@@ -43,6 +43,150 @@ export default function all () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{all a }}',
+			input: { a: [ 0 ] },
+			output: '',
+		},
+		{
+			template: '{{all a }}',
+			input: { a: [ 0, 0 ] },
+			output: '',
+		},
+		{
+			template: '{{all a }}',
+			input: { a: [ 0, 1 ] },
+			output: '',
+		},
+		{
+			template: '{{all a }}',
+			input: { a: [ 1, 2 ] },
+			output: '2',
+		},
+		{
+			template: '{{all a }}',
+			input: { a: {} },
+			output: '',
+		},
+		{
+			template: '{{all a b}}',
+			input: { a: [], b: 1 },
+			output: '',
+		},
+		{
+			template: '{{all a b}}',
+			input: { a: [ 1 ], b: 1 },
+			output: '1',
+		},
+		{
+			template: '{{all a b}}',
+			input: { a: [], b: [ 1 ] },
+			output: '',
+		},
+		{
+			template: '{{all a b}}',
+			input: { a: 0, b: [] },
+			output: '',
+		},
+		{
+			template: '{{all a }}',
+			input: { a: { a: true } },
+			output: 'true',
+		},
+		{
+			template: '{{all a }}',
+			input: { a: { a: true, b: false } },
+			output: '',
+		},
+
+		{
+			template: '{{#all a }}yes{{else}}no{{/all}}',
+			input: { a: [ 0 ] },
+			output: 'no',
+		},
+		{
+			template: '{{#all a }}yes{{else}}no{{/all}}',
+			input: { a: [ 0, 0 ] },
+			output: 'no',
+		},
+		{
+			template: '{{#all a }}yes{{else}}no{{/all}}',
+			input: { a: [ 0, 1 ] },
+			output: 'no',
+		},
+		{
+			template: '{{#all a }}yes{{else}}no{{/all}}',
+			input: { a: [ 1, 2 ] },
+			output: 'yes',
+		},
+		{
+			template: '{{#all a }}yes{{else}}no{{/all}}',
+			input: { a: {} },
+			output: 'no',
+		},
+		{
+			template: '{{#all a }}yes{{else}}no{{/all}}',
+			input: { a: { a: true } },
+			output: 'yes',
+		},
+
+		{
+			template: '{{all a b c}}',
+			input: { a: 1, b: 2, c: 0 },
+			output: '',
+		},
+		{
+			template: '{{all a b}}',
+			input: { a: 0, b: 1 },
+			output: '',
+		},
+		{
+			template: '{{all a b}}',
+			input: { a: '', b: '1' },
+			output: '',
+		},
+		{
+			template: '{{all a b}}',
+			input: { a: '0', b: '1' },
+			output: '1',
+		},
+		{
+			template: '{{all a}}',
+			input: { a: 1, b: 2, c: 0 },
+			output: '1',
+		},
+		{
+			template: '{{all c}}',
+			input: { a: 1, b: 2, c: 0 },
+			output: '',
+		},
+		{
+			template: '{{all "<div>"}}',
+			output: '&lt;div&gt;',
+		},
+		{
+			template: '{{{all "<div>"}}}',
+			output: '<div>',
+		},
+		{
+			template: '{{#all a b c}}content{{/all}}',
+			input: { a: 1, b: 2, c: 0 },
+			output: '',
+		},
+		{
+			template: '{{#all a b}}content{{/all}}',
+			input: { a: 0, b: 0 },
+			output: '' },
+		{
+			template: '{{#all a b}}content{{else}}other content{{/all}}',
+			input: { a: 0, b: '' },
+			output: 'other content',
+		},
+		{
+			template: '{{#all a}}content{{/all}}',
+			input: { a: 1, b: 2 },
+			output: 'content',
+		},
+	);
 }

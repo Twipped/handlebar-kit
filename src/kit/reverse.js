@@ -12,7 +12,10 @@ export default function reverse () {
 	 * @param  {Array<mixed>|string|integer} input
 	 * @return {Array<mixed>|string|integer}
 	 */
-	return function reverseHelper (input) {
+	return function reverseHelper (...args) {
+		const options = args.pop();
+		const input = options.fn ? options.fn(this) : args[0];
+
 		if (isString(input)) {
 			return input.split('').reverse().join('');
 		} else if (isNumber(input)) {
@@ -28,6 +31,26 @@ export default function reverse () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{reverse a}}',
+			input: { a: 'abcdef' },
+			output: 'fedcba',
+		},
+		{
+			template: '{{#reverse}}abcdef{{/reverse}}',
+			input: { a: 'abcdef' },
+			output: 'fedcba',
+		},
+		{
+			template: '{{reverse a}}',
+			input: { a: 1 },
+			output: '-1',
+		},
+		{
+			template: '{{reverse a}}',
+			input: { a: [ 'ab', 'cd', 'ef' ] },
+			output: 'ef,cd,ab',
+		},
+	);
 }

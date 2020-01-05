@@ -28,6 +28,11 @@ export default function mean () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{mean a b c d}}',
+			input: { a: [ 1, 2, 3 ], b: 4, c: 5, d: 6 },
+			output: '3.5',
+		},
+	);
 }

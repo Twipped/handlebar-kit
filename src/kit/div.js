@@ -1,5 +1,5 @@
 
-import { flatten } from '../util';
+import { flatten, isArray, isUndefined } from '../util';
 
 export default function div () {
 
@@ -19,19 +19,50 @@ export default function div () {
 	return function divHelper (...args) {
 		args.pop();
 
-		if (args.length < 2) {
+		if (!args.length) {
 			throw new Error('Handlebars Helper "div" needs 1 parameter minimum');
 		}
 
-		args = flatten(args);
+		let value;
+		function descend (level) {
+			if (isArray(level)) {
+				level.forEach(descend);
+			} else if (isUndefined(value)) {
+				value = parseFloat(level);
+			} else if (level) {
+				level = parseFloat(level);
+				value = level ? (value / level) : 0;
+			}
+		}
 
-		const initial = args.shift();
-		return args.reduce((a, b) => a / b, initial);
+		descend(args);
+
+		return value;
 	};
 	/***/
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{div a b c d}}',
+			input: { a: [ 10000, 2 ], b: 4, c: 5 },
+			output: '250',
+		},
+		{
+			template: '{{div a b}}',
+			input: { a: 10000, b: 0 },
+			output: '10000', // ignores non-divisable values
+		},
+		{
+			template: '{{div a}}',
+			input: { a: [ 100, 2, 4 ] },
+			output: '12.5',
+		},
+		{
+			template: '{{div a b}}',
+			input: { a: 10, b: 2 },
+			output: '5',
+		},
+	);
 }

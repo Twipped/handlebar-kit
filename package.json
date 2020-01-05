@@ -4,7 +4,8 @@
   "description": "A portable collection of handlebars helper functions for use in node and the browser.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "tap src/test.js",
+    "test": "tap -R list src/test.js src/test-util.js",
+    "test-dev": "tap -R classic no-coverage",
     "test-util": "tap src/test-util.js",
     "docs": "node docs/index.js",
     "lint": "eslint ./ --fix",

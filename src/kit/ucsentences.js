@@ -30,6 +30,16 @@ export default function ucsentences () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{ucsentences a}}',
+			input: { a: 'praesent commodo cursus magna. vel scelerisque nisl consectetur et' },
+			output: 'Praesent commodo cursus magna. Vel scelerisque nisl consectetur et',
+		},
+		{
+			template: '{{#ucsentences}}{{a}}{{/ucsentences}}',
+			input: { a: 'praesent commodo cursus magna. vel scelerisque nisl consectetur et' },
+			output: 'Praesent commodo cursus magna. Vel scelerisque nisl consectetur et',
+		},
+	);
 }

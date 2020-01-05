@@ -22,7 +22,7 @@ export function isObject (input) {
 }
 
 export function truthy (value) {
-	if (isArray(value)) return !!value.length;
+	if (isMappable(value)) return !!sizeOf(value);
 	return !!value;
 }
 
@@ -99,7 +99,7 @@ export function sizeOf (collection) {
 	if (isArray(collection) || isString(collection)) return collection.length;
 	if (isSet(collection) || isMap(collection)) return collection.size;
 	if (isObject(collection)) return Object.keys(collection).length;
-	return 0;
+	return !!collection;
 }
 
 export function keys (input) {
@@ -115,7 +115,7 @@ export function keys (input) {
 }
 
 export function values (input) {
-	if (isArray(input)) return [ ...input.values() ];
+	if (isArray(input)) return [ ...input ];
 
 	if (isSet(input) || isMap(input)) return Array.from(input.values());
 
@@ -142,7 +142,7 @@ export function all (...args) {
 		input = arrayify(args[0]);
 	}
 
-	let result = args.shift();
+	let result = input.shift();
 	for (const value of input) {
 		if (!truthy(result)) {
 			return false;
@@ -154,7 +154,7 @@ export function all (...args) {
 }
 
 export function iteratee (match) {
-	if (!match) return Boolean;
+	if (isUndefined(match) || match === null) return Boolean;
 
 	if (isFunction(match)) return match;
 
@@ -163,7 +163,7 @@ export function iteratee (match) {
 	}
 
 	if (isNumber(match)) {
-		return (o) => o === match;
+		return (o) => o !== match;
 	}
 
 	if (isArray(match)) {

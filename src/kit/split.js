@@ -47,6 +47,16 @@ export default function split (Handlebars) {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{split a ","}}',
+			input: { a: '1,2,3' },
+			output: '1,2,3',
+		},
+		{
+			template: '{{#split a ","}}<{{this}}>{{else}}no{{/split}}',
+			input: { a: '1,2,3' },
+			output: '<1><2><3>',
+		},
+	);
 }

@@ -21,7 +21,7 @@ export default function content () {
 		this._blocks = this._blocks || {};
 
 		this._blocks[name] = {
-			mode: 'replace',
+			mode: args[1] || 'replace',
 			fn: options.fn,
 		};
 	};

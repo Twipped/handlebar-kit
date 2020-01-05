@@ -19,10 +19,10 @@ import floor        from './kit/floor';
 import fromNow      from './kit/fromNow';
 import gt           from './kit/gt';
 import gte          from './kit/gte';
-import humanBytes   from './kit/humanBytes';
-import humanNumber  from './kit/humanNumber';
-import humanSeconds from './kit/humanSeconds';
-import humanTime    from './kit/humanTime';
+import bytes        from './kit/bytes';
+import number       from './kit/number';
+import seconds      from './kit/seconds';
+import time         from './kit/time';
 import includes     from './kit/includes';
 import inject       from './kit/inject';
 import is           from './kit/is';
@@ -90,10 +90,10 @@ export {
 	fromNow,
 	gt,
 	gte,
-	humanBytes,
-	humanNumber,
-	humanSeconds,
-	humanTime,
+	bytes,
+	number,
+	seconds,
+	time,
 	includes,
 	inject,
 	is,

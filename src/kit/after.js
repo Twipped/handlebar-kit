@@ -46,34 +46,36 @@ export default function after (Handlebars) {
 }
 
 export function test (t) {
-	t.simple({
-		template: '{{after a }}',
-		input: { a: [ 1, 2, 3, 4, 5 ] },
-		output: '1,2,3,4,5',
-	});
-	t.simple({
-		template: '{{after a 2}}',
-		input: { a: [ 1, 2, 3, 4, 5 ] },
-		output: '3,4,5',
-	});
-	t.simple({
-		template: '{{after a 6}}',
-		input: { a: [ 1, 2, 3, 4, 5 ] },
-		output: '',
-	});
-	t.simple({
-		template: '{{#after a }}|{{this}}|{{/after}}',
-		input: { a: [ 1, 2, 3, 4, 5 ] },
-		output: '|1||2||3||4||5|',
-	});
-	t.simple({
-		template: '{{#after a 2}}|{{this}}|{{/after}}',
-		input: { a: [ 1, 2, 3, 4, 5 ] },
-		output: '|3||4||5|',
-	});
-	t.simple({
-		template: '{{#after a 6}}|{{this}}|{{/after}}',
-		input: { a: [ 1, 2, 3, 4, 5 ] },
-		output: '',
-	});
+	t.multi(
+		{
+			template: '{{after a }}',
+			input: { a: [ 1, 2, 3, 4, 5 ] },
+			output: '1,2,3,4,5',
+		},
+		{
+			template: '{{after a 2}}',
+			input: { a: [ 1, 2, 3, 4, 5 ] },
+			output: '3,4,5',
+		},
+		{
+			template: '{{after a 6}}',
+			input: { a: [ 1, 2, 3, 4, 5 ] },
+			output: '',
+		},
+		{
+			template: '{{#after a }}|{{this}}|{{/after}}',
+			input: { a: [ 1, 2, 3, 4, 5 ] },
+			output: '|1||2||3||4||5|',
+		},
+		{
+			template: '{{#after a 2}}|{{this}}|{{/after}}',
+			input: { a: [ 1, 2, 3, 4, 5 ] },
+			output: '|3||4||5|',
+		},
+		{
+			template: '{{#after a 6}}|{{this}}|{{/after}}',
+			input: { a: [ 1, 2, 3, 4, 5 ] },
+			output: '',
+		},
+	);
 }

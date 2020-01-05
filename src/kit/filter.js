@@ -68,6 +68,36 @@ export default function filter (Handlebars) {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{filter original }}',
+			input: { original: [ 0, 1, 2, undefined, 3, null, 4 ] },
+			output: '1,2,3,4',
+		},
+		{
+			template: '{{filter original 2 }}',
+			input: { original: [ 0, 1, 2, undefined, 3, null, 4 ] },
+			output: '0,1,,3,,4',
+		},
+		{
+			template: '{{#filter original "a" 1}}|{{#each this}}{{@key}}:{{this}},{{/each}}|{{else}}no{{/filter}}',
+			input: { original: [ { a: 1 }, { b: 2 }, { a: 1, b: 2 }, {} ] },
+			output: '|a:1,||a:1,b:2,|',
+		},
+		{
+			template: '{{#filter original "b"}}|{{#each this}}{{@key}}:{{this}},{{/each}}|{{else}}no{{/filter}}',
+			input: { original: [ { a: 1 }, { b: 2 }, { a: 1, b: 2 }, {} ] },
+			output: '|b:2,||a:1,b:2,|',
+		},
+		{
+			template: '{{#filter original}}|{{#each this}}{{@index}}:{{this}},{{/each}}|{{else}}no{{/filter}}',
+			input: { original: [ 0, 0, 0 ] },
+			output: 'no',
+		},
+		{
+			template: '{{#filter original "a" 2}}|{{this}}|{{else}}no{{/filter}}',
+			input: { original: [ { a: 1 }, { b: 1 } ] },
+			output: 'no',
+		},
+	);
 }

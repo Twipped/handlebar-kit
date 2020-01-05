@@ -1,5 +1,5 @@
 
-import { flatten } from '../util';
+import { flatten, isArray } from '../util';
 
 export default function mul () {
 
@@ -19,8 +19,8 @@ export default function mul () {
 	return function mulHelper (...args) {
 		args.pop();
 
-		if (args.length < 2) {
-			throw new Error('Handlebars Helper "div" needs 1 parameter minimum');
+		if (args.length < 2 && !isArray(args[0])) {
+			throw new Error('Handlebars Helper "mul" needs 2 parameters minimum');
 		}
 
 		args = flatten(args);
@@ -32,6 +32,21 @@ export default function mul () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{mul a b c d}}',
+			input: { a: [ 1, 2, 3 ], b: 4, c: 5, d: 6 },
+			output: '720',
+		},
+		{
+			template: '{{mul a b}}',
+			input: { a: [ 1, 2, 3 ], b: 0 },
+			output: '0',
+		},
+		{
+			template: '{{mul a}}',
+			input: { a: [ 1, 2, 3 ] },
+			output: '6',
+		},
+	);
 }

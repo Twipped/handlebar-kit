@@ -22,6 +22,31 @@ export default function padEnd () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{padEnd a}}',
+			input: { a: '1234567890' },
+			output: '1234567890',
+		},
+		{
+			template: '{{padEnd a b}}',
+			input: { a: '1234567890', b: 10 },
+			output: '1234567890',
+		},
+		{
+			template: '{{padEnd a b}}',
+			input: { a: '1234567890', b: 12 },
+			output: '1234567890  ',
+		},
+		{
+			template: '{{{padEnd a b c}}}',
+			input: { a: '1234567890', b: 12, c: '.' },
+			output: '1234567890..',
+		},
+		{
+			template: '{{{padEnd a b c}}}',
+			input: { a: '1234567890', b: 13, c: 'abcdef' },
+			output: '1234567890abc',
+		},
+	);
 }

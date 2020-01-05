@@ -14,10 +14,13 @@ export default function replace () {
 	 * @return {string}
 	 */
 	return function replaceHelper (...args) {
-		args.pop();
-		const haystack = String(args[0]);
-		const needle = args[3] ? new RegExp(args[1]) : needle;
-		const replacement = args[2] || '';
+		const options = args.pop();
+		let haystack;
+		if (options.fn) haystack = options.fn(this);
+		else haystack = String(args.shift());
+
+		const needle = args[2] ? new RegExp(args[0]) : args[0];
+		const replacement = args[1] || '';
 		const regex = needle instanceof RegExp;
 
 		return regex ? haystack.replace(needle, replacement) : haystack.split(needle).join(replacement);
@@ -26,6 +29,26 @@ export default function replace () {
 }
 
 export function test (t) {
-	// t.simple({
-	// });
+	t.multi(
+		{
+			template: '{{replace a b c}}',
+			input: { a: 'abcdef', b: 'cd', c: 'xy' },
+			output: 'abxyef',
+		},
+		{
+			template: '{{replace a b}}',
+			input: { a: 'abcdef', b: 'cd' },
+			output: 'abef',
+		},
+		{
+			template: '{{#replace a b}}abcdef{{/replace}}',
+			input: { a: 'cd', b: 'xy' },
+			output: 'abxyef',
+		},
+		{
+			template: '{{#replace a}}abcdef{{/replace}}',
+			input: { a: 'cd' },
+			output: 'abef',
+		},
+	);
 }
