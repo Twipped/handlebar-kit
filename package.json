@@ -1,8 +1,9 @@
 {
-  "name": "handlebar-kit",
+  "name": "handlebars-kit",
   "version": "1.0.0",
   "description": "A portable collection of handlebars helper functions for use in node and the browser.",
   "main": "dist/index.js",
+  "module": "src/index.js",
   "scripts": {
     "test": "tap -R list src/test.js src/test-util.js",
     "test-dev": "tap -R classic no-coverage",
@@ -50,7 +51,7 @@
   },
   "files": [
     "dist",
-    "docs",
+    "src",
     "CHANGELOG.md"
   ],
   "dependencies": {}
