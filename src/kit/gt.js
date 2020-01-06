@@ -6,21 +6,21 @@ export default function gt () {
 	 * May be used inline or as a conditional block.
 	 * @category comparisons
 	 *
-	 * @signature {{gt value test}}
-	 * @param  {string|integer} value Greater value
-	 * @param  {string|integer} test  Smaller value
+	 * @signature {{gt value1 value2}}
+	 * @param  {string|integer} value1
+	 * @param  {string|integer} value2
 	 * @return {boolean}
 	 *
 	 * @signature {{#gt value test}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/gt}}
 	 */
 
-	return function gtHelper (value, test, options) {
+	return function gtHelper (a, b, options) {
 		if (arguments.length !== 3) {
 			throw new Error('Handlebars Helper "gt" needs 2 parameters');
 		}
 
-		if (!options.fn) return value > test || '';
-		if (value > test) {
+		if (!options.fn) return a > b || '';
+		if (a > b) {
 			return options.fn(this);
 		}
 		return options.inverse(this);

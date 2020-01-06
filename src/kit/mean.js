@@ -9,7 +9,7 @@ export default function mean () {
 	 * @name mean
 	 *
 	 * @signature {{mean value1 value2 ... valueN}}
-	 * @param {...[Array<number>|number]} values Numbers or arrays of numbers to be averaged
+	 * @param {...Array<number>|number} values Numbers or arrays of numbers to be averaged
 	 * @return {number} Returns the mean average of all values passed in
 	 */
 	return function meanHelper (...args) {

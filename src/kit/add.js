@@ -9,7 +9,7 @@ export default function add () {
 	 * @name add
 	 *
 	 * @signate {{add value1 value2 ... valueN}}
-	 * @param {...[Array<number>|number]} values Numbers or arrays of numbers to be added together
+	 * @param {...Array<number>|number} values Numbers or arrays of numbers to be added together
 	 * @return {number}
 	 */
 	return function addHelper (...args) {

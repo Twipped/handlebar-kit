@@ -1,5 +1,5 @@
 
-import { flatten, isArray, isUndefined } from '../util';
+import { isArray, isUndefined } from '../util';
 
 export default function div () {
 

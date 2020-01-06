@@ -44,7 +44,6 @@ export default function random () {
 	/***/
 }
 
-export function test (t) {
-	// t.simple({
-	// });
+export function test () {
+	// no tests
 }

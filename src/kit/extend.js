@@ -43,7 +43,6 @@ export default function extend (Handlebars) {
 	/***/
 }
 
-export function test (t) {
-	// t.simple({
-	// });
+export function test () {
+	// no tests
 }

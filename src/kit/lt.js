@@ -7,20 +7,20 @@ export default function lt () {
 	 * @category comparisons
 	 *
 	 * @signature {{lt value test}}
-	 * @param  {string|integer} value Smaller value
-	 * @param  {string|integer} test  Greater value
+	 * @param  {string|integer} value1
+	 * @param  {string|integer} value2
 	 * @return {boolean}
 	 *
 	 * @signature {{#lt value test}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/lt}}
 	 */
 
-	return function ltHelper (value, test, options) {
+	return function ltHelper (a, b, options) {
 		if (arguments.length !== 3) {
 			throw new Error('Handlebars Helper "lt" needs 2 parameters');
 		}
 
-		if (!options.fn) return value < test || '';
-		if (value < test) {
+		if (!options.fn) return a < b || '';
+		if (a < b) {
 			return options.fn(this);
 		}
 		return options.inverse(this);

@@ -12,7 +12,7 @@ export default function bytes () {
 	 * @return {string}
 	 */
 	return function bytesHelper (value) {
-		var bytes = Math.abs(parseInt(value, 10));
+		var bytecount = Math.abs(parseInt(value, 10));
 		if (isNaN(bytes)) {
 			// console.error("Handlebars helper bytes couldn't parse '" + value + "'");
 			return value; // Graceful degradation
@@ -20,16 +20,16 @@ export default function bytes () {
 
 		var resInt, resValue;
 		var metric = [ 'byte', 'bytes', 'KB', 'MB', 'GB', 'TB' ];
-		if (bytes === 0) {
+		if (bytecount === 0) {
 			resInt = resValue = 0;
 		} else {
 			// Base 1000 (rather than 1024) matches Mac OS X
-			resInt = Math.floor(Math.log(bytes) / Math.log(1000));
+			resInt = Math.floor(Math.log(bytecount) / Math.log(1000));
 			// No decimals for anything smaller than 1 MB
-			resValue = (bytes / Math.pow(1000, Math.floor(resInt)));
+			resValue = (bytecount / Math.pow(1000, Math.floor(resInt)));
 			// Only show a decimal place if the decimal will round to something other than .0
 			resValue = resValue.toFixed(resValue % 1 > 0.1 ? 1 : 0);
-			if (bytes === 1) {
+			if (bytecount === 1) {
 				resInt = -1; // special case: 1 byte (singular)
 			}
 		}

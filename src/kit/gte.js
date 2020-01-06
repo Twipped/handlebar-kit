@@ -6,21 +6,21 @@ export default function gte () {
 	 * May be used inline or as a conditional block.
 	 * @category comparisons
 	 *
-	 * @signature {{gte value test}}
-	 * @param  {string|integer} value Greater value
-	 * @param  {string|integer} test  Smaller value
+	 * @signature {{gte value1 value2}}
+	 * @param  {string|integer} value1
+	 * @param  {string|integer} value2
 	 * @return {boolean}
 	 *
 	 * @signature {{#gte value test}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/gte}}
 	 */
 
-	return function gteHelper (value, test, options) {
+	return function gteHelper (a, b, options) {
 		if (arguments.length !== 3) {
 			throw new Error('Handlebars Helper "gte" needs 2 parameters');
 		}
 
-		if (!options.fn) return value >= test || '';
-		if (value >= test) {
+		if (!options.fn) return a >= b || '';
+		if (a >= b) {
 			return options.fn(this);
 		}
 		return options.inverse(this);

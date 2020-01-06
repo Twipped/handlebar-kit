@@ -7,20 +7,20 @@ export default function lte () {
 	 * @category comparisons
 	 *
 	 * @signature {{lte value test}}
-	 * @param  {string|integer} value Smaller value
-	 * @param  {string|integer} test  Greater value
+	 * @param  {string|integer} value1
+	 * @param  {string|integer} value2
 	 * @return {boolean}
 	 *
 	 * @signature {{#lte value test}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/lte}}
 	 */
 
-	return function lteHelper (value, test, options) {
+	return function lteHelper (a, b, options) {
 		if (arguments.length !== 3) {
 			throw new Error('Handlebars Helper "lte" needs 2 parameters');
 		}
 
-		if (!options.fn) return value <= test || '';
-		if (value <= test) {
+		if (!options.fn) return a <= b || '';
+		if (a <= b) {
 			return options.fn(this);
 		}
 		return options.inverse(this);

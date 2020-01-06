@@ -11,7 +11,7 @@ export default function log () {
 	 * @return {null} Sends the current context to console.log
 	 *
 	 * @signature {{log argument1 ... argumentN}}
-	 * @param  {...[mixed]} args Arguments to send to console.log
+	 * @param  {...mixed} args Arguments to send to console.log
 	 * @return {null}
 	 */
 	return function logHelper (...args) {
