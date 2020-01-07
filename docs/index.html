@@ -1,0 +1,4525 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>HandlebarsKit, a collection of Handlebars Helpers</title>
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.css">
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
+		<link rel="stylesheet" href="fonts.css">
+		<style>
+
+			.jumbotron {
+				margin-top: 30px;
+				background-color: #333;
+				color: white;
+			}
+
+			.jumbotron .btn-code {
+				font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+				text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+			}
+
+			.jumbotron .prettyprint {
+				padding: 10px;
+			}
+
+			.changelog-header {
+				background-color: #333;
+				color: white;
+				padding: 50px 0 10px;
+			}
+
+			.changelog ul + h3 {
+				border-top: 1px solid #333;
+				padding-top: 20px;
+			}
+
+			pre {
+				box-shadow: 0 1px 2px rgba(100,100,100,0.2);
+				background-color: #f8f8f8;
+				border-color: #ddd;
+			}
+
+			pre code {
+				word-wrap: normal;
+				white-space: pre;
+			}
+
+			.sidenav .nav > li > a {
+				padding: 2px 15px;
+			}
+
+			.sidenav span.name {
+				vertical-align: middle;
+				display: inline-block;
+				line-height: 1;
+			}
+
+			.sidenav .ico-arrow-up {
+				color: #ccc;
+				font-size: 12px;
+			}
+
+			.sidenav .alias .name {
+				color: #ccc;
+				font-size: 12px;
+				margin-left: 10px;
+			}
+
+			.sidenav .deprecated .name {
+				color: #b3d3ec;
+				opacity: 0.7;
+			}
+
+			.category {
+				margin-top: 5px;
+			}
+
+			.nav > li.category > a {
+				color: #666;
+				text-shadow: 0 1px 0 rgba(255,255,255,.5);
+				background: none;
+			}
+
+			.category > ul a {
+				background: #fbfbfb;
+				
+			}
+
+			.pieces .private, .nav .private {
+				display: none;
+				opacity: 0.5;
+			}
+
+			.pieces .page-header, .pieces h2 {
+				margin-top: 0;
+			}
+
+			.pieces h3 {
+				font-size: 15px;
+			}
+
+			.signature .panel-title {
+				font-family: monospace;
+				font-size: 14px;
+				font-weight: bold;
+			}
+
+			.signature .panel-heading p {
+				margin: 5px 0 0 0;
+			}
+
+			.signature .list-group strong {
+				margin-right: 20px;
+			}
+
+			.signature .list-group em, .signature u {
+				margin-left: 20px;
+			}
+
+			.signature .panel-footer em {
+				color: #999;
+			}
+
+			.signature pre.panel-body + pre.panel-body {
+				border-top: 1px solid #ddd;
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
+			}
+
+			.codeview .panel-heading {
+				font-size: 12px;
+				padding: 5px;
+				cursor: pointer;
+			}
+
+			.codeview .panel-heading .ico-embed {
+				font-size:16px;
+				line-height: 1;
+				vertical-align: middle;
+				position:relative;
+				top: -1px;
+			}
+
+			pre.panel-body, pre.panel-body.prettyprint  {
+				padding: 8px;
+				border: none;
+				font-size: 11px;
+				line-height: 13px;
+				margin-bottom: 0;
+				background-color: #fbfbfb;
+				
+			}
+
+
+			pre.panel-body:before, pre.panel-body:after {
+				content: '';
+			}
+
+			.kwd {font-weight: bold;}
+
+			.nav-list {
+				padding-left: 15px;
+				padding-right: 15px;
+				margin-bottom: 0;
+			}
+
+			.nav-list > li > a,
+			.nav-list .nav-header {
+				margin-left: -15px;
+				margin-right: -15px;
+				text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+			}
+
+			.nav-list > li > a {
+				padding: 3px 15px;
+			}
+
+			.nav-header {
+				display: block;
+				padding: 3px 15px;
+				font-size: 11px;
+				font-weight: bold;
+				line-height: 1.428571429;
+				color: #999;
+				text-shadow: 0 1px 0 rgba(255,255,255,.5);
+				text-transform: uppercase;
+			}
+
+			.nav > .nav-header > a:hover {
+				background: none;
+			}
+
+			.gh-link {
+				margin: 8px 0 0 15px;
+			}
+
+			.navbar .ico-github {
+				font-size: 32px;
+				text-decoration: none;
+			}
+
+			footer {
+				text-align: center;
+				font-size: 10px;
+			}
+
+			@media (max-width: 768px) {
+				.navbar-fixed-top {
+					display: none;
+				}
+
+				.jumbotron {
+					margin-top: 0;
+				}
+
+			}
+
+
+
+		</style>
+	</head>
+	
+	<body>
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header"><a class="navbar-brand" href="#">HandlebarsKit</a></div>
+				<ul class="nav navbar-nav">
+					<li><a href="#reference">Function Reference</a></li>
+					<li><a href="#changelog">Change Log</a></li>
+				</ul>
+				<p class="navbar-right gh-link"><a href="http://github.com/twipped/queryizejs" class="ico-github"></a></p>
+				<p class="navbar-text navbar-right">Created by <a href="http://twipped.com" class="navbar-link">Jocelyn Badgley</a></p>
+			</div>
+		</div>
+
+		<div class="jumbotron">
+			<div class="container">
+				<h1>HandlebarsKit</h1>
+				<p>A collection of helpers for use with the <a href="http://handlebarsjs.com">Handlebars</a> template engine.</p>
+				<p>
+					<a href="http://npmjs.org/hbs-kit" class="btn btn-default btn-code btn-success">npm install hbs-kit</a>
+					<a href="http://github.com/twipped/hbs-kit" class="btn btn-primary">View on GitHub</a>
+					<a href="http://github.com/twipped/hbs-kit/issues" class="btn btn-danger">Report an Issue</a>
+				</p>
+				<p>
+					<a href="http://badge.fury.io/js/hbs-kit"><img src="https://img.shields.io/npm/v/hbs-kit.svg?style=flat" alt="NPM Version" height="18"></a>
+					<img src="https://img.shields.io/npm/l/hbs-kit.svg?style=flat" alt="License: MIT" height="18">
+					<a href="http://npmjs.org/hbs-kit"><img src="https://img.shields.io/npm/dm/hbs-kit.svg?style=flat" alt="Downloads/Week" height="18"></a>
+				</p>
+
+				<h2>Usage:</h2>
+				<p>In an npm environment:</p>
+  				<pre class="prettyprint"><code class="language-javascript">const Handlebars = require('handlebars');
+require('hbs-kit').load(Handlebars);</code></pre>
+				<p>In a browser based AMD environment such as RequireJS:</p>
+				<pre class="prettyprint"><code class="language-javascript">require(['handlebars', 'hbs-kit'], function (Handlebars, Kit) {
+  Kit.load(Handlebars);
+});</code></pre>
+				<p>In a standard browser environment:</p>
+  				<pre class="prettyprint"><code class="language-html">&lt;script src=&quot;handlebars/dist/handlebars.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;hbs-kit/dist/browser.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;HandlebarsKit.load(Handlebars);&lt;/script&gt;</code></pre>
+			</div>
+			</div>
+
+		</div>
+
+		<div id="reference" style="position:relative;top:-60px;"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3 sidenav">
+					<ul class="nav nav-list">
+						
+						<li class="category"><a>collections</a>
+							<ul class="nav subnav">
+							
+								<li class=" "><a href="#functionafter"><span class="name">after</span></a></li>
+							
+								<li class=" "><a href="#functionall"><span class="name">all</span></a></li>
+							
+								<li class=" "><a href="#functionany"><span class="name">any</span></a></li>
+							
+								<li class=" "><a href="#functionempty"><span class="name">empty</span></a></li>
+							
+								<li class=" "><a href="#functionfilter"><span class="name">filter</span></a></li>
+							
+								<li class=" "><a href="#functionfirst"><span class="name">first</span></a></li>
+							
+								<li class=" "><a href="#functionincludes"><span class="name">includes</span></a></li>
+							
+								<li class=" "><a href="#functionjoin"><span class="name">join</span></a></li>
+							
+								<li class=" "><a href="#functionkeys"><span class="name">keys</span></a></li>
+							
+								<li class=" "><a href="#functionlast"><span class="name">last</span></a></li>
+							
+								<li class=" "><a href="#functionlength"><span class="name">length</span></a></li>
+							
+								<li class=" "><a href="#functionnotEmpty"><span class="name">notEmpty</span></a></li>
+							
+								<li class=" "><a href="#functionreverse"><span class="name">reverse</span></a></li>
+							
+								<li class=" "><a href="#functionslice"><span class="name">slice</span></a></li>
+							
+								<li class=" "><a href="#functionsort"><span class="name">sort</span></a></li>
+							
+								<li class=" "><a href="#functionstringify"><span class="name">stringify</span></a></li>
+							
+								<li class=" "><a href="#functionvalues"><span class="name">values</span></a></li>
+							
+							</ul>
+						</li>
+						<li class="category"><a>context</a>
+							<ul class="nav subnav">
+							
+								<li class=" "><a href="#functioninject"><span class="name">inject</span></a></li>
+							
+							</ul>
+						</li>
+						<li class="category"><a>dates</a>
+							<ul class="nav subnav">
+							
+								<li class=" "><a href="#functiondate"><span class="name">date</span></a></li>
+							
+								<li class=" "><a href="#functionfromNow"><span class="name">fromNow</span></a></li>
+							
+							</ul>
+						</li>
+						<li class="category"><a>debug</a>
+							<ul class="nav subnav">
+							
+								<li class=" "><a href="#functionlog"><span class="name">log</span></a></li>
+							
+							</ul>
+						</li>
+						<li class="category"><a>layout</a>
+							<ul class="nav subnav">
+							
+								<li class=" "><a href="#functionappend"><span class="name">append</span></a></li>
+							
+								<li class=" "><a href="#functionblock"><span class="name">block</span></a></li>
+							
+								<li class=" "><a href="#functioncontent"><span class="name">content</span></a></li>
+							
+								<li class=" "><a href="#functionextend"><span class="name">extend</span></a></li>
+							
+								<li class=" "><a href="#functionprepend"><span class="name">prepend</span></a></li>
+							
+							</ul>
+						</li>
+						<li class="category"><a>logic</a>
+							<ul class="nav subnav">
+							
+								<li class=" "><a href="#functionall"><span class="name">all</span></a></li>
+							
+								<li class=" "><a href="#functionany"><span class="name">any</span></a></li>
+							
+								<li class=" "><a href="#functioncompare"><span class="name">compare</span></a></li>
+							
+								<li class=" "><a href="#functiongt"><span class="name">gt</span></a></li>
+							
+								<li class=" "><a href="#functiongte"><span class="name">gte</span></a></li>
+							
+								<li class=" "><a href="#functionis"><span class="name">is</span></a></li>
+							
+								<li class=" "><a href="#functionisLike"><span class="name">isLike</span></a></li>
+							
+								<li class=" "><a href="#functionisNot"><span class="name">isNot</span></a></li>
+							
+								<li class=" "><a href="#functionisNotLike"><span class="name">isNotLike</span></a></li>
+							
+								<li class=" "><a href="#functionlt"><span class="name">lt</span></a></li>
+							
+								<li class=" "><a href="#functionlte"><span class="name">lte</span></a></li>
+							
+							</ul>
+						</li>
+						<li class="category"><a>math</a>
+							<ul class="nav subnav">
+							
+								<li class=" "><a href="#functionadd"><span class="name">add</span></a></li>
+							
+								<li class=" "><a href="#functionceil"><span class="name">ceil</span></a></li>
+							
+								<li class=" "><a href="#functiondiv"><span class="name">div</span></a></li>
+							
+								<li class=" "><a href="#functionfloor"><span class="name">floor</span></a></li>
+							
+								<li class=" "><a href="#functionmax"><span class="name">max</span></a></li>
+							
+								<li class=" "><a href="#functionmean"><span class="name">mean</span></a></li>
+							
+								<li class=" "><a href="#functionmin"><span class="name">min</span></a></li>
+							
+								<li class=" "><a href="#functionmul"><span class="name">mul</span></a></li>
+							
+								<li class=" "><a href="#functionpi"><span class="name">pi</span></a></li>
+							
+								<li class=" "><a href="#functionpow"><span class="name">pow</span></a></li>
+							
+								<li class=" "><a href="#functionrandom"><span class="name">random</span></a></li>
+							
+								<li class=" "><a href="#functionreverse"><span class="name">reverse</span></a></li>
+							
+								<li class=" "><a href="#functionround"><span class="name">round</span></a></li>
+							
+								<li class=" "><a href="#functionsub"><span class="name">sub</span></a></li>
+							
+							</ul>
+						</li>
+						<li class="category"><a>strings</a>
+							<ul class="nav subnav">
+							
+								<li class=" "><a href="#functionbytes"><span class="name">bytes</span></a></li>
+							
+								<li class=" "><a href="#functionendsWith"><span class="name">endsWith</span></a></li>
+							
+								<li class=" "><a href="#functionfirst"><span class="name">first</span></a></li>
+							
+								<li class=" "><a href="#functionincludes"><span class="name">includes</span></a></li>
+							
+								<li class=" "><a href="#functionlast"><span class="name">last</span></a></li>
+							
+								<li class=" "><a href="#functionlowercase"><span class="name">lowercase</span></a></li>
+							
+								<li class=" "><a href="#functionnotEmpty"><span class="name">notEmpty</span></a></li>
+							
+								<li class=" "><a href="#functionnumber"><span class="name">number</span></a></li>
+							
+								<li class=" "><a href="#functioncontains"><span class="name">contains</span></a></li>
+							
+								<li class=" "><a href="#functionordinalize"><span class="name">ordinalize</span></a></li>
+							
+								<li class=" "><a href="#functionpadEnd"><span class="name">padEnd</span></a></li>
+							
+								<li class=" "><a href="#functionpadStart"><span class="name">padStart</span></a></li>
+							
+								<li class=" "><a href="#functionphone"><span class="name">phone</span></a></li>
+							
+								<li class=" "><a href="#functionreplace"><span class="name">replace</span></a></li>
+							
+								<li class=" "><a href="#functionreverse"><span class="name">reverse</span></a></li>
+							
+								<li class=" "><a href="#functionseconds"><span class="name">seconds</span></a></li>
+							
+								<li class=" "><a href="#functionslice"><span class="name">slice</span></a></li>
+							
+								<li class=" "><a href="#functionsplit"><span class="name">split</span></a></li>
+							
+								<li class=" "><a href="#functionstartsWith"><span class="name">startsWith</span></a></li>
+							
+								<li class=" "><a href="#functiontime"><span class="name">time</span></a></li>
+							
+								<li class=" "><a href="#functionucfirst"><span class="name">ucfirst</span></a></li>
+							
+								<li class=" "><a href="#functionucsentences"><span class="name">ucsentences</span></a></li>
+							
+								<li class=" "><a href="#functionucwords"><span class="name">ucwords</span></a></li>
+							
+								<li class=" "><a href="#functionuppercase"><span class="name">uppercase</span></a></li>
+							
+								<li class=" "><a href="#functionurldecode"><span class="name">urldecode</span></a></li>
+							
+								<li class=" "><a href="#functionurlencode"><span class="name">urlencode</span></a></li>
+							
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+
+				<div class="col-sm-9 pieces">
+				
+					<div id="functionadd" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>add <small></small></h2></div>
+					
+						<p>Add all values provided and return the result</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">add(values)</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>values</strong> Array.&lt;number&gt;, number
+									
+									<br>Numbers or arrays of numbers to be added together
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionadd + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function add (...args) {
+  args.pop();
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "add" needs at least 1 argument');
+  }
+
+  return flatten(args).reduce((a, b) => a + b, 0);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionafter" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>after <small></small></h2></div>
+					
+						<p>Returns all of the items in the collection after the specified index.
+May be used inline or as an iterator.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{after items [count]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> Array
+									
+									<br>Collection
+								</li>
+								<li class="list-group-item">
+									<strong>count</strong> Number
+									<em>Optional </em>
+									<br>Number of items to exclude
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> Array <em class="pull-right">Array excluding the number of items specified</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#after input [count]}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/after}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<pre class="panel-body prettyprint"><code class="language-javascript">// items = ['a','b','c','d','e','f']
+{{#after items 2}}<span>{{this}}</span>{{/after}}
+// Result: <span>c</span><span>d</span><span>e</span><span>f</span></code></pre>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionafter + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function after (...args) {
+  if (args.length === 1) {
+    throw new Error('Handlebars Helper "after" needs at least one parameter');
+  }
+
+  const options = args.pop();
+  const [ input, count ] = args;
+
+  var results = input.slice(count);
+  if (!options.fn) {
+    return results;
+  }
+  if (results.length) {
+    var data = Handlebars.createFrame(options.data);
+    return map(results, (result, key, i) => {
+      data.index = i;
+      data.key = key;
+      data.first = (i === 0);
+      data.last  = (i === results.length - 1);
+      return options.fn(result, { data });
+    }).join('');
+  }
+  return options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionall" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>all <small></small></h2></div>
+					
+						<p>Tests if all of the values in the provided array or object are truthy.
+May be used inline or as a conditional block.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{all input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array.&lt;mixed&gt;, object.&lt;mixed&gt;
+									
+									<br>Array whose values must all be truthy, or an object whose properties must all be truthy
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#all input}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/all}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<pre class="panel-body prettyprint"><code class="language-javascript">{{#all flags}}All flags are true.{{else}}Some or none of the flags are true.{{/all}}</code></pre>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{all arg1 [... argN]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>argN</strong> mixed
+									<em>Optional </em>
+									<br>Some value to be checked for truthiness
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> mixed <em class="pull-right">Returns the first last argument if all are truthy, or else an empty string.</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#all arg1 [... argN]}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/all}}</div><p>Truthy block will evaluate if all values are truthy. ({this}).</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>argN</strong> mixed
+									<em>Optional </em>
+									<br>Some value to be checked for truthiness
+								</li>
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionall + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function all (...args) {
+
+  const options = args.pop();
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "all" needs 1 parameter');
+  }
+
+  const result = allUtil(...args);
+
+  if (!options.fn) return result || '';
+
+  return result ? options.fn(this) : options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionany" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>any <small></small></h2></div>
+					
+						<p>Tests if any of the values in the provided array or object are truthy.
+May be used inline or as a conditional block.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{any input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array.&lt;mixed&gt;, object.&lt;mixed&gt;
+									
+									<br>Array containing any truthy values, or an object with any property that is truthy
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#any input}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/any}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<pre class="panel-body prettyprint"><code class="language-javascript">{{#any flags}}Sore or all flags are true.{{else}}None of the flags are true.{{/any}}</code></pre>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{any arg1 [... argN]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>argN</strong> mixed
+									<em>Optional </em>
+									<br>Some value to be checked for truthiness
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right">Returns the first truthy value, or an empty string.</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#any arg1 [... argN]}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/all}}</div><p>Truthy block will evaluate if any of the values are truthy.</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>argN</strong> mixed
+									<em>Optional </em>
+									<br>Some value to be checked for truthiness
+								</li>
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionany + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function any (...args) {
+  const options = args.pop();
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "any" needs 1 parameter');
+  }
+
+  let input;
+  if (args.length > 1) {
+    input = args;
+  } else {
+    input = arrayify(args[0]);
+  }
+
+  let result = false;
+  for (const value of input) {
+    if (truthy(value)) {
+      result = value;
+      break;
+    }
+  }
+
+  if (!options.fn) return result || '';
+
+  return result ? options.fn(this) : options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionappend" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>append <small></small></h2></div>
+					
+						<p>Appends the contained content to a layout block</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#append name}}&lt;TEMPLATE&gt;{{/append}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>name</strong> string
+									
+									<br>Name of the content block to append to
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong>  <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionappend + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function append (...args) {
+  if (args.length === 1) {
+    throw new Error('Handlebars Helper "append" needs 1 parameter');
+  }
+
+  const options = args.pop();
+  const name = args[0];
+
+  this._blocks = this._blocks || {};
+
+  this._blocks[name] = {
+    mode: 'append',
+    fn: options.fn,
+  };
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionblock" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>block <small></small></h2></div>
+					
+						<p>Defines a pluggable content block in a layout partial</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{block name}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>name</strong> string
+									
+									<br>Name of the block
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right">Defines an area for content to be inserted.&#x60;</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#block name}}&lt;TEMPLATE&gt;{{/block}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>name</strong> string
+									
+									<br>Name of the block
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right">Defines an area of content that can be appended, prepended, or replaced.&#x60;</em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionblock + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function block (...args) {
+  if (args.length === 1) {
+    throw new Error('Handlebars Helper "block" needs 1 parameter');
+  }
+
+  const options = args.pop();
+  const name = args[0];
+
+  this._blocks = this._blocks || {};
+
+  var target = this._blocks[name];
+
+  var optionsFn = options.fn || function () { return ''; };
+
+  var result;
+  switch (target && target.fn && target.mode) {
+  case 'append':
+    result = optionsFn(this) + target.fn(this);
+    break;
+  case 'prepend':
+    result = target.fn(this) + optionsFn(this);
+    break;
+  case 'replace':
+    result = target.fn(this);
+    break;
+  default:
+    result = optionsFn(this);
+    break;
+  }
+
+  return new Handlebars.SafeString(result);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionbytes" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>bytes <small></small></h2></div>
+					
+						<p>Converts a byte count into a human readable format
+Example: 1624 becomes 1.6KB</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{bytes bytecount}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>bytecount</strong> number
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionbytes + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function bytes (value) {
+  var bytecount = Math.abs(parseInt(value, 10));
+  if (isNaN(bytes)) {
+    // console.error("Handlebars helper bytes couldn't parse '" + value + "'");
+    return value; // Graceful degradation
+  }
+
+  var resInt, resValue;
+  var metric = [ 'byte', 'bytes', 'KB', 'MB', 'GB', 'TB' ];
+  if (bytecount === 0) {
+    resInt = resValue = 0;
+  } else {
+    // Base 1000 (rather than 1024) matches Mac OS X
+    resInt = Math.floor(Math.log(bytecount) / Math.log(1000));
+    // No decimals for anything smaller than 1 MB
+    resValue = (bytecount / Math.pow(1000, Math.floor(resInt)));
+    // Only show a decimal place if the decimal will round to something other than .0
+    resValue = resValue.toFixed(resValue % 1 > 0.1 ? 1 : 0);
+    if (bytecount === 1) {
+      resInt = -1; // special case: 1 byte (singular)
+    }
+  }
+  if (resInt + 1 < metric.length) {
+    return resValue + ' ' + metric[resInt + 1];
+  }
+
+  // The number we have is higher than our highest unit, so express it as a value of our highest unit
+  return (resValue * Math.pow(10, metric.length + 2 - resInt)) + ' ' + metric[metric.length - 1];
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionceil" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>ceil <small></small></h2></div>
+					
+						<p>Rounds up the passed value</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{ceil value}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> float
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> integer <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionceil + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function ceil (value) {
+  if (arguments.length < 2) {
+    throw new Error('Handlebars Helper "ceil" needs 1 parameter minimum');
+  }
+
+  return Math.ceil(parseFloat(value));
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functioncompare" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>compare <small></small></h2></div>
+					
+						<p>Tests two values for equivalence.
+May be used inline or as a conditional block.</p>
+<p>Takes the following values as an optional middle argument to identify the comparison to perform.</p>
+<ul>
+<li><code>'=='</code>: Loose equal</li>
+<li><code>'==='</code>: Strict equal</li>
+<li><code>'!='</code>: Loose unequal</li>
+<li><code>'!=='</code>: Strict unequal</li>
+<li><code>'&lt;'</code> : Less than</li>
+<li><code>'&gt;'</code>: Greater than</li>
+<li><code>'&lt;='</code>: Less than or equal</li>
+<li><code>'&gt;='</code>: Greater than or equal</li>
+<li><code>'typeof'</code>: Typeof first argument equals third argument</li>
+<li><code>'!typeof'</code>: Typeof first argument does not equal third argument</li>
+<li><code>'%'</code>: Modulus of first and third arguments (inline returns result; block evaluates truthy for non-0 result)</li>
+<li><code>'!%'</code>: Modulus of first and third arguments is non-0</li>
+</ul>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{compare left [operator] right}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>left</strong> mixed
+									
+									<br>Left side of the comparison.
+								</li>
+								<li class="list-group-item">
+									<strong>operator</strong> string
+									<em>Optional </em>
+									<br>If omitted, is assumed to be strict equality.
+								</li>
+								<li class="list-group-item">
+									<strong>right</strong> mixed
+									
+									<br>Right side of the comparison
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> mixed <em class="pull-right">Returns the value of the comparison</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#compare left [operator] right}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/compare}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>left</strong> mixed
+									
+									<br>Left side of the comparison.
+								</li>
+								<li class="list-group-item">
+									<strong>operator</strong> string
+									<em>Optional </em>
+									<br>If omitted, is assumed to be strict equality.
+								</li>
+								<li class="list-group-item">
+									<strong>right</strong> mixed
+									
+									<br>Right side of the comparison
+								</li>
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functioncompare + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function compare (...args) {
+  const options = args.pop();
+
+  let left, operator, right;
+  if (args.length === 2) {
+    [ left, right ] = args;
+    operator = '===';
+  } else if (args.length === 3) {
+    [ left, operator, right ] = args;
+  } else {
+    throw new Error('Handlebars Helper "compare" needs 2 or 3 parameters');
+  }
+
+  var operators = {
+    '==':      (l, r) => l == r, // eslint-disable-line eqeqeq
+    '===':     (l, r) => l === r,
+    '!=':      (l, r) => l != r, // eslint-disable-line eqeqeq
+    '!==':     (l, r) => l !== r,
+    '<':       (l, r) => l < r,
+    '>':       (l, r) => l > r,
+    '<=':      (l, r) => l <= r,
+    '>=':      (l, r) => l >= r,
+    'typeof':  (l, r) => typeof l === r, // eslint-disable-line valid-typeof
+    '!typeof': (l, r) => typeof l !== r, // eslint-disable-line valid-typeof
+    '%':       (l, r) => l % r,
+    '!%':      (l, r) => l % r === 0,
+  };
+
+  if (!operators[operator]) {
+    throw new Error('Handlebars Helper "compare" does not know the operator ' + operator);
+  }
+
+  var result = !!operators[operator](left, right);
+
+  if (!options.fn) return result || '';
+
+  return result ? options.fn(this) : options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functioncontent" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>content <small></small></h2></div>
+					
+						<p>Replaces the contents of a layout block with the contained content</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#block name}}&lt;TEMPLATE&gt;{{/block}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>name</strong> string
+									
+									<br>Name of the block to fill
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong>  <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functioncontent + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function content (...args) {
+  if (args.length === 1) {
+    throw new Error('Handlebars Helper "content" needs 1 parameter');
+  }
+
+  const options = args.pop();
+  const name = args[0];
+
+  this._blocks = this._blocks || {};
+
+  this._blocks[name] = {
+    mode: args[1] || 'replace',
+    fn: options.fn,
+  };
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functiondate" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>date <small></small></h2></div>
+					
+						<p>Outputs a date formatted using moment notation.
+Depends on the <code>moment</code> library. Moment will be searched for by first accessing a
+<code>require</code> function (if present) before checking global contexts.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{date format}}</div><p>Outputs the current date/time</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>format</strong> string
+									
+									<br>Moment formatting
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{date input format [parse&#x3D;&lt;string&gt;]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>format</strong> string
+									
+									<br>Moment formatting
+								</li>
+								<li class="list-group-item">
+									<strong>input</strong> string, Date
+									
+									<br>The date value to be formatted. Must be either a Date object, parsable by Date(input), or parsable using a providing parsing string.
+								</li>
+								<li class="list-group-item">
+									<strong>parse</strong> string
+									<em>Optional </em>
+									<br>If a &#x60;parse&#x60; attribute is provided, it will be used for instructing moment on how to parse the input.
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functiondate + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function date (...args) {
+  const options = args.pop();
+  let format, input;
+
+  switch (args.length) {
+  case 0:
+    format = 'yyyy-MM-dd HH:mm:ss';
+    input = new Date();
+    break;
+  case 1:
+    format = args[0];
+    input = new Date();
+    break;
+  case 2:
+    var parsePattern = options.hash && options.hash.parse;
+    if (parsePattern) {
+      input = parse(args[0], parsePattern, new Date());
+    } else {
+      input = new Date(args[0]);
+    }
+    format = args[1];
+    break;
+  default:
+    return '';
+  }
+
+  if (!isValid(input)) {
+    // console.trace('Invalid input for Handlebars Helper "date"', { input, ...options.hash }); // eslint-disable-line
+    return '';
+  }
+
+  return dateFormat(input, format);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functiondiv" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>div <small></small></h2></div>
+					
+						<p>Divides two or more values.
+If more than two values are provided, the result of the previous two division will be divided with the next.
+If any value is 0, the result of the division will be zero.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{div value1 value2 ... valueN}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value1</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>value2</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>valueN</strong> number
+									<em>Optional </em>
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functiondiv + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function div (...args) {
+  args.pop();
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "div" needs 1 parameter minimum');
+  }
+
+  let value;
+  function descend (level) {
+    if (isArray(level)) {
+      level.forEach(descend);
+    } else if (isUndefined(value)) {
+      value = parseFloat(level);
+    } else if (level) {
+      level = parseFloat(level);
+      value = level ? (value / level) : 0;
+    }
+  }
+
+  descend(args);
+
+  return value;
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionempty" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>empty <small></small></h2></div>
+					
+						<p>Tests if the provided input is empty (string, array or object)
+May be used inline or as a conditional block.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{empty input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string, array, object
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean, string <em class="pull-right">Returns an empty string on false</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#empty input}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/empty}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<pre class="panel-body prettyprint"><code class="language-javascript">// items = ['a']
+{{#empty items}}is empty{{else}}is not empty{{/empty}}
+// Result: 'is not empty'</code></pre>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionempty + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function empty (...args) {
+  const options = args.pop();
+  const [ input ] = args;
+
+  var result = !sizeOf(input);
+
+  if (!options.fn) {
+    return result || '';
+  }
+  return result ? options.fn(this) : options.inverse(this);
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionendsWith" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>endsWith <small></small></h2></div>
+					
+						<p>Tests if the haystack ends with the needle value</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{endsWith haystack needle}}</div><p>Returns true if the haystack ends with the needle</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>haystack</strong> string
+									
+									<br>String to search inside
+								</li>
+								<li class="list-group-item">
+									<strong>needle</strong> string
+									
+									<br>String to search for. If &#x60;regex&#x3D;true&#x60; then the string is evaluated as a regular expression.
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#endsWith haystack needle}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/endsWith}}</div><p>If the string does contain that value, block will evaluate with the result value as the current context ({this}).</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>haystack</strong> string
+									
+									<br>String to search inside
+								</li>
+								<li class="list-group-item">
+									<strong>needle</strong> string
+									
+									<br>String to search for. If &#x60;regex&#x3D;true&#x60; then the string is evaluated as a regular expression.
+								</li>
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionendsWith + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function endsWith (...args) {
+  if (args.length !== 3) {
+    throw new Error('Handlebars Helper "endsWith" needs 2 parameters');
+  }
+
+  const options = args.pop();
+  const [ haystack, needle ] = args;
+  let result;
+
+  if (isArray(haystack)) {
+    result = haystack[haystack.length - 1] === needle;
+  } else if (isString(haystack)) {
+    result = haystack.endsWith(needle);
+  } else {
+    result = false;
+  }
+
+  if (!options.fn) {
+    return result || '';
+  }
+
+  return result ? options.fn(this) : options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionextend" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>extend <small></small></h2></div>
+					
+						<p>Defines collection of layout cells to be filled into a layout partial. This function wraps a
+series of <code>append</code>, <code>prepend</code> and <code>content</code> calls. The content instructions inside are evaluated
+and then the named partial is evaluated using the data defined by those instructions. All other
+contained text is disposed of.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#extend name}}&lt;TEMPLATE&gt;{{/extend}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>layout</strong> string
+									
+									<br>The name of the Handlebars partial to be used.
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionextend + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function extend (...args) {
+  if (args.length === 1) {
+    throw new Error('Handlebars Helper "extend" needs 1 parameter');
+  }
+
+  const options = args.pop();
+  const name = args[0];
+
+  var context = Object.create(this || null);
+  var template = Handlebars.partials[name];
+
+  if (typeof template === 'undefined') {
+    throw new Error("Missing layout: '" + name + "'");
+  }
+
+  if (typeof template === 'string') {
+    template = Handlebars.compile(template);
+  }
+
+  if (options.fn) {
+    // run the contents of the embed so that the content blocks apply
+    // but don't use the output.
+    options.fn(context);
+  }
+
+  return new Handlebars.SafeString(template(context));
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionfilter" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>filter <small></small></h2></div>
+					
+						<p>Filters a passed array, depending on the arguments provided.
+May be used inline or as an iterator. Else condition evaluates if result is empty.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{filter input}} or {{#filter input}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/filter}}</div><p>Filter all falsy items (<code>0</code>, <code>''</code>, <code>false</code>, <code>null</code>, <code>undefined</code>, etc).</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array.&lt;mixed&gt;
+									
+									<br>
+								</li>
+							</ol>
+							<pre class="panel-body prettyprint"><code class="language-javascript">// items = [0, 1, null, 'test']
+{{#filter items}}<p>{{this}}</p>{{/filter}}
+// Result: <p>1</p><p>test</p></code></pre>
+							<div class="panel-footer"><strong>Returns: </strong> array <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{filter input predicate}} or {{#filter input predicate}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/filter}}</div><p>Filter all items matching the passed predicate. Else condition evaluates if result is empty. This format matches the predicate rules of the lodash filter function.</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array.&lt;mixed&gt;
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>value</strong> mixed
+									
+									<br>Value to filter.
+								</li>
+							</ol>
+							<pre class="panel-body prettyprint"><code class="language-javascript">// items = [0, 1, 2]
+{{#filter items 1}}<p>{{this}}</p>{{/filter}}
+// Result: <p>0</p><p>2</p></code></pre>
+							<div class="panel-footer"><strong>Returns: </strong> array <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{filter input key value}} or {{#filter input key value}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/filter}}</div><p>Performs a pluck operation, filtering all objects from the array where the provided property name does not match the provided value. (<code>O[n][property] != value</code>)</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array.&lt;mixed&gt;
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>key</strong> string
+									
+									<br>Object property name to check against the value
+								</li>
+								<li class="list-group-item">
+									<strong>value</strong> mixed
+									
+									<br>Value to filter.
+								</li>
+							</ol>
+							<pre class="panel-body prettyprint"><code class="language-javascript">// original = [{a:1}, {b:2}, {a:1,b:2}, {}]
+{{#filter original "a" 1}}|{{#each this}}<span>{{@key}}:{{this}}</span>{{/each}}|{{else}}no{{/filter}}
+// Result: '|<span>a:1</span>||<span>a:1</span><span>b:2</span>|'</code></pre>
+							<div class="panel-footer"><strong>Returns: </strong> array <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionfilter + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function filter (...args) {
+
+  const options = args.pop();
+  if (!args.length) throw new Error('Handlebars Helper "filter" needs at least one parameter');
+
+  const input = args.shift();
+  let results;
+
+  if (!args.length) results = filterUtil(input);
+  else if (args.length === 1) results = filterUtil(input, args[0]);
+  else results = filterUtil(input, args);
+
+  if (!options.fn) return results;
+
+  if (results && results.length > 0) {
+    var data = Handlebars.createFrame(options.data);
+    return results.map((result, i) => {
+      data.index = i;
+      data.first = (i === 0);
+      data.last  = (i === results.length - 1);
+      return options.fn(result, { data });
+    }).join('');
+  }
+  return options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionfirst" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>first <small></small></h2></div>
+					
+						<p>Returns the first N items in the passed array.
+May be used inline or as an iterator. Else condition evaluates if result is empty.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{first input[ count]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> Array, Object, String
+									
+									<br>Collection or String
+								</li>
+								<li class="list-group-item">
+									<strong>count</strong> Number
+									<em>Optional </em>
+									<br>Number of items to exclude
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> Array <em class="pull-right">Array excluding the number of items specified</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#first input[ count]}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/first}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>varname</strong> Array, Object, String
+									<em>Optional </em>
+									<br>[description]
+								</li>
+							</ol>
+							<pre class="panel-body prettyprint"><code class="language-javascript">// items = ['a','b','c','d','e','f']
+{{#first items, 2}}<span>{{this}}</span>{{/first}}
+// Result: <span>a</span><span>b</span></code></pre>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionfirst + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function first (...args) {
+  const options = args.pop();
+  if (!args.length) {
+    throw new Error('Handlebars Helper "first" needs at least one parameter');
+  }
+
+  let [ input, count ] = args;
+  count = count || 1;
+
+  // not a block function, so we just need to return the requested parts
+  if (!options.fn) {
+    if (isObject(input)) {
+      input = Object.values(input);
+    }
+    if (isArray(input) || isString(input)) return count > 1 ? input.slice(0, count) : input[0];
+    return;
+  }
+
+  // received a string
+  if (isString(input)) {
+    if (!input.length) return options.inverse(this);
+    return options.fn(input.slice(0, count));
+  }
+
+  var data = Handlebars.createFrame(options.data);
+
+  // received an object collection
+  if (isObject(input)) {
+    var keys = Object.keys(input);
+    if (!keys.length) {
+      return options.inverse(this);
+    }
+
+    return keys.slice(0, count).map((key, i) => {
+      var result = input[key];
+      data.index = i;
+      data.key = key;
+      data.first = (i === 0);
+      data.last  = (i === keys.length - 1);
+      return options.fn(result, { data });
+    }).join('');
+  }
+
+  var results = count ? input.slice(0, count) : [ input[0] ];
+  if (!results.length) {
+    return options.inverse(this);
+  }
+
+  return map(results, (result, key, i) => {
+    data.index = i;
+    data.key = key;
+    data.first = (i === 0);
+    data.last  = (i === results.length - 1);
+    return options.fn(result, { data });
+  }).join('');
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionfloor" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>floor <small></small></h2></div>
+					
+						<p>Rounds down the passed value</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{ceil value}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> float
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> integer <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionfloor + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function floor (value) {
+  if (arguments.length < 2) {
+    throw new Error('Handlebars Helper "floor" needs 1 parameter minimum');
+  }
+
+  return Math.floor(value);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionfromNow" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>fromNow <small></small></h2></div>
+					
+						<p>Outputs how much time has elapsed or will elapse between now and the passed date.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{fromNow input [parseFormat]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string, Date
+									
+									<br>The date value to be formatted. Must be either a Date object, parsable by Date(input), or parsable using a providing parsing string.
+								</li>
+								<li class="list-group-item">
+									<strong>parseFormat</strong> string
+									<em>Optional </em>
+									<br>If a &#x60;parse&#x60; argument is provided, it will be used for instructing how to parse the input. See the &#x60;date-fns&#x60; library for parsing string formats.
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionfromNow + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function fromNow (...args) {
+  args.pop();
+  let input;
+
+  switch (args.length) {
+  case 0:
+    throw new Error('Handlebars Helper "fromNow" needs at least 1 parameter');
+  case 1:
+    input = new Date(args[0]);
+    break;
+  case 2:
+    input = parse(args[0], args[1]);
+    break;
+  default:
+    return '';
+  }
+
+  if (!isValid(input)) {
+    // console.trace('Invalid input for Handlebars Helper "fromNow"', { input, ...options.hash }); // eslint-disable-line
+    return '';
+  }
+
+  return formatDistanceToNow(input, { addSuffix: true });
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functiongt" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>gt <small></small></h2></div>
+					
+						<p>Tests if the first argument is greater than the second argument.
+May be used inline or as a conditional block.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{gt value1 value2}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value1</strong> string, integer
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>value2</strong> string, integer
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#gt value test}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/gt}}</div></div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functiongt + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function gt (a, b, options) {
+  if (arguments.length !== 3) {
+    throw new Error('Handlebars Helper "gt" needs 2 parameters');
+  }
+
+  if (!options.fn) return a > b || '';
+  if (a > b) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functiongte" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>gte <small></small></h2></div>
+					
+						<p>Tests if the first argument is greater than or equal to the second argument.
+May be used inline or as a conditional block.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{gte value1 value2}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value1</strong> string, integer
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>value2</strong> string, integer
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#gte value test}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/gte}}</div></div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functiongte + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function gte (a, b, options) {
+  if (arguments.length !== 3) {
+    throw new Error('Handlebars Helper "gte" needs 2 parameters');
+  }
+
+  if (!options.fn) return a >= b || '';
+  if (a >= b) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionincludes" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>includes <small></small></h2></div>
+					
+						<p>Tests if the needle value exists inside the haystack</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{includes haystack needle [regex&#x3D;true]}}</div><p>Returns true if the haystack contains the needle</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>haystack</strong> string, Array.&lt;mixed&gt;, object
+									
+									<br>String or array to search inside, or object to check for key
+								</li>
+								<li class="list-group-item">
+									<strong>needle</strong> string, RegExp, mixed
+									
+									<br>String to search for. If haystack is a string and &#x60;regex&#x3D;true&#x60; or needle is a RegExp, then the needle is evaluated as a regular expression.
+If haystack is an object, needle is used as a key name.
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#includes haystack needle [regex&#x3D;true]}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/includes}}</div><p>If the string does contain that value, block will evaluate with the result value as the current context ({this}).</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>haystack</strong> string
+									
+									<br>String to search inside
+								</li>
+								<li class="list-group-item">
+									<strong>needle</strong> string
+									
+									<br>String to search for. If &#x60;regex&#x3D;true&#x60; then the string is evaluated as a regular expression.
+								</li>
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionincludes + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function contains (...args) {
+  if (args.length !== 3) {
+    throw new Error('Handlebars Helper "contains" needs 2 parameters');
+  }
+
+  const options = args.pop();
+  const [ haystack, needle ] = args;
+  let result;
+
+  if (isArray(haystack)) {
+    result = haystack.includes(needle);
+  } else if (isString(haystack)) {
+    if ((options.hash && options.hash.regex) || needle instanceof RegExp) {
+      result = !!haystack.match(new RegExp(needle));
+    } else {
+      result = haystack.includes(needle);
+    }
+  } else if (isObject(haystack)) {
+    result = hasOwn(haystack, needle);
+  } else {
+    result = false;
+  }
+
+  if (!options.fn) {
+    return result || '';
+  }
+
+  return result ? options.fn(this) : options.inverse(this);
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functioninject" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>inject <small></small></h2></div>
+					
+						<p>Any values passed as named arguments are injected into the handlebars data context, using the name provided for each argument.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{inject key&#x3D;value [key2&#x3D;value2] ...}}</div><p>Inserts into the current context.</p>
+</div>
+							<ol class="list-group">
+							</ol>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#inject key&#x3D;value [key2&#x3D;value2] ...}}&lt;TEMPLATE&gt;{{/inject}}</div><p>Inserts into the context of the tag block.</p>
+</div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functioninject + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function inject (...args) {
+  var context = this; // eslint-disable-line
+
+  const options = args.pop();
+
+  if (options.fn) {
+    context = Object.create(this || null);
+  }
+
+  Object.assign(context, ...args);
+
+  if (options.hash) {
+    Object.keys(options.hash).forEach((key) => {
+
+      var value = options.hash[key];
+      if (String(value)[0] === '{') {
+        value = JSON.parse(value);
+      }
+
+      context[key] = value;
+    });
+  }
+
+  return options.fn && options.fn(context) || '';
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionis" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>is <small></small></h2></div>
+					
+						<p>Tests if the first argument matches any of the other arguments with strict equality.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{is value test1 ... testN}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> mixed
+									
+									<br>Value to check against
+								</li>
+								<li class="list-group-item">
+									<strong>...test</strong> mixed
+									
+									<br>Values to test
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> mixed <em class="pull-right">Matched value</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#is value test1 ... testN}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/is}}</div><p>Truthy block will evaluate with the result value as the current context ({this}).</p>
+</div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionis + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function is (...args) {
+  if (arguments.length < 3) {
+    throw new Error('Handlebars Helper "is" needs a minimum of 2 arguments');
+  }
+
+  const options = args.pop();
+  const value = args.shift();
+
+  var result = args.includes(value);
+
+  if (!options.fn) return result || '';
+
+  return result ? options.fn(result) : options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionisLike" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>isLike <small></small></h2></div>
+					
+						<p>Tests if the first argument matches any of the other arguments with loose equality.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{isLike value test1 ... testN}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> mixed
+									
+									<br>Value to check against
+								</li>
+								<li class="list-group-item">
+									<strong>...test</strong> mixed
+									
+									<br>Values to test
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> mixed <em class="pull-right">Matched value</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#isLike value test1 ... testN}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/isLike}}</div><p>Truthy block will evaluate with the result value as the current context ({this}).</p>
+</div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionisLike + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function isLike (...args) {
+  if (arguments.length < 3) {
+    throw new Error('Handlebars Helper "isLike" needs a minimum of 2 arguments');
+  }
+
+  const options = args.pop();
+  const value = args.shift();
+
+  var result = false;
+  var i = args.length;
+  while (i-- && !result) {
+    result = result || (value == args[i]); // eslint-disable-line eqeqeq
+  }
+
+  if (!options.fn) return result || '';
+
+  return result ? options.fn(this) : options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionisNot" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>isNot <small></small></h2></div>
+					
+						<p>Tests that the first argument does not match any of the other arguments with strict equality.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{isNot value test1 ... testN}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> mixed
+									
+									<br>Value to check against
+								</li>
+								<li class="list-group-item">
+									<strong>...test</strong> mixed
+									
+									<br>Values to test
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> mixed <em class="pull-right">Matched value</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#isNot value test1 ... testN}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/isNot}}</div></div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionisNot + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function isNot (...args) {
+  if (arguments.length < 3) {
+    throw new Error('Handlebars Helper "isNot" needs a minimum of 2 arguments');
+  }
+
+  const options = args.pop();
+  const value = args.shift();
+
+  var result = args.indexOf(value) === -1;
+
+  if (!options.fn) return result || '';
+
+  return result ? options.fn(this) : options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionisNotLike" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>isNotLike <small></small></h2></div>
+					
+						<p>Tests that the first argument does not match any of the other arguments with loose equality.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{isNotLike value test1 ... testN}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> mixed
+									
+									<br>Value to check against
+								</li>
+								<li class="list-group-item">
+									<strong>...test</strong> mixed
+									
+									<br>Values to test
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> mixed <em class="pull-right">Matched value</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#isNotLike value test1 ... testN}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/isNotLike}}</div></div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionisNotLike + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function isNotLike (...args) {
+  if (arguments.length < 3) {
+    throw new Error('Handlebars Helper "isNotLike" needs a minimum of 2 arguments');
+  }
+
+  const options = args.pop();
+  const value = args.shift();
+
+  var result = true;
+  var i = args.length;
+  while (i-- && result) {
+    result = result && (value != args[i]); // eslint-disable-line eqeqeq
+  }
+
+  if (!options.fn) return result || '';
+
+  return result ? options.fn(this, options) : options.inverse(this, options);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionjoin" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>join <small></small></h2></div>
+					
+						<p>Joins all elements of a collection into a string using a separator if specified.
+If used as an iterator block, the block contents will be used as a replacement for the item in the array, and then output after joined.
+Else condition evaluates if result is empty.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{join items[ separator]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array.&lt;mixed&gt;
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>separator</strong> string
+									<em>Optional </em>
+									<br>Defaults to &#x60;&#x27;,&#x27;&#x60;
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#join items[ separator]}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/join}}</div></div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionjoin + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function join (...args) {
+  if (arguments.length === 1) {
+    throw new Error('Handlebars Helper "join" needs at least one parameter');
+  }
+
+  const options = args.pop();
+  const input = args[0];
+  const delimiter = isUndefined(args[1]) ? ', ' : args[1];
+
+  if (!sizeOf(input)) {
+    return options.inverse ? options.inverse(this) : '';
+  }
+
+  if (options.fn) {
+    var data = Handlebars.createFrame(options.data);
+    return map(input, (result, key, i) => {
+      data.index = i;
+      data.key = key;
+      data.first = (i === 0);
+      data.last  = (i === input.length - 1);
+      return options.fn(result, { data });
+    }).join(delimiter);
+  }
+
+  return input.join(delimiter);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionkeys" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>keys <small></small></h2></div>
+					
+						<p>Returns the indexes of an array or the keys of an object.
+May be used inline or as an iterator. Else condition evaluates if result is empty.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{keys input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array.&lt;mixed&gt;, object
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> array.&lt;integer|string&gt; <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#keys}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/keys}}</div></div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionkeys + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function keys (...args) {
+
+  const options = args.pop();
+  const [ input ] = args;
+
+  if (!options.fn) {
+    return keysUtil(input);
+  }
+
+  if (sizeOf(input)) {
+    var data = Handlebars.createFrame(options.data);
+    return map(input, (v, k, i) => {
+      data.index = i;
+      data.key = k;
+      data.first = (i === 0);
+      data.last  = (i === input.length - 1);
+      return options.fn(k, { data });
+    }).join('');
+  }
+  return options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionlast" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>last <small></small></h2></div>
+					
+						<p>Returns the last N items in the passed array.
+May be used inline or as an iterator. Else condition evaluates if result is empty.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{last input[ count]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> Array, Object, String
+									
+									<br>Collection or String
+								</li>
+								<li class="list-group-item">
+									<strong>count</strong> Number
+									<em>Optional </em>
+									<br>Number of items to exclude
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> Array <em class="pull-right">Array excluding the number of items specified</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#last input[ count]}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/last}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<pre class="panel-body prettyprint"><code class="language-javascript">// items = ['a','b','c','d','e','f']
+{{#last items, 2}}<span>{{this}}</span>{{/last}}
+// Result: <span>a</span><span>b</span></code></pre>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionlast + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function last (...args) {
+  const options = args.pop();
+  if (!args.length) {
+    throw new Error('Handlebars Helper "first" needs at least one parameter');
+  }
+
+  let [ input, count ] = args;
+  count = count || 1;
+
+  // not a block function, so we just need to return the requested parts
+  if (!options.fn) {
+    if (isObject(input)) {
+      input = Object.values(input);
+    }
+    if (isArray(input) || isString(input)) return count > 1 ? input.slice(-count) : input[input.length - 1];
+    return;
+  }
+
+  // received a string
+  if (isString(input)) {
+    if (!input.length) return options.inverse(this);
+    return options.fn(input.slice(-count));
+  }
+
+  var data = Handlebars.createFrame(options.data);
+
+  // received an object collection
+  if (input && typeof input === 'object' && !Array.isArray(input)) {
+    var keys = Object.keys(input);
+    if (!keys.length) {
+      return options.inverse(this);
+    }
+
+    return keys.slice(-count).map((key, i) => {
+      var result = input[key];
+      data.index = i;
+      data.key = key;
+      data.first = (i === 0);
+      data.last  = (i === keys.length - 1);
+      return options.fn(result, { data });
+    }).join('');
+  }
+
+  var results = count ? input.slice(-count) : [ input[0] ];
+  if (!results.length) {
+    return options.inverse(this);
+  }
+
+  return map(results, (result, key, i) => {
+    data.index = i;
+    data.key = key;
+    data.first = (i === 0);
+    data.last  = (i === results.length - 1);
+    return options.fn(result, { data });
+  }).join('');
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionlength" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>length <small></small></h2></div>
+					
+						<p>Returns the number of keys on an object, or the length of an array or string.
+May be used inline or as an iterator. Else condition evaluates if result is 0.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{length input}}</div><p>Returns the length of the input</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array, object, string
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> integer <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{length input target}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array, object, string
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>target</strong> integer
+									
+									<br>The target length to check against
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#length input}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/length}}</div><p>Evaluates block content if the length is greater than 0, else if it is not.</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array, object, string
+									
+									<br>
+								</li>
+							</ol>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#length input target}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/length}}</div><p>Evaluates block content if the length matches the target, else block if it does not</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array, object, string
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>target</strong> interger
+									
+									<br>The target length it should match in order to evaluate.
+								</li>
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionlength + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function length (...args) {
+  if (arguments.length === 1) {
+    throw new Error('Handlebars Helper "length" needs 1 parameter');
+  }
+
+  const options = args.pop();
+  const input = args[0];
+  const target = args.length > 1 ? args[1] : false;
+
+  var results = sizeOf(input);
+
+  if (!options.fn) return target === false ? results : results === target && target || 0;
+
+  if (target === false ? results : results === target) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionlog" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>log <small></small></h2></div>
+					
+						<p>Sends the passed arguments to console.log</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{log}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong>  <em class="pull-right">Sends the current context to console.log</em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{log argument1 ... argumentN}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>args</strong> mixed
+									
+									<br>Arguments to send to console.log
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong>  <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionlog + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function log (...args) {
+  if (args.length === 1) {
+    console.log(this); // eslint-disable-line no-console
+  } else {
+    console.log(...args.slice(0, -1)); // eslint-disable-line no-console
+  }
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionlowercase" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>lowercase <small></small></h2></div>
+					
+						<p>Lowercase the a string or content block</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{lowercase input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#lowercase}}&lt;TEMPLATE&gt;{{/lowercase}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionlowercase + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function lowercase (...args) {
+  const options = args.pop();
+
+  if (options.fn) return String(options.fn(this)).toLowerCase();
+
+  if (args.length) {
+    return String(args[0]).toLowerCase();
+  }
+
+  throw new Error('Handlebars Helper "lowercase" needs 1 parameter minimum if not used as a block helper');
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionlt" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>lt <small></small></h2></div>
+					
+						<p>Tests if the first argument is less than the second argument.
+May be used inline or as a conditional block.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{lt value test}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value1</strong> string, integer
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>value2</strong> string, integer
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#lt value test}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/lt}}</div></div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionlt + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function lt (a, b, options) {
+  if (arguments.length !== 3) {
+    throw new Error('Handlebars Helper "lt" needs 2 parameters');
+  }
+
+  if (!options.fn) return a < b || '';
+  if (a < b) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionmax" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>max <small></small></h2></div>
+					
+						<p>Finds the maximum of all passed values</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{max value1 value2 ... valueN}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value1</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>value2</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>valueN</strong> number
+									<em>Optional </em>
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionmax + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function max (...args) {
+  args.pop();
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "max" needs at least 2 parameters');
+  }
+
+  return Math.max(...flatten(args));
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionmean" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>mean <small></small></h2></div>
+					
+						<p>Find the mean average of all values provided</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{mean value1 value2 ... valueN}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>values</strong> Array.&lt;number&gt;, number
+									
+									<br>Numbers or arrays of numbers to be averaged
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right">Returns the mean average of all values passed in</em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionmean + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function mean (...args) {
+  args.pop();
+
+  if (args.length <= 1) {
+    throw new Error('Handlebars Helper "add" needs 1 parameter minimum');
+  }
+
+  args = flatten(args);
+
+  const sum = args.reduce((a, b) => a + b, 0);
+  return args.length ? sum / args.length : 0;
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionmin" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>min <small></small></h2></div>
+					
+						<p>Finds the minimum of all passed values</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{min value1 value2 ... valueN}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value1</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>value2</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>valueN</strong> number
+									<em>Optional </em>
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionmin + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function min (...args) {
+  args.pop();
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "max" needs at least 2 parameters');
+  }
+
+  return Math.min(...flatten(args));
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionmul" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>mul <small></small></h2></div>
+					
+						<p>Multiplies two or more values.
+If more than two values are provided, the result of the previous two multiplications
+will be divided with the next. If any value is 0, the result of the division will be zero.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{mul value1 value2 ... valueN}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value1</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>value2</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>valueN</strong> number
+									<em>Optional </em>
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionmul + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function mul (...args) {
+  args.pop();
+
+  if (args.length < 2 && !isArray(args[0])) {
+    throw new Error('Handlebars Helper "mul" needs 2 parameters minimum');
+  }
+
+  args = flatten(args);
+
+  const initial = args.shift();
+  return args.reduce((a, b) => a * b, initial);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionnotEmpty" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>notEmpty <small></small></h2></div>
+					
+						<p>Tests if the provided input is not empty (string, array or object)
+May be used inline or as a conditional block.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{notEmpty input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string, array, object
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#notEmpty input}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/notEmpty}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<pre class="panel-body prettyprint"><code class="language-javascript">// items = ['a']
+{{#notEmpty items}}is not empty{{else}}is empty{{/notEmpty}}
+// Result: 'is not empty'</code></pre>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionnotEmpty + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function notEmpty (...args) {
+  const options = args.pop();
+  const [ input ] = args;
+
+  var result = !!sizeOf(input);
+
+  if (!options.fn) {
+    return result || '';
+  }
+  return result ? options.fn(this) : options.inverse(this);
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionnumber" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>number <small></small></h2></div>
+					
+						<p>Converts a whole number into an abbreviated form (eg, 1200000 into 1.2M)</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{number value [precision]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>precision</strong> number
+									
+									<br>Optional number of decimal places to abbreviate to (default is 0)
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionnumber + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function number (...args) {
+  const options = args.pop();
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "number" needs at least 1 parameter');
+  }
+
+  const [ value, precision, grouping ] = args;
+
+  const { locale, currency } = options.hash;
+
+  return !isNaN(value) && Number(value).toLocaleString(locale, {
+    style: currency ? 'currency' : 'decimal',
+    minimumFractionDigits: precision || 0,
+    maximumFractionDigits: precision || 0,
+    useGrouping: grouping === undefined ? true : grouping,
+    locale,
+    currency,
+  }) || '';
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functioncontains" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>contains <small></small></h2></div>
+					
+						<p>Format a floating point number</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{numberFormat value [precision] [decimalPoint] [thousandsSeparator]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>precision</strong> number
+									<em>Optional </em>
+									<br>Number of decimal points to display (default is 0)
+								</li>
+								<li class="list-group-item">
+									<strong>decimalPoint</strong> string
+									<em>Optional </em>
+									<br>Character to use for the decimal point (Default is a single period)
+								</li>
+								<li class="list-group-item">
+									<strong>thousandsSeparator</strong> string
+									<em>Optional </em>
+									<br>Character to use to mark thousands (eg, 1,000) (Default is a single comma)
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functioncontains + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function numberFormat (value, precision, decimalPoint, thousands) {
+  // account for options argument
+  var argc = arguments.length - 1;
+
+  if (argc === 0) {
+    throw new Error('Handlebars Helper "numberFormat" needs 1 parameter minimum');
+  }
+
+  if (argc === 3 || thousands === undefined) {
+    thousands = ',';
+  }
+
+  if (!thousands) {
+    thousands = '';
+  }
+
+  if (argc === 2 || decimalPoint === undefined) {
+    decimalPoint = '.';
+  }
+
+  if (argc === 1 || precision === undefined) {
+    precision = 0;
+  } else {
+    precision = parseInt(precision, 10);
+  }
+
+  // strip any non-numeric characters
+  value = String(value).replace(/[^0-9+\-Ee.]/g, '');
+
+  var result;
+  if (precision) {
+    // round at the needed precision and then split on the decimal.
+    var k = Math.pow(10, precision);
+    result = String(Math.round(value * k) / k).split('.');
+
+    // if no decimal existed, make sure we create a place for it.
+    if (result.length === 1) result.push('');
+  } else {
+    // parse as float and round off, then store in an array to simplify below.
+    result = [ Math.round(parseFloat(value)) ];
+  }
+
+  // insert any thousands marks as needed
+  if (thousands) {
+    result[0] = String(result[0]).replace(/\B(?=(?:\d{3})+(?!\d))/g, thousands);
+  }
+
+  // pad out the decimal places as needed
+  if (precision && result[1].length < precision) {
+    result[1] += new Array(precision - result[1].length + 1).join('0');
+  }
+
+  return precision ? result.join(decimalPoint) : result[0];
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionordinalize" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>ordinalize <small></small></h2></div>
+					
+						<p>Adds a ordinal suffix to a number (eg, 1st, 2nd, 3rd)</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{ordinalize value}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> number
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionordinalize + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function ordinalize (value) {
+  if (arguments.length === 1) {
+    throw new Error('Handlebars Helper "ordinalize" needs 1 parameter');
+  }
+
+  var normal = Math.abs(Math.round(value));
+  value = String(value);
+  if ([ 11, 12, 13 ].indexOf(normal % 100) >= 0) {
+    return value + 'th';
+  }
+  switch (normal % 10) {
+  case 1:
+    return value + 'st';
+  case 2:
+    return value + 'nd';
+  case 3:
+    return value + 'rd';
+  default:
+    return value + 'th';
+  }
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionpadEnd" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>padEnd <small></small></h2></div>
+					
+						<p>Pads a string with characters on the right side.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{padEnd input length [using]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>length</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>using</strong> string
+									<em>Optional </em>
+									<br>Optional character to pad with. Defaults to a single space.
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionpadEnd + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function padEnd (...args) {
+  args.pop();
+  const [ input, length, using ] = args;
+
+  return String(input).padEnd(length, using);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionpadStart" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>padStart <small></small></h2></div>
+					
+						<p>Pads a string with characters on the left side.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{padStart input length [using]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>length</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>using</strong> string
+									<em>Optional </em>
+									<br>Optional character to pad with. Defaults to a single space.
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionpadStart + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function padStart (...args) {
+  args.pop();
+  const [ input, length, using ] = args;
+
+  return String(input).padStart(length, using);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionphone" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>phone <small></small></h2></div>
+					
+						<p>Strips non-numeric characters and reformats as a US phone number (eg (XXX) XXX-XXXX)
+Returns the value stripped of non-numerics if the result is not ten digits long</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{phone number}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>number</strong> string, number
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionphone + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function phone (number) {
+  if (arguments.length === 1) {
+    throw new Error('Handlebars Helper "phoneNumber" needs 1 parameter minimum');
+  }
+
+  // strip non digits
+  number = String(number).replace(/[^0-9]/, '');
+
+  if (number.length < 10) {
+    return number;
+  }
+
+  var stack = [ '(', number.substr(-10, 3), ') ', number.substr(-7, 3), '-', number.substr(-4) ];
+
+  if (number.length > 10) {
+    stack.unshift(number.substr(0, number.length - 10) + ' ');
+  }
+
+  return stack.join('');
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionpi" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>pi <small></small></h2></div>
+					
+						<p>Returns the value of pi</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{pi}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionpi + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function pi () {
+  return Math.PI;
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionpow" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>pow <small></small></h2></div>
+					
+						<p>Returns the base to the exponent power</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{pow base exponent}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>base</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>exponent</strong> number
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionpow + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function pow (base, exponent) {
+  if (arguments.length < 3) {
+    throw new Error('Handlebars Helper "pow" needs at least 2 parameters');
+  }
+
+  return Math.pow(base, exponent);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionprepend" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>prepend <small></small></h2></div>
+					
+						<p>Prepends the contained content onto a layout block.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#prepend name}}&lt;TEMPLATE&gt;{{/prepend}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>name</strong> string
+									
+									<br>Name of the content block to prepend to
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong>  <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionprepend + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function prepend (...args) {
+  if (args.length === 1) {
+    throw new Error('Handlebars Helper "prepend" needs 1 parameter');
+  }
+
+  const options = args.pop();
+  const name = args[0];
+
+  this._blocks = this._blocks || {};
+
+  this._blocks[name] = {
+    mode: 'prepend',
+    fn: options.fn,
+  };
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionrandom" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>random <small></small></h2></div>
+					
+						<p>Generates a random number using Math.random()</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{random}}</div><p>Generates an random floating point between 0 and 1</p>
+</div>
+							<ol class="list-group">
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{random max}}</div><p>Generates an integer between zero and the <code>max</code> value, or max and 0 if max is negative</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>max</strong> number
+									
+									<br>[description]
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{random min max}}</div><p>Generates an integer between the <code>min</code> and <code>max</code> values</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>min</strong> number
+									
+									<br>[description]
+								</li>
+								<li class="list-group-item">
+									<strong>max</strong> number
+									
+									<br>[description]
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionrandom + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function random (min, max) {
+  switch (arguments.length) {
+  case 1:
+    return Math.random();
+  case 2:
+    if (min > 0) {
+      max = min;
+      min = 0;
+    } else {
+      max = 0;
+    }
+    break;
+  default:
+    // do nothing
+  }
+
+  if (max === min) return max; // no need to do that math
+
+  return Math.floor((Math.random() * (max - min )) + min);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionreplace" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>replace <small></small></h2></div>
+					
+						<p>Searches for a needle within a haystack and substitutes a replacement for all matchs.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{replace haystack needle replacement regex}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>haystack</strong> string
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>needle</strong> string, RegExp
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>replacement</strong> string
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>regex</strong> boolean
+									<em>Optional </em>
+									<br>Pass true to evaluate needle as a regular expression
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionreplace + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function replace (...args) {
+  const options = args.pop();
+  let haystack;
+  if (options.fn) haystack = options.fn(this);
+  else haystack = String(args.shift());
+
+  const needle = args[2] ? new RegExp(args[0]) : args[0];
+  const replacement = args[1] || '';
+  const regex = needle instanceof RegExp;
+
+  return regex ? haystack.replace(needle, replacement) : haystack.split(needle).join(replacement);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionreverse" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>reverse <small></small></h2></div>
+					
+						<p>Reverses the order of a string or array, negates an integer, or returns an object with the keys in reverse order</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">(reverse input)</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> Array.&lt;mixed&gt;, string, integer
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> Array.&lt;mixed&gt;, string, integer <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionreverse + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function reverse (...args) {
+  const options = args.pop();
+  const input = options.fn ? options.fn(this) : args[0];
+
+  if (isString(input)) {
+    return input.split('').reverse().join('');
+  } else if (isNumber(input)) {
+    return 0 - input;
+  } else if (isArray(input)) {
+    return input.reverse();
+  } else if (isObject(input)) {
+    return fromPairs(toPairs(input).reverse());
+  }
+  throw new Error('Handlebars Helper "reverse" cannot operate upon ' + (typeof input) + 's.');
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionround" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>round <small></small></h2></div>
+					
+						<p>Rounds the passed floating point to the nearest whole number</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{round value}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> number
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionround + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function round (value) {
+  if (arguments.length < 2) {
+    throw new Error('Handlebars Helper "round" needs 1 at least parameter');
+  }
+
+  return Math.round(value);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionseconds" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>seconds <small></small></h2></div>
+					
+						<p>Convert a second count into human readable time (minutes, hours, days)
+If the <code>short</code> parameter is truthy, then the function will use abbreviated duration units.
+By default the function returns the first major unit. If the <code>detailed</code> parameter is truthy,
+this will be extended to the smallest unit.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{seconds seconds [short&#x3D;1] [detailed&#x3D;1]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>seconds</strong> number
+									
+									<br>[description]
+								</li>
+								<li class="list-group-item">
+									<strong>short</strong> boolean
+									
+									<br>[description]
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionseconds + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function seconds (...args) {
+  const options = args.pop();
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "seconds" needs at least 1 parameter');
+  }
+
+  let [ secs ] = args;
+
+  var keysL = [ 'Year',      'Month',    'Week',    'Day',    'Hour',    'Minute',   'Second' ];
+  var keysS = [ 'yr',        'mo',       'wk',      'd',      'h',       'm',        's' ];
+  var divs  = [ 31536000,    2592000,    604800,    86400,    3600,      60,         1 ];
+  var stack = [];
+  var level = 0;
+  var value;
+
+  const short = args[1] || options.hash && options.hash.short;
+  const detailed = options.hash && options.hash.detailed;
+  const keys = short ? keysS : keysL;
+
+  secs = Math.abs(secs);
+
+  while (secs) {
+    value = Math.floor(secs / divs[level]);
+    secs = secs % divs[level];
+    if (value) {
+      let pushable = [ value, keys[level] ].join(short ? '' : ' ');
+      if (!short && value > 1) pushable += 's';
+      stack.push(pushable);
+      if (!detailed) break;
+    }
+    level++;
+  }
+
+  return stack.join(' ');
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionslice" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>slice <small></small></h2></div>
+					
+						<p>Returns a slice of an array, object map, or string
+May be used inline or as an iterator. Else condition evaluates if result is empty.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{slice input start[ count]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string, Array, object, Map, Set
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>start</strong> integer
+									
+									<br>Index to slice from
+								</li>
+								<li class="list-group-item">
+									<strong>end</strong> integer
+									<em>Optional </em>
+									<br>Index to slice to (stopping before)
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> mixed <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#slice input start[ end]}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/slice}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string, Array, object, Map, Set
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>start</strong> integer
+									
+									<br>Index to slice from
+								</li>
+								<li class="list-group-item">
+									<strong>end</strong> integer
+									<em>Optional </em>
+									<br>Index to slice to (stopping before)
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionslice + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function slice (...args) {
+  const options = args.pop();
+  const [ input, start, end ] = args;
+
+  if (args.length < 2) {
+    throw new Error('Handlebars Helper "slice" needs at least 2 parameters');
+  }
+
+  if (!isString(input) && !isMappable(input)) {
+    throw new Error('Handlebars Helper "slice" did not receive a string or collection.');
+  }
+
+  if (!options.fn) {
+    return sliceUtil(input, start, end);
+  }
+
+  if (isString(input)) {
+    if (input.length) {
+      return options.fn(input.slice(start, end));
+    }
+    return options.inverse(this);
+  }
+
+  const results = sliceUtil(input, start, end);
+
+  if (sizeOf(results)) {
+    var data = Handlebars.createFrame(options.data);
+    return map(results, (result, key, i) => {
+      data.index = i;
+      data.key = key;
+      data.first = (i === 0);
+      data.last  = (i === results.length - 1);
+      return options.fn(result, { data });
+    }).join('');
+  }
+  return options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionsort" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>sort <small></small></h2></div>
+					
+						<p>Sorts the provided array.
+May be used inline or as an iterator. Else condition evaluates if result is empty.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{sort input[ key]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array.&lt;mixed&gt;
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>key</strong> string
+									<em>Optional </em>
+									<br>If the input is a collection of objects, pass this argument to indicate what key should be compared.
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> array <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#sort input[ key]}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/sort}}</div></div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionsort + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function sort (...args) {
+  const options = args.pop();
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "sort" needs at least 1 parameter');
+  }
+
+  const [ input, key ] = args;
+
+  const results = sortUtil(input, key);
+
+  if (!options.fn) {
+    return results;
+  }
+
+  if (sizeOf(results)) {
+    var data = Handlebars.createFrame(options.data);
+    return map(results, (result, k, i) => {
+      data.index = i;
+      data.key = k;
+      data.first = (i === 0);
+      data.last  = (i === results.length - 1);
+      return options.fn(result, { data });
+    }).join('');
+  }
+  return options.inverse(this);
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionsplit" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>split <small></small></h2></div>
+					
+						<p>Splits a string into an array.
+May be used inline or as an iterator. Else condition will never evaluate.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{split input[ delimiter]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>delimiter</strong> string
+									<em>Optional </em>
+									<br>Defaults to &#x27;,&#x27; if not provided.
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> array.&lt;string&gt; <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#split input[ delimiter]}}&lt;TEMPLATE&gt;{{/split}}</div></div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionsplit + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function split (...args) {
+
+  const options = args.pop();
+  const [ input, delimiter ] = args;
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "split" needs at least 1 parameter');
+  }
+
+  if (!isString(input)) {
+    console.trace('Handlebars Helper "split" did not receive a string'); // eslint-disable-line no-console
+    return '';
+  }
+
+  var results = input.split(delimiter);
+
+  if (!options.fn) {
+    return results;
+  }
+  var data = Handlebars.createFrame(options.data);
+  return map(results, (result, key, i) => {
+    data.index = i;
+    data.key = key;
+    data.first = (i === 0);
+    data.last  = (i === results.length - 1);
+    return options.fn(result, { data });
+  }).join('');
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionstartsWith" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>startsWith <small></small></h2></div>
+					
+						<p>Tests if the haystack starts with the needle</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{startsWith haystack needle}}</div><p>Returns true if the haystack ends with the needle</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>haystack</strong> string
+									
+									<br>String to search inside
+								</li>
+								<li class="list-group-item">
+									<strong>needle</strong> string
+									
+									<br>String to search for. If &#x60;regex&#x3D;true&#x60; then the string is evaluated as a regular expression.
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#startsWith haystack needle}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/startsWith}}</div><p>If the string does contain that value, block will evaluate with the result value as the current context ({this}).</p>
+</div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>haystack</strong> string
+									
+									<br>String to search inside
+								</li>
+								<li class="list-group-item">
+									<strong>needle</strong> string
+									
+									<br>String to search for. If &#x60;regex&#x3D;true&#x60; then the string is evaluated as a regular expression.
+								</li>
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionstartsWith + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function startsWith (...args) {
+  if (args.length !== 3) {
+    throw new Error('Handlebars Helper "endsWith" needs 2 parameters');
+  }
+
+  const options = args.pop();
+  const [ haystack, needle ] = args;
+  let result;
+
+  if (isArray(haystack)) {
+    result = haystack[0] === needle;
+  } else if (isString(haystack)) {
+    result = haystack.startsWith(needle);
+  } else {
+    result = false;
+  }
+
+  if (!options.fn) {
+    return result || '';
+  }
+
+  return result ? options.fn(this) : options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionstringify" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>stringify <small></small></h2></div>
+					
+						<p>Converts the passed value into JSON.
+Does not support block syntax.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{stringify input [pretty]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> mixed
+									
+									<br>Value to be stringified
+								</li>
+								<li class="list-group-item">
+									<strong>pretty</strong> boolean
+									
+									<br>Controls if the json should be tab indented.
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right">The formatted JSON.</em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionstringify + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function stringify (...args) {
+  args.pop();
+  const [ input, pretty ] = args;
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "stringify" needs at least 1 parameter');
+  }
+
+  return new Handlebars.SafeString(JSON.stringify(input, undefined, pretty));
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionsub" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>sub <small></small></h2></div>
+					
+						<p>Subtracts one or more values from the first value
+If more than two values are provided, the result of the previous subtraction will be subtracted from the next.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{sub value1 value2 ... valueN}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value1</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>value2</strong> number
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>valueN</strong> number
+									<em>Optional </em>
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> number <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionsub + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function sub (...args) {
+  args.pop();
+
+  if (args.length < 2 && !isArray(args[0])) {
+    throw new Error('Handlebars Helper "sub" needs 1 parameter minimum');
+  }
+
+  args = flatten(args);
+
+  const initial = args.shift();
+  return args.reduce((a, b) => a - b, initial);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functiontime" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>time <small></small></h2></div>
+					
+						<p>Convert a millisecond count into human readable time (minutes, hours, days)
+If the <code>short</code> parameter is truthy, then the function will use abbreviated duration units.
+By default the function returns the first major unit. If the <code>detailed</code> parameter is truthy,
+this will be extended to the smallest unit.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{time milliseconds [short&#x3D;1] [detailed&#x3D;1]}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>milliseconds</strong> number
+									
+									<br>[description]
+								</li>
+								<li class="list-group-item">
+									<strong>short</strong> boolean
+									
+									<br>[description]
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functiontime + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function time (...args) {
+  const options = args.pop();
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "time" needs 1 parameter');
+  }
+
+  let [ milliseconds ] = args;
+
+  var keysL = [ 'Year',      'Month',    'Week',    'Day',    'Hour',    'Minute',    'Second', 'Millisecond' ];
+  var keysS = [ 'yr',        'mo',       'wk',      'd',      'h',       'm',         's',      'ms' ];
+  var divs  = [ 31536000000, 2592000000, 604800000, 86400000, 3600000,   60000,       1000,     1 ];
+  var stack = [];
+  var level = 0;
+  var value;
+
+  const short = args[1] || options.hash && options.hash.short;
+  const detailed = options.hash && options.hash.detailed;
+  const keys = short ? keysS : keysL;
+
+  milliseconds = Math.abs(milliseconds);
+
+  while (milliseconds) {
+    value = Math.floor(milliseconds / divs[level]);
+    milliseconds = milliseconds % divs[level];
+    if (value) {
+      let pushable = [ value, keys[level] ].join(short ? '' : ' ');
+      if (!short && value > 1) pushable += 's';
+      stack.push(pushable);
+      if (!detailed) break;
+    }
+    level++;
+  }
+
+  return stack.join(' ');
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionucfirst" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>ucfirst <small></small></h2></div>
+					
+						<p>Uppercase the first letter of a string or content block</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{ucfirst input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#ucfirst}}&lt;TEMPLATE&gt;{{/ucfirst}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionucfirst + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function ucfirst (...args) {
+  const options = args.pop();
+
+  if (options.fn) return uc(options.fn(this));
+
+  if (args.length) {
+    return uc(args[0]);
+  }
+
+  throw new Error('Handlebars Helper "ucfirst" needs 1 parameter minimum if not used as a block helper');
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionucsentences" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>ucsentences <small></small></h2></div>
+					
+						<p>Uppercase the first letter of every sentence in a string or content block</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{ucsentences input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#ucsentences}}&lt;TEMPLATE&gt;{{/ucsentences}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionucsentences + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function ucsentences (...args) {
+  const options = args.pop();
+
+  if (options.fn) return uc(options.fn(this));
+
+  if (args.length) {
+    return uc(args[0]);
+  }
+
+  throw new Error('Handlebars Helper "ucsentences" needs 1 parameter minimum if not used as a block helper');
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionucwords" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>ucwords <small></small></h2></div>
+					
+						<p>Uppercase the first letter of every word in a string or content block</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{ucwords input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#ucwords}}&lt;TEMPLATE&gt;{{/ucwords}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionucwords + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function ucwords (...args) {
+  const options = args.pop();
+
+  if (options.fn) return uc(options.fn(this));
+
+  if (args.length) {
+    return uc(args[0]);
+  }
+
+  throw new Error('Handlebars Helper "ucwords" needs 1 parameter minimum if not used as a block helper');
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionuppercase" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>uppercase <small></small></h2></div>
+					
+						<p>Uppercase the a string or content block</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{uppercase input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#uppercase}}&lt;TEMPLATE&gt;{{/uppercase}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionuppercase + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function uppercase (...args) {
+  const options = args.pop();
+
+  if (options.fn) return String(options.fn(this)).toUpperCase();
+
+  if (args.length) {
+    return String(args[0]).toUpperCase();
+  }
+
+  throw new Error('Handlebars Helper "uppercase" needs 1 parameter minimum if not used as a block helper');
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionurldecode" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>urldecode <small></small></h2></div>
+					
+						<p>Parses URI encoded string back into its original format</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{urldecode input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#urldecode}}&lt;TEMPLATE&gt;{{/urldecode}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionurldecode + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function urldecode (...args) {
+  const options = args.pop();
+
+  if (options.fn) return decodeURIComponent(options.fn(this));
+
+  if (args.length) {
+    return decodeURIComponent(args[0]);
+  }
+
+  throw new Error('Handlebars Helper "urldecode" needs 1 parameter minimum if not used as a block helper');
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionurlencode" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>urlencode <small></small></h2></div>
+					
+						<p>Encodes a string into a URL safe format that can be decoded.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{urlencode input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> string
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#urlencode}}&lt;TEMPLATE&gt;{{/urlencode}}</div></div>
+							<ol class="list-group">
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> string <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionurlencode + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function urlencode (...args) {
+  const options = args.pop();
+
+  if (options.fn) return encodeURIComponent(options.fn(this));
+
+  if (args.length) {
+    return encodeURIComponent(args[0]);
+  }
+
+  throw new Error('Handlebars Helper "urlencode" needs 1 parameter minimum if not used as a block helper');
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionvalues" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>values <small></small></h2></div>
+					
+						<p>Returns the values of an array or object.
+May be used inline or as an iterator. Else condition evaluates if result is empty.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{values input}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>input</strong> array.&lt;mixed&gt;, object
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> array.&lt;mixed&gt; <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#values}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/values}}</div></div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionvalues + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function values (...args) {
+  const options = args.pop();
+  const [ input ] = args;
+
+  if (!options.fn) {
+    return valuesUtil(input);
+  }
+
+  if (sizeOf(input)) {
+    var data = Handlebars.createFrame(options.data);
+    return map(input, (v, k, i) => {
+      data.index = i;
+      data.key = k;
+      data.first = (i === 0);
+      data.last  = (i === input.length - 1);
+      return options.fn(v, { data });
+    }).join('');
+  }
+  return options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionlte" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>lte <small></small></h2></div>
+					
+						<p>Tests if the first argument is less than or equal to the second argument.
+May be used inline or as a conditional block.</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{lte value test}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value1</strong> string, integer
+									
+									<br>
+								</li>
+								<li class="list-group-item">
+									<strong>value2</strong> string, integer
+									
+									<br>
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#lte value test}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/lte}}</div></div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionlte + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function lte (a, b, options) {
+  if (arguments.length !== 3) {
+    throw new Error('Handlebars Helper "lte" needs 2 parameters');
+  }
+
+  if (!options.fn) return a <= b || '';
+  if (a <= b) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+
+		</div>
+
+		<div  id="changelog" class="changelog-header"><h2 class="container">Change Log</h2></div>
+		<div class="changelog">
+			<div class="container">
+				
+			</div>
+		</div>
+
+		<footer class="container">
+			Handlebars Kit is copyright &copy; 2020 Jocelyn Badgley and released under an MIT license.
+		</footer>
+
+
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>HandlebarsKit, a collection of Handlebars Helpers</title>
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.css">
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
+		<style>
+
+			@font-face {
+				font-family: 'icomoon';
+				src: url('fonts/icomoon.eot');
+			}
+			@font-face {
+				font-family: 'icomoon';
+				src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMggi/LkAAAC8AAAAYGNtYXAaVcxaAAABHAAAAExnYXNwAAAAEAAAAWgAAAAIZ2x5Zl7lDm0AAAFwAAAFJGhlYWQBV3rtAAAGlAAAADZoaGVhA+IB6QAABswAAAAkaG10eAkAADAAAAbwAAAAIGxvY2EDPgJeAAAHEAAAABJtYXhwAAwA8QAAByQAAAAgbmFtZVcZpu4AAAdEAAABRXBvc3QAAwAAAAAIjAAAACAAAwIAAZAABQAAAUwBZgAAAEcBTAFmAAAA9QAZAIQAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADmAwHg/+D/4AHgACAAAAABAAAAAAAAAAAAAAAgAAAAAAACAAAAAwAAABQAAwABAAAAFAAEADgAAAAKAAgAAgACAAEAIOYD//3//wAAAAAAIOYA//3//wAB/+MaBAADAAEAAAAAAAAAAAAAAAEAAf//AA8AAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAgACAB4AGgADAAACU3PgE1NCYvAS4BIyIGBw4BFRQWHwEhIgYHDgEVFBYXHgEzIQcOARUUFhceATMyNjcBN6AEBQUEoAUMBgYMBQQFBQRq/s0HCwUEBQUEBQsHATNqBAUFBAUMBgYMBSmgBQwGBgwFoAQFBQQFDAYGDAVpBQQFCwcHCwUEBWkFDAYGDAUEBQUEAAIAEABgAfABYAAGAA0AABMHFzMnNyMzIxcHMzcnkICAQICAQOBAgIBAgIABYICAgICAgICAAAAAAgAA/+ACAAHgABgA7gAAASIGBw4BFRQWFx4BMzI2Nz4BNTQmJy4BIxMOAQcOAQcOAQc1NCYnLgEnPgE3MjY3PgE3PgE3PgE3PgE3NDY1NjQ1NCYnLgEnPgE1NCYvAQYiByYGIw4BByYiJwYmByYGIw4BBy4BJy4BIy4BJwYmByYGMQ4BBxQWFw4BBw4BFRQWFRQWFx4BFx4BFx4BFx4BFx4BFx4BMw4BBw4BHQEuAScuAScuAScuAScuAScuAScuATU0Njc+ATc+ATc+ATc+ATc+ATc+ATc+ATMyFhceARceARceARceARceARceARceARUUBgcOAQcOAQcOAQcBADVdIyMoKCMjXTU1XSMjKCgjI101mAcQCQkSCQUKBQMCAwgFBwwFBQwGBgsFBQkEBQcDAwUCAgEDAwMKBgMCBAQGAwwIBAkFBQoFCA8HCBAICBAHCA8HBw0GBQoEAwcDAwQBAQEEAwECAwYJBAMDAQIBAQUDAwgEBAoEBQsGBgwFBgwGBQgCAwIGCwYJEgkJEAcHDgUGCgQEBwICAgICAgcEBAoGBQ4HBxAJCRIJChUKCxULCxULChUKCRIJCRAHBw4FBgoEBAcCAgICAgIHBAQKBgUOBwHgKCMjXTU1XSMjKCgjI101NV0jIyj+aAcOBQYKBAIEASYIDQUGCQMBAQIEAQQDBQEJAwcICAQQBwYHBgMLAwwQCgYRBQoNCwYTBgMCBgEHBQMHBQQCBAIBAwICAwYGBAIFAgEBAQEBAQEJEQkIDwgHDwgIEgoFCQUECQQJDgYGCgUFBwMDBQIDAwEBAgQJBgUNCCcCBAIECgYFDgcHEAkJEgkKFQoLFQsLFQsKFQoJEgkJEAcHDgUGCgQEBwICAgICAgcEBAoGBQ4HBxAJCRIJChUKCxULCxULChUKCRIJCRAHAAAAAAMAAABAAgABgAAYAFsAdAAAASIGBw4BBx4BFx4BMzI2Nz4BNy4BJy4BIxceARceARcOAQcOAQcOAQcOASMiJicuAScuAScuASc+ATc+ATc+ATcOAQcOARUUFhceATMyNjc+ATU0JicuASceARcHFAYHDgEjIiYnLgE1NDY3PgEzMhYXHgEVAQAqTSEhNRISNSEhTSoqTSEhNRISNSEhTSp+DBQKCREHBxEJChQMDh4QECERESEQEB4ODBQKCREHBxEJChQMAQMCAgMBAQEUERIuGxsuEhEUAQEBAwICAwF+CAYHEQoKEQcGCAgGBxEKChEHBggBgBcVFTskJDsVFRcXFRU7JCQ7FRUXVQcRCQoVCwsVCgkRBwkOBQQFBQQFDgkHEQkKFQsLFQoJEQcBAgEFCwUGCwYbLhIRFBQREi4bBgsGBQsFAQIBGAoRBwYICAYHEQoKEQcGCAgGBxEKAAABAAAAAQAAajn9GF8PPPUACwIAAAAAANAcHRgAAAAA0BwdGAAA/+ACAAHgAAAACAACAAAAAAAAAAEAAAHg/+AAAAIAAAAAAAIAAAEAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAQAAAAIAACACAAAQAgAAAAIAAAAAAAAAAAoAFAAeAGgAhAHiApIAAAABAAAACADvAAMAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAADgCuAAEAAAAAAAEADgAAAAEAAAAAAAIADgBHAAEAAAAAAAMADgAkAAEAAAAAAAQADgBVAAEAAAAAAAUAFgAOAAEAAAAAAAYABwAyAAEAAAAAAAoANABjAAMAAQQJAAEADgAAAAMAAQQJAAIADgBHAAMAAQQJAAMADgAkAAMAAQQJAAQADgBVAAMAAQQJAAUAFgAOAAMAAQQJAAYADgA5AAMAAQQJAAoANABjAGkAYwBvAG0AbwBvAG4AVgBlAHIAcwBpAG8AbgAgADEALgAwAGkAYwBvAG0AbwBvAG5pY29tb29uAGkAYwBvAG0AbwBvAG4AUgBlAGcAdQBsAGEAcgBpAGMAbwBtAG8AbwBuAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAGIAeQAgAEkAYwBvAE0AbwBvAG4ALgAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA) format('truetype'),
+					 url(data:application/font-woff;charset=utf-8;base64,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) format('woff');
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			[class^="ico-"], [class*=" ico-"] {
+				font-family: 'icomoon';
+				speak: none;
+				font-style: normal;
+				font-weight: normal;
+				font-variant: normal;
+				text-transform: none;
+				line-height: 1;
+
+				/* Better Font Rendering =========== */
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+			}
+
+			.ico-eye:before {
+				content: "\e603";
+			}
+			.ico-arrow-right:before {
+				content: "\e600";
+			}
+			.ico-embed:before {
+				content: "\e601";
+			}
+			.ico-github:before {
+				content: "\e602";
+			}
+
+
+			.jumbotron {
+				margin-top: 30px;
+				background-color: #333;
+				color: white;
+			}
+
+			.jumbotron .btn-code {
+				font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+				text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+			}
+
+			.jumbotron .prettyprint {
+				padding: 10px;
+			}
+
+			.changelog-header {
+				background-color: #333;
+				color: white;
+				padding: 50px 0 10px;
+			}
+
+			.changelog ul + h3 {
+				border-top: 1px solid #333;
+				padding-top: 20px;
+			}
+
+			pre {
+				box-shadow: 0 1px 2px rgba(100,100,100,0.2);
+				background-color: #f8f8f8;
+				border-color: #ddd;
+			}
+
+			pre code {
+				word-wrap: normal;
+				white-space: pre;
+			}
+
+			.sidenav .nav > li > a {
+				padding: 2px 15px;
+			}
+
+			.sidenav span.name {
+				vertical-align: middle;
+				display: inline-block;
+				line-height: 1;
+			}
+
+			.sidenav .ico-arrow-up {
+				color: #ccc;
+				font-size: 12px;
+			}
+
+			.sidenav .alias .name {
+				color: #ccc;
+				font-size: 12px;
+				margin-left: 10px;
+			}
+
+			.sidenav .deprecated .name {
+				color: #b3d3ec;
+				opacity: 0.7;
+			}
+
+			.category {
+				margin-top: 5px;
+			}
+
+			.nav > li.category > a {
+				color: #666;
+				text-shadow: 0 1px 0 rgba(255,255,255,.5);
+				background: none;
+			}
+
+			.category > ul a {
+				background: #fbfbfb;
+				
+			}
+
+			.pieces .private, .nav .private {
+				display: none;
+				opacity: 0.5;
+			}
+
+			.pieces .page-header, .pieces h2 {
+				margin-top: 0;
+			}
+
+			.pieces h3 {
+				font-size: 15px;
+			}
+
+			.signature .panel-title {
+				font-family: monospace;
+				font-size: 14px;
+				font-weight: bold;
+			}
+
+			.signature .panel-heading p {
+				margin: 5px 0 0 0;
+			}
+
+			.signature .list-group strong {
+				margin-right: 20px;
+			}
+
+			.signature .list-group em, .signature u {
+				margin-left: 20px;
+			}
+
+			.signature .panel-footer em {
+				color: #999;
+			}
+
+			.signature pre.panel-body + pre.panel-body {
+				border-top: 1px solid #ddd;
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
+			}
+
+			.codeview .panel-heading {
+				font-size: 12px;
+				padding: 5px;
+				cursor: pointer;
+			}
+
+			.codeview .panel-heading .ico-embed {
+				font-size:16px;
+				line-height: 1;
+				vertical-align: middle;
+				position:relative;
+				top: -1px;
+			}
+
+			pre.panel-body, pre.panel-body.prettyprint  {
+				padding: 8px;
+				border: none;
+				font-size: 11px;
+				line-height: 13px;
+				margin-bottom: 0;
+				background-color: #fbfbfb;
+				
+			}
+
+
+			pre.panel-body:before, pre.panel-body:after {
+				content: '';
+			}
+
+			.kwd {font-weight: bold;}
+
+			.nav-list {
+				padding-left: 15px;
+				padding-right: 15px;
+				margin-bottom: 0;
+			}
+
+			.nav-list > li > a,
+			.nav-list .nav-header {
+				margin-left: -15px;
+				margin-right: -15px;
+				text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+			}
+
+			.nav-list > li > a {
+				padding: 3px 15px;
+			}
+
+			.nav-header {
+				display: block;
+				padding: 3px 15px;
+				font-size: 11px;
+				font-weight: bold;
+				line-height: 1.428571429;
+				color: #999;
+				text-shadow: 0 1px 0 rgba(255,255,255,.5);
+				text-transform: uppercase;
+			}
+
+			.nav > .nav-header > a:hover {
+				background: none;
+			}
+
+			.gh-link {
+				margin: 8px 0 0 15px;
+			}
+
+			.navbar .ico-github {
+				font-size: 32px;
+				text-decoration: none;
+			}
+
+			footer {
+				text-align: center;
+				font-size: 10px;
+			}
+
+			@media (max-width: 768px) {
+				.navbar-fixed-top {
+					display: none;
+				}
+
+				.jumbotron {
+					margin-top: 0;
+				}
+
+			}
+
+
+
+		</style>
+	</head>
+	
+	<body>
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header"><a class="navbar-brand" href="#">HandlebarsKit</a></div>
+				<ul class="nav navbar-nav">
+					<li><a href="#reference">Function Reference</a></li>
+					<li><a href="#changelog">Change Log</a></li>
+				</ul>
+				<p class="navbar-right gh-link"><a href="http://github.com/twipped/queryizejs" class="ico-github"></a></p>
+				<p class="navbar-text navbar-right">Created by <a href="http://twipped.com" class="navbar-link">Jocelyn Badgley</a></p>
+			</div>
+		</div>
+
+		<div class="jumbotron">
+			<div class="container">
+				<h1>HandlebarsKit</h1>
+				<p>A collection of helpers for use with the <a href="http://handlebarsjs.com">Handlebars</a> template engine.</p>
+				<p>
+					<a href="http://npmjs.org/hbs-kit" class="btn btn-default btn-code btn-success">npm install hbs-kit</a>
+					<a href="http://github.com/twipped/hbs-kit" class="btn btn-primary">View on GitHub</a>
+					<a href="http://github.com/twipped/hbs-kit/issues" class="btn btn-danger">Report an Issue</a>
+				</p>
+				<p>
+					<a href="http://badge.fury.io/js/hbs-kit"><img src="https://img.shields.io/npm/v/hbs-kit.svg?style=flat" alt="NPM Version" height="18"></a>
+					<img src="https://img.shields.io/npm/l/hbs-kit.svg?style=flat" alt="License: MIT" height="18">
+					<a href="http://npmjs.org/hbs-kit"><img src="https://img.shields.io/npm/dm/hbs-kit.svg?style=flat" alt="Downloads/Week" height="18"></a>
+				</p>
+
+				<h2>Usage:</h2>
+				<p>In an npm environment:</p>
+  				<pre class="prettyprint"><code class="language-javascript">const Handlebars = require('handlebars');
+require('hbs-kit').load(Handlebars);</code></pre>
+				<p>In a browser based AMD environment such as RequireJS:</p>
+				<pre class="prettyprint"><code class="language-javascript">require(['handlebars', 'hbs-kit'], function (Handlebars, Kit) {
+  Kit.load(Handlebars);
+});</code></pre>
+				<p>In a standard browser environment:</p>
+  				<pre class="prettyprint"><code class="language-html">&lt;script src=&quot;handlebars/dist/handlebars.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;hbs-kit/dist/browser.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;HandlebarsKit.load(Handlebars);&lt;/script&gt;</code></pre>
+			</div>
+			</div>
+
+		</div>
+
+		<div id="reference" style="position:relative;top:-60px;"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3 sidenav">
+					<ul class="nav nav-list">
+					{{#with parentless}}
+						{{#each uncategorized}}{{#unless ignore}}
+						<li class="{{#if isPrivate}}private {{/if}}{{#if isAlias}}alias {{/if}}{{#if isDeprecated}}deprecated {{/if}}"><a href="#{{id}}">{{#if isAlias}}<i class="ico-arrow-up"></i>{{/if}}<span class="name">{{name}}</span></a></li>
+						{{/unless}}{{/each}}
+						{{#each categories}}
+						<li class="category"><a>{{@key}}</a>
+							<ul class="nav subnav">
+							{{#each this}}{{#unless ignore}}
+								<li class="{{#if isPrivate}}private{{/if}} {{#if isAlias}}alias{{/if}}"><a href="#{{id}}">{{#if isAlias}}<i class="ico-arrow-up"></i>{{/if}}<span class="name">{{name}}</span></a></li>
+							{{/unless}}{{/each}}
+							</ul>
+						</li>
+						{{/each}}
+					{{/with}}
+					{{#each parents}}
+						{{#if item}}
+							{{#with item}}<li class="{{#if isPrivate}}private {{/if}}{{#if isAlias}}alias {{/if}}{{#if isDeprecated}}deprecated {{/if}}"><a href="#{{id}}">{{#if isAlias}}<i class="ico-arrow-up"></i>{{/if}}<span class="name">{{name}}</span></a></li>{{/with}}
+						{{else}}
+							<li class=""><a>{{name}}</a></li>
+						{{/if}}
+						<li><ul class="nav ">
+						{{#each uncategorized}}{{#unless ignore}}
+							<li class="{{#if isPrivate}}private {{/if}}{{#if isAlias}}alias {{/if}}{{#if isDeprecated}}deprecated {{/if}}"><a href="#{{id}}">{{#if isAlias}}<i class="ico-arrow-up"></i>{{/if}}<span class="name">{{name}}</span></a></li>
+						{{/unless}}{{/each}}
+						{{#each categories}}
+								<li class="category"><a>{{@key}}</a>
+									<ul class="nav subnav">
+							{{#each this}}{{#unless ignore}}
+										<li class="{{#if isPrivate}}private {{/if}}{{#if isAlias}}alias {{/if}}{{#if isDeprecated}}deprecated {{/if}}"><a href="#{{id}}">{{#if isAlias}}<i class="ico-arrow-up"></i>{{/if}}<span class="name">{{name}}</span></a></li>
+							{{/unless}}{{/each}}
+									</ul>
+								</li>
+						{{/each}}
+						</ul></li>
+					{{/each}}
+					</ul>
+				</div>
+
+
+				<div class="col-sm-9 pieces">
+				{{#each pieces}}{{#unless ignore}}
+					<div id="{{id}}" style="position:relative;top:-60px;"></div>
+					<div class="piece {{#if isPrivate}}private{{/if}} {{#if isAlias}}alias{{/if}}">
+						<div class="page-header"><h2>{{name}} <small>{{aliases}}</small></h2></div>
+					{{#if isDeprecated}}<div class="alert alert-danger"><strong>This {{ctx.type}} is deprecated:</strong> {{isDeprecated}}</div>{{/if}}
+					{{#unless isAlias}}
+						{{{description.full}}}
+						{{#unless isAbstract}}
+						<h3>Usage:</h3>
+							{{#each signatures}}
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{signature}}</div>{{{description}}}</div>
+							<ol class="list-group">
+								{{#each params}}
+								<li class="list-group-item">
+									<strong>{{name}}</strong> {{types}}
+									{{#if optional}}<em>Optional {{#if default}} (Default: {{default}}){{/if}}</em>{{/if}}
+									<br>{{description}}
+								</li>
+								{{/each}}
+							</ol>
+								{{#each examples}}
+							<pre class="panel-body prettyprint"><code class="language-javascript">{{{this}}}</code></pre>
+								{{/each}}
+								{{#if returns}}
+							<div class="panel-footer"><strong>Returns: </strong> {{returns.types}} <em class="pull-right">{{returns.description}}</em></div>
+								{{/if}}
+						</div>
+							{{/each}}
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#{{id}} + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">{{{code}}}</code></pre>
+							</div>
+						</div>
+						{{else}}
+						<h3>Usage:</h3>
+							{{#each signatures}}
+						<div class="signature panel panel-default">
+								{{#each examples}}
+							<pre class="panel-body prettyprint"><code class="language-javascript">{{{this}}}</code></pre>
+								{{/each}}
+						</div>
+							{{/each}}
+						{{/unless}}
+					{{else}}
+						<a href="#{{id}}">See {{original}}</a>
+					{{/unless}}
+					</div>
+				{{/unless}}{{/each}}
+				</div>
+			</div>
+
+		</div>
+
+		<div  id="changelog" class="changelog-header"><h2 class="container">Change Log</h2></div>
+		<div class="changelog">
+			<div class="container">
+				{{{changelog}}}
+			</div>
+		</div>
+
+		<footer class="container">
+			Handlebars Kit is copyright &copy; 2020 Jocelyn Badgley and released under an MIT license.
+		</footer>
+
+
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.js"></script>
+
+	</body>
+</html>
