@@ -159,11 +159,26 @@ export function iteratee (match) {
 	if (isFunction(match)) return match;
 
 	if (isString(match)) {
-		return (o) => (isObject(o) ? o[match] : o === match);
+		return (o) => {
+			if (isArray(o)) return o.includes(match);
+			if (isObject(o)) return o[match];
+			if (isMap(o)) return o.get(match);
+			if (isSet(o)) return o.has(match);
+			if (isString(o)) return o === match;
+			if (isNumber(o)) return String(o) === match;
+			return o === match;
+		};
 	}
 
 	if (isNumber(match)) {
-		return (o) => o !== match;
+		return (o) => {
+			if (isObject(o) || isArray(o)) return o[match];
+			if (isMap(o)) return o.get(match);
+			if (isSet(o)) return o.has(match);
+			if (isNumber(o)) return o === match;
+			if (isString(o)) return Number(o) === match;
+			return o === match;
+		};
 	}
 
 	if (isArray(match)) {
@@ -186,7 +201,7 @@ export function iteratee (match) {
 
 export function sorter (match) {
 
-	if (isFunction(match) || isUndefined(match)) return match;
+	if (isFunction(match)) return match;
 
 	function qs (a, b) {
 		if (a > b) return 1;
@@ -242,7 +257,7 @@ export function toPairs (object) {
 }
 
 export function fromPairs (entries) {
-	return mapReduce(entries, (v, k) => [ v, k ]);
+	return mapReduce(entries, ([v, k]) => [ v, k ]);
 }
 
 export function slice (collection, begin, end) {
@@ -273,29 +288,32 @@ export function sort (collection, predicate) {
 		return new Set(Array.from(collection.values()).sort(predicate));
 	}
 
-	predicate = ([ a ], [ b ]) => predicate(a, b);
+	// sort by key for maps and objects
+	const hashpredicate = (a, b) => predicate(a[0], b[0]);
 
 	if (isMap(collection)) {
-		return new Map(Array.from(collection.entries()).sort(predicate));
+		return new Map(Array.from(collection.entries()).sort(hashpredicate));
 	}
 
 	if (isObject(collection)) {
-		return fromPairs(toPairs(collection).sort(predicate));
+		return fromPairs(toPairs(collection).sort(hashpredicate));
 	}
 
 	return collection;
 }
 
-export function map (collection, cb) {
+export function map (collection, predicate) {
+	predicate = iteratee(predicate);
+
 	if (isArray(collection)) {
-		return collection.map((value, i) => cb(value, i, i));
+		return collection.map((value, i) => predicate(value, i, i));
 	}
 
 	if (isSet(collection)) {
-		return Array.from(collection, (value, i) => cb(value, i, i));
+		return Array.from(collection, (value, i) => predicate(value, i, i));
 	}
 
-	return mapReduce(collection, (value, key, index) => [ key, cb(value, key, index) ]);
+	return mapReduce(collection, (value, key, index) => [ key, predicate(value, key, index) ]);
 }
 
 export function filter (collection, predicate) {
@@ -430,6 +448,7 @@ export function reduce (collection, cb, init) {
 }
 
 export function flatten (collection, depth) {
+	if (depth === undefined) depth = Infinity;
 	if (depth <= 0) return slice(collection);
 	return reduce(collection,
 		(acc, val) => acc.concat(...(
