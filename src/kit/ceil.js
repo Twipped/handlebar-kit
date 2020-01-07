@@ -1,5 +1,5 @@
 
-export default function ceil () {
+export default function ceilHelper () {
 
 	/**
 	 * Rounds up the passed value
@@ -10,7 +10,7 @@ export default function ceil () {
 	 * @param  {float} value
 	 * @return {integer}
 	 */
-	return function ceilHelper (value) {
+	return function ceil (value) {
 		if (arguments.length < 2) {
 			throw new Error('Handlebars Helper "ceil" needs 1 parameter minimum');
 		}

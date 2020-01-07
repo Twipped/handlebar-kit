@@ -2,11 +2,11 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
 
-export default function fromNow () {
+export default function fromNowHelper () {
 
 	/**
 	 * Outputs how much time has elapsed or will elapse between now and the passed date.
-	 * @category date
+	 * @category dates
 	 * @name fromNow
 	 *
 	 * @signature {{fromNow input [parseFormat]}}
@@ -15,7 +15,7 @@ export default function fromNow () {
 	 * @return {string}
 	 */
 
-	return function fromNowHelper (...args) {
+	return function fromNow (...args) {
 		args.pop();
 		let input;
 

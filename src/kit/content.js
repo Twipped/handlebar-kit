@@ -1,5 +1,5 @@
 
-export default function content () {
+export default function contentHelper () {
 
 	/**
 	 * Replaces the contents of a layout block with the contained content
@@ -10,7 +10,7 @@ export default function content () {
 	 * @param  {string} name    Name of the block to fill
 	 * @return {null}
 	 */
-	return function contentHelper (...args) {
+	return function content (...args) {
 		if (args.length === 1) {
 			throw new Error('Handlebars Helper "content" needs 1 parameter');
 		}

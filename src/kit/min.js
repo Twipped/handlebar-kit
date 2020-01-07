@@ -1,7 +1,7 @@
 
 import { flatten } from '../util';
 
-export default function min () {
+export default function minHelper () {
 
 	/**
 	 * Finds the minimum of all passed values
@@ -14,7 +14,7 @@ export default function min () {
 	 * @param  {number} [valueN]
 	 * @return {number}
 	 */
-	return function minHelper (...args) {
+	return function min (...args) {
 		args.pop();
 
 		if (!args.length) {

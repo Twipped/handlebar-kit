@@ -1,5 +1,5 @@
 
-export default function phone () {
+export default function phoneHelper () {
 
 	/**
 	 * Strips non-numeric characters and reformats as a US phone number (eg (XXX) XXX-XXXX)
@@ -11,7 +11,7 @@ export default function phone () {
 	 * @param  {string|number} number
 	 * @return {string}
 	 */
-	return function phoneHelper (number) {
+	return function phone (number) {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "phoneNumber" needs 1 parameter minimum');
 		}

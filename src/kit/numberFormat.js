@@ -1,5 +1,5 @@
 
-export default function numberFormat () {
+export default function numberFormatHelper () {
 
 	/**
 	 * Format a floating point number
@@ -13,7 +13,7 @@ export default function numberFormat () {
 	 * @param  {string} [thousandsSeparator]    Character to use to mark thousands (eg, 1,000) (Default is a single comma)
 	 * @return {string}
 	 */
-	return function numberFormatHelper (value, precision, decimalPoint, thousands) {
+	return function numberFormat (value, precision, decimalPoint, thousands) {
 		// account for options argument
 		var argc = arguments.length - 1;
 

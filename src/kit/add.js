@@ -1,7 +1,7 @@
 
 import { flatten } from '../util';
 
-export default function add () {
+export default function addHelper () {
 
 	/**
 	 * Add all values provided and return the result
@@ -12,7 +12,7 @@ export default function add () {
 	 * @param {...Array<number>|number} values Numbers or arrays of numbers to be added together
 	 * @return {number}
 	 */
-	return function addHelper (...args) {
+	return function add (...args) {
 		args.pop();
 
 		if (!args.length) {

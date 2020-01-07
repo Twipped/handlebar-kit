@@ -1,7 +1,7 @@
 
 import { isArray, isString, isObject, hasOwn } from '../util';
 
-export default function includes () {
+export default function includesHelper () {
 
 	/**
 	 * Tests if the needle value exists inside the haystack
@@ -21,7 +21,7 @@ export default function includes () {
 	 * @param  {string} needle String to search for. If `regex=true` then the string is evaluated as a regular expression.
 	 * @describe If the string does contain that value, block will evaluate with the result value as the current context ({this}).
 	 */
-	return function containsHelper (...args) {
+	return function contains (...args) {
 		if (args.length !== 3) {
 			throw new Error('Handlebars Helper "contains" needs 2 parameters');
 		}

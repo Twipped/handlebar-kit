@@ -1,5 +1,5 @@
 
-export default function round () {
+export default function roundHelper () {
 
 	/**
 	 * Rounds the passed floating point to the nearest whole number
@@ -10,7 +10,7 @@ export default function round () {
 	 * @param  {number} value
 	 * @return {number}
 	 */
-	return function roundHelper (value) {
+	return function round (value) {
 		if (arguments.length < 2) {
 			throw new Error('Handlebars Helper "round" needs 1 at least parameter');
 		}

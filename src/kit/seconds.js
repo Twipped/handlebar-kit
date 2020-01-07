@@ -1,5 +1,5 @@
 
-export default function seconds () {
+export default function secondsHelper () {
 
 	/**
 	 * Convert a second count into human readable time (minutes, hours, days)
@@ -14,7 +14,7 @@ export default function seconds () {
 	 * @param  {boolean} short [description]
 	 * @return {string}
 	 */
-	return function secondsHelper (...args) {
+	return function seconds (...args) {
 		const options = args.pop();
 
 		if (!args.length) {

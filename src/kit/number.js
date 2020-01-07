@@ -1,5 +1,5 @@
 
-export default function number () {
+export default function numberHelper () {
 
 	/**
 	 * Converts a whole number into an abbreviated form (eg, 1200000 into 1.2M)
@@ -11,7 +11,7 @@ export default function number () {
 	 * @param  {number} precision Optional number of decimal places to abbreviate to (default is 0)
 	 * @return {string}
 	 */
-	return function numberHelper (...args) {
+	return function number (...args) {
 		const options = args.pop();
 
 		if (!args.length) {

@@ -1,9 +1,9 @@
 
-export default function inject () {
+export default function injectHelper () {
 
 	/**
 	 * Any values passed as named arguments are injected into the handlebars data context, using the name provided for each argument.
-	 * @category data
+	 * @category context
 	 * @name inject
 	 *
 	 * @signature {{inject key=value [key2=value2] ...}}
@@ -13,7 +13,7 @@ export default function inject () {
 	 * @describe Inserts into the context of the tag block.
 	 */
 
-	return function injectHelper (...args) {
+	return function inject (...args) {
 		var context = this; // eslint-disable-line
 
 		const options = args.pop();
@@ -21,6 +21,8 @@ export default function inject () {
 		if (options.fn) {
 			context = Object.create(this || null);
 		}
+
+		Object.assign(context, ...args);
 
 		if (options.hash) {
 			Object.keys(options.hash).forEach((key) => {

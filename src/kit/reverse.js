@@ -1,18 +1,18 @@
 
 import { isString, isObject, isArray, isNumber, toPairs, fromPairs } from '../util';
 
-export default function reverse () {
+export default function reverseHelper () {
 
 	/**
 	 * Reverses the order of a string or array, negates an integer, or returns an object with the keys in reverse order
-	 * @category collection,string,integer
+	 * @category collections,strings,math
 	 * @name reverse
 	 *
 	 * @signature (reverse input)
 	 * @param  {Array<mixed>|string|integer} input
 	 * @return {Array<mixed>|string|integer}
 	 */
-	return function reverseHelper (...args) {
+	return function reverse (...args) {
 		const options = args.pop();
 		const input = options.fn ? options.fn(this) : args[0];
 

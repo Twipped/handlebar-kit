@@ -1,9 +1,9 @@
 
-export default function isNot () {
+export default function isNotHelper () {
 
 	/**
 	 * Tests that the first argument does not match any of the other arguments with strict equality.
-	 * @category comparisons
+	 * @category logic
 	 *
 	 * @signature {{isNot value test1 ... testN}}
 	 * @param  {mixed} value Value to check against
@@ -13,7 +13,7 @@ export default function isNot () {
 	 * @signature {{#isNot value test1 ... testN}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/isNot}}
 	 */
 
-	return function isNotHelper (...args) {
+	return function isNot (...args) {
 		if (arguments.length < 3) {
 			throw new Error('Handlebars Helper "isNot" needs a minimum of 2 arguments');
 		}

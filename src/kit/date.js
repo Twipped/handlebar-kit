@@ -3,13 +3,13 @@ import dateFormat from 'date-fns/format';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
 
-export default function date () {
+export default function dateHelper () {
 
 	/**
 	 * Outputs a date formatted using moment notation.
 	 * Depends on the `moment` library. Moment will be searched for by first accessing a
 	 * `require` function (if present) before checking global contexts.
-	 * @category date
+	 * @category dates
 	 * @name date
 	 *
 	 * @signature {{date format}}
@@ -26,7 +26,7 @@ export default function date () {
 	 * @return {string}
 	 */
 
-	return function dateHelper (...args) {
+	return function date (...args) {
 		const options = args.pop();
 		let format, input;
 

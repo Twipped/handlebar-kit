@@ -1,10 +1,10 @@
 
-export default function lte () {
+export default function lteHelper () {
 
 	/**
 	 * Tests if the first argument is less than or equal to the second argument.
 	 * May be used inline or as a conditional block.
-	 * @category comparisons
+	 * @category logic
 	 *
 	 * @signature {{lte value test}}
 	 * @param  {string|integer} value1
@@ -14,7 +14,7 @@ export default function lte () {
 	 * @signature {{#lte value test}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/lte}}
 	 */
 
-	return function lteHelper (a, b, options) {
+	return function lte (a, b, options) {
 		if (arguments.length !== 3) {
 			throw new Error('Handlebars Helper "lte" needs 2 parameters');
 		}

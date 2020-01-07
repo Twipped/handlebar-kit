@@ -1,7 +1,7 @@
 
 import { ucsentence as uc } from '../util';
 
-export default function ucsentences () {
+export default function ucsentencesHelper () {
 
 	/**
 	 * Uppercase the first letter of every sentence in a string or content block
@@ -15,7 +15,7 @@ export default function ucsentences () {
 	 * @signature {{#ucsentences}}<TEMPLATE>{{/ucsentences}}
 	 * @return {string}
 	 */
-	return function ucsentencesHelper (...args) {
+	return function ucsentences (...args) {
 		const options = args.pop();
 
 		if (options.fn) return uc(options.fn(this));

@@ -1,5 +1,5 @@
 
-export default function prepend () {
+export default function prependHelper () {
 
 	/**
 	 * Prepends the contained content onto a layout block.
@@ -10,7 +10,7 @@ export default function prepend () {
 	 * @param  {string} name    Name of the content block to prepend to
 	 * @return {null}
 	 */
-	return function prependHelper (...args) {
+	return function prepend (...args) {
 		if (args.length === 1) {
 			throw new Error('Handlebars Helper "prepend" needs 1 parameter');
 		}

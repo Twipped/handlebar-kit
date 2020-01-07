@@ -1,7 +1,7 @@
 
 import { sizeOf } from '../util';
 
-export default function length () {
+export default function lengthHelper () {
 	/**
 	 * Returns the number of keys on an object, or the length of an array or string.
 	 * May be used inline or as an iterator. Else condition evaluates if result is 0.
@@ -28,7 +28,7 @@ export default function length () {
 	 * @param {array|object|string} input
 	 * @param {interger} target The target length it should match in order to evaluate.
 	 */
-	return function lengthHelper (...args) {
+	return function length (...args) {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "length" needs 1 parameter');
 		}

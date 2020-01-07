@@ -1,7 +1,7 @@
 
 import { flatten } from '../util';
 
-export default function max () {
+export default function maxHelper () {
 
 	/**
 	 * Finds the maximum of all passed values
@@ -14,7 +14,7 @@ export default function max () {
 	 * @param  {number} [valueN]
 	 * @return {number}
 	 */
-	return function maxHelper (...args) {
+	return function max (...args) {
 		args.pop();
 
 		if (!args.length) {

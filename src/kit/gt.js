@@ -1,10 +1,10 @@
 
-export default function gt () {
+export default function gtHelper () {
 
 	/**
 	 * Tests if the first argument is greater than the second argument.
 	 * May be used inline or as a conditional block.
-	 * @category comparisons
+	 * @category logic
 	 *
 	 * @signature {{gt value1 value2}}
 	 * @param  {string|integer} value1
@@ -14,7 +14,7 @@ export default function gt () {
 	 * @signature {{#gt value test}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/gt}}
 	 */
 
-	return function gtHelper (a, b, options) {
+	return function gt (a, b, options) {
 		if (arguments.length !== 3) {
 			throw new Error('Handlebars Helper "gt" needs 2 parameters');
 		}

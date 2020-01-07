@@ -1,7 +1,7 @@
 
 import { ucwords as uc } from '../util';
 
-export default function ucwords () {
+export default function ucwordsHelper () {
 
 	/**
 	 * Uppercase the first letter of every word in a string or content block
@@ -15,7 +15,7 @@ export default function ucwords () {
 	 * @signature {{#ucwords}}<TEMPLATE>{{/ucwords}}
 	 * @return {string}
 	 */
-	return function ucwordsHelper (...args) {
+	return function ucwords (...args) {
 		const options = args.pop();
 
 		if (options.fn) return uc(options.fn(this));

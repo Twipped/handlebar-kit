@@ -1,7 +1,7 @@
 
 import { flatten } from '../util';
 
-export default function mean () {
+export default function meanHelper () {
 
 	/**
 	 * Find the mean average of all values provided
@@ -12,7 +12,7 @@ export default function mean () {
 	 * @param {...Array<number>|number} values Numbers or arrays of numbers to be averaged
 	 * @return {number} Returns the mean average of all values passed in
 	 */
-	return function meanHelper (...args) {
+	return function mean (...args) {
 		args.pop();
 
 		if (args.length <= 1) {

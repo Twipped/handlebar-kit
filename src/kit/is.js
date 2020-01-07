@@ -1,9 +1,9 @@
 
-export default function is () {
+export default function isHelper () {
 
 	/**
 	 * Tests if the first argument matches any of the other arguments with strict equality.
-	 * @category comparisons
+	 * @category logic
 	 *
 	 * @signature {{is value test1 ... testN}}
 	 * @param  {mixed} value Value to check against
@@ -14,7 +14,7 @@ export default function is () {
 	 * @describe Truthy block will evaluate with the result value as the current context ({this}).
 	 */
 
-	return function isHelper (...args) {
+	return function is (...args) {
 		if (arguments.length < 3) {
 			throw new Error('Handlebars Helper "is" needs a minimum of 2 arguments');
 		}

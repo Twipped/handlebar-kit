@@ -1,7 +1,7 @@
 
 import { flatten, isArray } from '../util';
 
-export default function sub () {
+export default function subHelper () {
 
 	/**
 	 * Subtracts one or more values from the first value
@@ -15,7 +15,7 @@ export default function sub () {
 	 * @param  {number} [valueN]
 	 * @return {number}
 	 */
-	return function subHelper (...args) {
+	return function sub (...args) {
 		args.pop();
 
 		if (args.length < 2 && !isArray(args[0])) {

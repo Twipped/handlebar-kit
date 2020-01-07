@@ -1,7 +1,7 @@
 
 import { isArray, isString } from '../util';
 
-export default function endsWith () {
+export default function endsWithHelper () {
 
 	/**
 	 * Tests if the haystack ends with the needle value
@@ -19,7 +19,7 @@ export default function endsWith () {
 	 * @param  {string} needle String to search for. If `regex=true` then the string is evaluated as a regular expression.
 	 * @describe If the string does contain that value, block will evaluate with the result value as the current context ({this}).
 	 */
-	return function endsWithHelper (...args) {
+	return function endsWith (...args) {
 		if (args.length !== 3) {
 			throw new Error('Handlebars Helper "endsWith" needs 2 parameters');
 		}

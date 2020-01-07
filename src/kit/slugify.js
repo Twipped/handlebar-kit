@@ -1,7 +1,7 @@
 
 import { isUndefined } from '../util';
 
-export default function slugify () {
+export default function slugifyHelper () {
 	return function (...args) {
 
 		args.pop();

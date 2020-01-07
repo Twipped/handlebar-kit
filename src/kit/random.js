@@ -1,5 +1,5 @@
 
-export default function random () {
+export default function randomHelper () {
 
 	/**
 	 * Generates a random number using Math.random()
@@ -21,7 +21,7 @@ export default function random () {
 	 * @param  {number} max [description]
 	 * @return {number}
 	 */
-	return function randomHelper (min, max) {
+	return function random (min, max) {
 		switch (arguments.length) {
 		case 1:
 			return Math.random();

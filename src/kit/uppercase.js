@@ -1,5 +1,5 @@
 
-export default function uppercase () {
+export default function uppercaseHelper () {
 
 	/**
 	 * Uppercase the a string or content block
@@ -13,7 +13,7 @@ export default function uppercase () {
 	 * @signature {{#uppercase}}<TEMPLATE>{{/uppercase}}
 	 * @return {string}
 	 */
-	return function uppercaseHelper (...args) {
+	return function uppercase (...args) {
 		const options = args.pop();
 
 		if (options.fn) return String(options.fn(this)).toUpperCase();

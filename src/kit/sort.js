@@ -1,7 +1,7 @@
 
 import { map, sizeOf, sort as sortUtil } from '../util';
 
-export default function sort (Handlebars) {
+export default function sortHelper (Handlebars) {
 	/**
 	 * Sorts the provided array.
 	 * May be used inline or as an iterator. Else condition evaluates if result is empty.
@@ -14,7 +14,7 @@ export default function sort (Handlebars) {
 	 *
 	 * @signature {{#sort input[ key]}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/sort}}
 	 */
-	return function sortHelper (...args) {
+	return function sort (...args) {
 		const options = args.pop();
 
 		if (!args.length) {

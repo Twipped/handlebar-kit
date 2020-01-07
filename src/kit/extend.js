@@ -1,5 +1,5 @@
 
-export default function extend (Handlebars) {
+export default function extendHelper (Handlebars) {
 
 	/**
 	 * Defines collection of layout cells to be filled into a layout partial. This function wraps a
@@ -13,7 +13,7 @@ export default function extend (Handlebars) {
 	 * @param  {string} layout  The name of the Handlebars partial to be used.
 	 * @return {string}
 	 */
-	return function extendHelper (...args) {
+	return function extend (...args) {
 		if (args.length === 1) {
 			throw new Error('Handlebars Helper "extend" needs 1 parameter');
 		}

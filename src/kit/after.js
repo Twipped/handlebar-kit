@@ -1,7 +1,7 @@
 
 import { map } from '../util';
 
-export default function after (Handlebars) {
+export default function afterHelper (Handlebars) {
 	/**
 	 * Returns all of the items in the collection after the specified index.
 	 * May be used inline or as an iterator.
@@ -18,7 +18,7 @@ export default function after (Handlebars) {
 	 * {{#after items 2}}<span>{{this}}</span>{{/after}}
 	 * // Result: <span>c</span><span>d</span><span>e</span><span>f</span>
 	 */
-	return function afterHelper (...args) {
+	return function after (...args) {
 		if (args.length === 1) {
 			throw new Error('Handlebars Helper "after" needs at least one parameter');
 		}

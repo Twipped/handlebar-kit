@@ -1,5 +1,5 @@
 
-export default function urldecode () {
+export default function urldecodeHelper () {
 
 	/**
 	 * Parses URI encoded string back into its original format
@@ -13,7 +13,7 @@ export default function urldecode () {
 	 * @signature {{#urldecode}}<TEMPLATE>{{/urldecode}}
 	 * @return {string}
 	 */
-	return function urldecodeHelper (...args) {
+	return function urldecode (...args) {
 		const options = args.pop();
 
 		if (options.fn) return decodeURIComponent(options.fn(this));

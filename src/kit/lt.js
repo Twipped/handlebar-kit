@@ -1,10 +1,10 @@
 
-export default function lt () {
+export default function ltHelper () {
 
 	/**
 	 * Tests if the first argument is less than the second argument.
 	 * May be used inline or as a conditional block.
-	 * @category comparisons
+	 * @category logic
 	 *
 	 * @signature {{lt value test}}
 	 * @param  {string|integer} value1
@@ -14,7 +14,7 @@ export default function lt () {
 	 * @signature {{#lt value test}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/lt}}
 	 */
 
-	return function ltHelper (a, b, options) {
+	return function lt (a, b, options) {
 		if (arguments.length !== 3) {
 			throw new Error('Handlebars Helper "lt" needs 2 parameters');
 		}

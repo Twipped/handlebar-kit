@@ -1,5 +1,5 @@
 
-export default function lowercase () {
+export default function lowercaseHelper () {
 
 	/**
 	 * Lowercase the a string or content block
@@ -13,7 +13,7 @@ export default function lowercase () {
 	 * @signature {{#lowercase}}<TEMPLATE>{{/lowercase}}
 	 * @return {string}
 	 */
-	return function lowercaseHelper (...args) {
+	return function lowercase (...args) {
 		const options = args.pop();
 
 		if (options.fn) return String(options.fn(this)).toLowerCase();

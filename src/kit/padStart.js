@@ -1,5 +1,5 @@
 
-export default function padStart () {
+export default function padStartHelper () {
 
 	/**
 	 * Pads a string with characters on the left side.
@@ -12,7 +12,7 @@ export default function padStart () {
 	 * @param  {string} [using] Optional character to pad with. Defaults to a single space.
 	 * @return {string}
 	 */
-	return function padStartHelper (...args) {
+	return function padStart (...args) {
 		args.pop();
 		const [ input, length, using ] = args;
 

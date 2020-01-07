@@ -1,5 +1,5 @@
 
-export default function bytes () {
+export default function bytesHelper () {
 
 	/**
 	 * Converts a byte count into a human readable format
@@ -11,7 +11,7 @@ export default function bytes () {
 	 * @param  {number} bytecount
 	 * @return {string}
 	 */
-	return function bytesHelper (value) {
+	return function bytes (value) {
 		var bytecount = Math.abs(parseInt(value, 10));
 		if (isNaN(bytes)) {
 			// console.error("Handlebars helper bytes couldn't parse '" + value + "'");

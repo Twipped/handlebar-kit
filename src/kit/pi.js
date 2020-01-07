@@ -1,5 +1,5 @@
 
-export default function pi () {
+export default function piHelper () {
 
 	/**
 	 * Returns the value of pi
@@ -9,7 +9,7 @@ export default function pi () {
 	 * @signature {{pi}}
 	 * @return {number}
 	 */
-	return function piHelper () {
+	return function pi () {
 		return Math.PI;
 	};
 	/***/

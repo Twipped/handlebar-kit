@@ -1,7 +1,7 @@
 
 import { sizeOf } from '../util';
 
-export default function empty () {
+export default function emptyHelper () {
 	/**
 	 * Tests if the provided input is empty (string, array or object)
 	 * May be used inline or as a conditional block.
@@ -17,7 +17,7 @@ export default function empty () {
 	 * {{#empty items}}is empty{{else}}is not empty{{/empty}}
 	 * // Result: 'is not empty'
 	 */
-	return function emptyHelper (...args) {
+	return function empty (...args) {
 		const options = args.pop();
 		const [ input ] = args;
 

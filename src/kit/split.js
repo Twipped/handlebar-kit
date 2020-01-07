@@ -1,7 +1,7 @@
 
 import { map, isString } from '../util';
 
-export default function split (Handlebars) {
+export default function splitHelper (Handlebars) {
 	/**
 	 * Splits a string into an array.
 	 * May be used inline or as an iterator. Else condition will never evaluate.
@@ -14,7 +14,7 @@ export default function split (Handlebars) {
 	 *
 	 * @signature {{#split input[ delimiter]}}<TEMPLATE>{{/split}}
 	 */
-	return function splitHelper (...args) {
+	return function split (...args) {
 
 		const options = args.pop();
 		const [ input, delimiter ] = args;

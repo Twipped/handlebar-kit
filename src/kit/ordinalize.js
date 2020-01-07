@@ -1,5 +1,5 @@
 
-export default function ordinalize () {
+export default function ordinalizeHelper () {
 
 	/**
 	 * Adds a ordinal suffix to a number (eg, 1st, 2nd, 3rd)
@@ -10,7 +10,7 @@ export default function ordinalize () {
 	 * @param  {number} value
 	 * @return {string}
 	 */
-	return function ordinalizeHelper (value) {
+	return function ordinalize (value) {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "ordinalize" needs 1 parameter');
 		}

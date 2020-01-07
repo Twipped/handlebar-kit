@@ -1,7 +1,7 @@
 
 import { filter as filterUtil } from '../util';
 
-export default function filter (Handlebars) {
+export default function filterHelper (Handlebars) {
 	/**
 	 * Filters a passed array, depending on the arguments provided.
 	 * May be used inline or as an iterator. Else condition evaluates if result is empty.
@@ -39,7 +39,7 @@ export default function filter (Handlebars) {
 	 * // Result: '|<span>a:1</span>||<span>a:1</span><span>b:2</span>|'
 	 *
 	 */
-	return function filterHelper (...args) {
+	return function filter (...args) {
 
 		const options = args.pop();
 		if (!args.length) throw new Error('Handlebars Helper "filter" needs at least one parameter');

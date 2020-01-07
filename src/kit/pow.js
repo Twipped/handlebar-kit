@@ -1,5 +1,5 @@
 
-export default function pow () {
+export default function powHelper () {
 
 	/**
 	 * Returns the base to the exponent power
@@ -11,7 +11,7 @@ export default function pow () {
 	 * @param  {number} exponent
 	 * @return {number}
 	 */
-	return function powHelper (base, exponent) {
+	return function pow (base, exponent) {
 		if (arguments.length < 3) {
 			throw new Error('Handlebars Helper "pow" needs at least 2 parameters');
 		}

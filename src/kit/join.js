@@ -1,7 +1,7 @@
 
 import { map, sizeOf, isUndefined } from '../util';
 
-export default function join (Handlebars) {
+export default function joinHelper (Handlebars) {
 	/**
 	 * Joins all elements of a collection into a string using a separator if specified.
 	 * If used as an iterator block, the block contents will be used as a replacement for the item in the array, and then output after joined.
@@ -15,7 +15,7 @@ export default function join (Handlebars) {
 	 *
 	 * @signature {{#join items[ separator]}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/join}}
 	 */
-	return function joinHelper (...args) {
+	return function join (...args) {
 		if (arguments.length === 1) {
 			throw new Error('Handlebars Helper "join" needs at least one parameter');
 		}

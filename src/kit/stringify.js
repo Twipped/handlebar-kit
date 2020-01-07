@@ -1,10 +1,10 @@
 
-export default function stringify (Handlebars) {
+export default function stringifyHelper (Handlebars) {
 
 	/**
 	 * Converts the passed value into JSON.
 	 * Does not support block syntax.
-	 * @category data
+	 * @category collections
 	 * @name stringify
 	 *
 	 * @signature {{stringify input [pretty]}}
@@ -13,7 +13,7 @@ export default function stringify (Handlebars) {
 	 * @return {string} The formatted JSON.
 	 */
 
-	return function stringifyHelper (...args) {
+	return function stringify (...args) {
 		args.pop();
 		const [ input, pretty ] = args;
 

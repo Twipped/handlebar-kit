@@ -1,13 +1,13 @@
 
 import { all as allUtil } from '../util';
 
-export default function all () {
+export default function allHelper () {
 
 	/**
 	 * Tests if all of the values in the provided array or object are truthy.
 	 * May be used inline or as a conditional block.
 	 *
-	 * @category collections
+	 * @category collections,logic
 	 * @signature {{all input}}
 	 * @param  {array<mixed>|object<mixed>} input Array whose values must all be truthy,
 	 * or an object whose properties must all be truthy
@@ -25,7 +25,7 @@ export default function all () {
 	 * @describe Truthy block will evaluate if all values are truthy. ({this}).
 	 * @param {mixed} [argN] Some value to be checked for truthiness
 	 */
-	return function allHelper (...args) {
+	return function all (...args) {
 
 		const options = args.pop();
 

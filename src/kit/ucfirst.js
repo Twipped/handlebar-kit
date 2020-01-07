@@ -1,7 +1,7 @@
 
 import { ucfirst as uc } from '../util';
 
-export default function ucfirst () {
+export default function ucfirstHelper () {
 
 	/**
 	 * Uppercase the first letter of a string or content block
@@ -15,7 +15,7 @@ export default function ucfirst () {
 	 * @signature {{#ucfirst}}<TEMPLATE>{{/ucfirst}}
 	 * @return {string}
 	 */
-	return function ucfirstHelper (...args) {
+	return function ucfirst (...args) {
 		const options = args.pop();
 
 		if (options.fn) return uc(options.fn(this));

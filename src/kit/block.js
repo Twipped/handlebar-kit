@@ -1,5 +1,5 @@
 
-export default function block (Handlebars) {
+export default function blockHelper (Handlebars) {
 
 	/**
 	 * Defines a pluggable content block in a layout partial
@@ -14,7 +14,7 @@ export default function block (Handlebars) {
 	 * @param  {string} name    Name of the block
 	 * @return {string} Defines an area of content that can be appended, prepended, or replaced.`
 	 */
-	return function blockHelper (...args) {
+	return function block (...args) {
 		if (args.length === 1) {
 			throw new Error('Handlebars Helper "block" needs 1 parameter');
 		}

@@ -1,9 +1,9 @@
 
-export default function isNotLike () {
+export default function isNotLikeHelper () {
 
 	/**
 	 * Tests that the first argument does not match any of the other arguments with loose equality.
-	 * @category comparisons
+	 * @category logic
 	 *
 	 * @signature {{isNotLike value test1 ... testN}}
 	 * @param  {mixed} value Value to check against
@@ -13,7 +13,7 @@ export default function isNotLike () {
 	 * @signature {{#isNotLike value test1 ... testN}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/isNotLike}}
 	 */
 
-	return function isNotLikeHelper (...args) {
+	return function isNotLike (...args) {
 		if (arguments.length < 3) {
 			throw new Error('Handlebars Helper "isNotLike" needs a minimum of 2 arguments');
 		}

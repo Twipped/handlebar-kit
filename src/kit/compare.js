@@ -1,5 +1,5 @@
 
-export default function compare () {
+export default function compareHelper () {
 
 	/**
 	 * Tests two values for equivalence.
@@ -20,7 +20,7 @@ export default function compare () {
 	 * - `'%'`: Modulus of first and third arguments (inline returns result; block evaluates truthy for non-0 result)
 	 * - `'!%'`: Modulus of first and third arguments is non-0
 	 *
-	 * @category comparisons
+	 * @category logic
 	 *
 	 * @signature {{compare left [operator] right}}
 	 * @param  {mixed} left     Left side of the comparison.
@@ -34,7 +34,7 @@ export default function compare () {
 	 * @param  {mixed} right    Right side of the comparison
 	 */
 
-	return function compareHelper (...args) {
+	return function compare (...args) {
 		const options = args.pop();
 
 		let left, operator, right;

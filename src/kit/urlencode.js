@@ -1,5 +1,5 @@
 
-export default function urlencode () {
+export default function urlencodeHelper () {
 
 	/**
 	 * Encodes a string into a URL safe format that can be decoded.
@@ -13,7 +13,7 @@ export default function urlencode () {
 	 * @signature {{#urlencode}}<TEMPLATE>{{/urlencode}}
 	 * @return {string}
 	 */
-	return function urlencodeHelper (...args) {
+	return function urlencode (...args) {
 		const options = args.pop();
 
 		if (options.fn) return encodeURIComponent(options.fn(this));

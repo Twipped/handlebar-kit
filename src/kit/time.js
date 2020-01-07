@@ -1,5 +1,5 @@
 
-export default function time () {
+export default function timeHelper () {
 
 	/**
 	 * Convert a millisecond count into human readable time (minutes, hours, days)
@@ -14,7 +14,7 @@ export default function time () {
 	 * @param  {boolean} short [description]
 	 * @return {string}
 	 */
-	return function timeHelper (...args) {
+	return function time (...args) {
 		const options = args.pop();
 
 		if (!args.length) {

@@ -1,9 +1,9 @@
 
-export default function isLike () {
+export default function isLikeHelper () {
 
 	/**
 	 * Tests if the first argument matches any of the other arguments with loose equality.
-	 * @category comparisons
+	 * @category logic
 	 *
 	 * @signature {{isLike value test1 ... testN}}
 	 * @param  {mixed} value Value to check against
@@ -14,7 +14,7 @@ export default function isLike () {
 	 * @describe Truthy block will evaluate with the result value as the current context ({this}).
 	 */
 
-	return function isLikeHelper (...args) {
+	return function isLike (...args) {
 		if (arguments.length < 3) {
 			throw new Error('Handlebars Helper "isLike" needs a minimum of 2 arguments');
 		}

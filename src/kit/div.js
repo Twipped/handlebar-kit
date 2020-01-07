@@ -1,7 +1,7 @@
 
 import { isArray, isUndefined } from '../util';
 
-export default function div () {
+export default function divHelper () {
 
 	/**
 	 * Divides two or more values.
@@ -16,7 +16,7 @@ export default function div () {
 	 * @param  {number} [valueN]
 	 * @return {number}
 	 */
-	return function divHelper (...args) {
+	return function div (...args) {
 		args.pop();
 
 		if (!args.length) {

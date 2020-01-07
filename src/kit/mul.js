@@ -1,7 +1,7 @@
 
 import { flatten, isArray } from '../util';
 
-export default function mul () {
+export default function mulHelper () {
 
 	/**
 	 * Multiplies two or more values.
@@ -16,7 +16,7 @@ export default function mul () {
 	 * @param  {number} [valueN]
 	 * @return {number}
 	 */
-	return function mulHelper (...args) {
+	return function mul (...args) {
 		args.pop();
 
 		if (args.length < 2 && !isArray(args[0])) {

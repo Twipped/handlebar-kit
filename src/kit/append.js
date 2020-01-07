@@ -1,5 +1,5 @@
 
-export default function append () {
+export default function appendHelper () {
 
 	/**
 	 * Appends the contained content to a layout block
@@ -10,7 +10,7 @@ export default function append () {
 	 * @param  {string} name    Name of the content block to append to
 	 * @return {null}
 	 */
-	return function appendHelper (...args) {
+	return function append (...args) {
 		if (args.length === 1) {
 			throw new Error('Handlebars Helper "append" needs 1 parameter');
 		}

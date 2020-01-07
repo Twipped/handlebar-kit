@@ -1,13 +1,13 @@
 
 import { arrayify, truthy } from '../util';
 
-export default function any () {
+export default function anyHelper () {
 
 	/**
 	 * Tests if any of the values in the provided array or object are truthy.
 	 * May be used inline or as a conditional block.
 	 *
-	 * @category collections
+	 * @category collections,logic
 	 * @signature {{any input}}
 	 * @param  {array<mixed>|object<mixed>} input Array containing any truthy
 	 * values, or an object with any property that is truthy
@@ -25,7 +25,7 @@ export default function any () {
 	 * @describe Truthy block will evaluate if any of the values are truthy.
 	 * @param {mixed} [argN] Some value to be checked for truthiness
 	 */
-	return function anyHelper (...args) {
+	return function any (...args) {
 		const options = args.pop();
 
 		if (!args.length) {

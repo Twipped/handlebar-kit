@@ -1,10 +1,10 @@
 
-export default function gte () {
+export default function gteHelper () {
 
 	/**
 	 * Tests if the first argument is greater than or equal to the second argument.
 	 * May be used inline or as a conditional block.
-	 * @category comparisons
+	 * @category logic
 	 *
 	 * @signature {{gte value1 value2}}
 	 * @param  {string|integer} value1
@@ -14,7 +14,7 @@ export default function gte () {
 	 * @signature {{#gte value test}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/gte}}
 	 */
 
-	return function gteHelper (a, b, options) {
+	return function gte (a, b, options) {
 		if (arguments.length !== 3) {
 			throw new Error('Handlebars Helper "gte" needs 2 parameters');
 		}

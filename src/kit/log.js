@@ -1,11 +1,10 @@
-/* eslint no-console: 0 */
 
-export default function log () {
+export default function logHelper () {
 
 	/**
 	 * Sends the passed arguments to console.log
-	 * @category debug
 	 * @name log
+	 * @category debug
 	 *
 	 * @signature {{log}}
 	 * @return {null} Sends the current context to console.log
@@ -14,11 +13,11 @@ export default function log () {
 	 * @param  {...mixed} args Arguments to send to console.log
 	 * @return {null}
 	 */
-	return function logHelper (...args) {
+	return function log (...args) {
 		if (args.length === 1) {
-			console.log(this);
+			console.log(this); // eslint-disable-line no-console
 		} else {
-			console.log(...args.slice(0, -1));
+			console.log(...args.slice(0, -1)); // eslint-disable-line no-console
 		}
 	};
 	/***/

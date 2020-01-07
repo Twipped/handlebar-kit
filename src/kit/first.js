@@ -1,7 +1,7 @@
 
 import { map, isArray, isString, isObject } from '../util';
 
-export default function first (Handlebars) {
+export default function firstHelper (Handlebars) {
 	/**
 	 * Returns the first N items in the passed array.
 	 * May be used inline or as an iterator. Else condition evaluates if result is empty.
@@ -19,7 +19,7 @@ export default function first (Handlebars) {
 	 * {{#first items, 2}}<span>{{this}}</span>{{/first}}
 	 * // Result: <span>a</span><span>b</span>
 	 */
-	return function firstHelper (...args) {
+	return function first (...args) {
 		const options = args.pop();
 		if (!args.length) {
 			throw new Error('Handlebars Helper "first" needs at least one parameter');

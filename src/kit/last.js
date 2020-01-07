@@ -1,7 +1,7 @@
 
 import { isArray, isString, isObject, map } from '../util';
 
-export default function last (Handlebars) {
+export default function lastHelper (Handlebars) {
 	/**
 	 * Returns the last N items in the passed array.
 	 * May be used inline or as an iterator. Else condition evaluates if result is empty.
@@ -18,7 +18,7 @@ export default function last (Handlebars) {
 	 * {{#last items, 2}}<span>{{this}}</span>{{/last}}
 	 * // Result: <span>a</span><span>b</span>
 	 */
-	return function lastHelper (...args) {
+	return function last (...args) {
 		const options = args.pop();
 		if (!args.length) {
 			throw new Error('Handlebars Helper "first" needs at least one parameter');

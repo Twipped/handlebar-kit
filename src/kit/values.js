@@ -1,7 +1,7 @@
 
 import { values as valuesUtil, map, sizeOf } from '../util';
 
-export default function values (Handlebars) {
+export default function valuesHelper (Handlebars) {
 	/**
 	 * Returns the values of an array or object.
 	 * May be used inline or as an iterator. Else condition evaluates if result is empty.
@@ -13,7 +13,7 @@ export default function values (Handlebars) {
 	 *
 	 * @signature {{#values}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/values}}
 	 */
-	return function valuesHelper (...args) {
+	return function values (...args) {
 		const options = args.pop();
 		const [ input ] = args;
 

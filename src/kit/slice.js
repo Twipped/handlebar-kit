@@ -1,7 +1,7 @@
 
 import { isString, sizeOf, isMappable, map, slice as sliceUtil } from '../util';
 
-export default function slice (Handlebars) {
+export default function sliceHelper (Handlebars) {
 	/**
 	 * Returns a slice of an array, object map, or string
 	 * May be used inline or as an iterator. Else condition evaluates if result is empty.
@@ -19,7 +19,7 @@ export default function slice (Handlebars) {
 	 * @param  {integer} [end]  Index to slice to (stopping before)
 	 * @return {string}
 	 */
-	return function sliceHelper (...args) {
+	return function slice (...args) {
 		const options = args.pop();
 		const [ input, start, end ] = args;
 

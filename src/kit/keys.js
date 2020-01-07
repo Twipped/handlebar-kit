@@ -1,7 +1,7 @@
 
 import { keys as keysUtil, map, sizeOf } from '../util';
 
-export default function keys (Handlebars) {
+export default function keysHelper (Handlebars) {
 	/**
 	 * Returns the indexes of an array or the keys of an object.
 	 * May be used inline or as an iterator. Else condition evaluates if result is empty.
@@ -13,7 +13,7 @@ export default function keys (Handlebars) {
 	 *
 	 * @signature {{#keys}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/keys}}
 	 */
-	return function keysHelper (...args) {
+	return function keys (...args) {
 
 		const options = args.pop();
 		const [ input ] = args;

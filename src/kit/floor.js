@@ -1,5 +1,5 @@
 
-export default function floor () {
+export default function floorHelper () {
 
 	/**
 	 * Rounds down the passed value
@@ -11,7 +11,7 @@ export default function floor () {
 	 * @return {integer}
 	 */
 
-	return function floorHelper (value) {
+	return function floor (value) {
 		if (arguments.length < 2) {
 			throw new Error('Handlebars Helper "floor" needs 1 parameter minimum');
 		}

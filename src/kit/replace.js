@@ -1,5 +1,5 @@
 
-export default function replace () {
+export default function replaceHelper () {
 
 	/**
 	 * Searches for a needle within a haystack and substitutes a replacement for all matchs.
@@ -13,7 +13,7 @@ export default function replace () {
 	 * @param  {boolean} [regex] Pass true to evaluate needle as a regular expression
 	 * @return {string}
 	 */
-	return function replaceHelper (...args) {
+	return function replace (...args) {
 		const options = args.pop();
 		let haystack;
 		if (options.fn) haystack = options.fn(this);
