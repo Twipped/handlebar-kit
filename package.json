@@ -1,9 +1,9 @@
 {
-  "name": "handlebars-kit",
-  "version": "1.0.0",
+  "name": "hbs-kit",
+  "version": "0.1.0",
   "description": "A portable collection of handlebars helper functions for use in node and the browser.",
   "main": "dist/index.js",
-  "module": "src/index.js",
+  "module": "dist/index.esm.js",
   "scripts": {
     "test": "tap -R list src/test.js src/test-util.js",
     "test-dev": "tap -R classic no-coverage",
@@ -30,16 +30,19 @@
     "@babel/core": "~7.7.7",
     "@babel/preset-env": "~7.7.7",
     "@rollup/plugin-node-resolve": "~6.1.0",
+    "babel-eslint": "~10.0.3",
     "date-fns": "~2.8.1",
     "dox": "~0.9.0",
     "eslint": "~6.8.0",
     "eslint-config-twipped": "~3.3.0",
     "eslint-plugin-node": "~11.0.0",
     "eslint-plugin-promise": "~4.2.1",
+    "glob": "~7.1.6",
     "handlebars": "~4.5.3",
     "highlight.js": "~9.17.1",
     "markdown-it": "~10.0.0",
     "markdown-it-anchor": "~5.2.5",
+    "markdown-it-highlightjs": "~3.0.0",
     "rollup": "~1.27.14",
     "rollup-plugin-babel": "~4.3.3",
     "rollup-plugin-banner": "~0.2.1",
@@ -51,7 +54,6 @@
   },
   "files": [
     "dist",
-    "src",
     "CHANGELOG.md"
   ],
   "dependencies": {}

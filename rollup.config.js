@@ -24,7 +24,7 @@ export default [
 	{
 		input: 'src/index.js',
 		output: {
-			file: 'dist/index.mjs',
+			file: 'dist/index.esm.js',
 			format: 'esm',
 		},
 		plugins: [
@@ -35,7 +35,7 @@ export default [
 	{
 		input: 'src/index.js',
 		output: {
-			name: 'HandlebarKit',
+			name: 'HandlebarsKit',
 			file: 'dist/browser.js',
 			format: 'umd',
 			exports: 'named',
@@ -55,7 +55,7 @@ export default [
 	{
 		input: 'src/index.js',
 		output: {
-			name: 'HandlebarKit',
+			name: 'HandlebarsKit',
 			file: 'dist/browser.min.js',
 			format: 'umd',
 			exports: 'named',
