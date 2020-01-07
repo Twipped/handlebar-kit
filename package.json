@@ -54,6 +54,7 @@
   },
   "files": [
     "dist",
+    "docs/index.html",
     "CHANGELOG.md"
   ],
   "dependencies": {}
