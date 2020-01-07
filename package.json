@@ -1,6 +1,6 @@
 {
   "name": "hbs-kit",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A portable collection of handlebars helper functions for use in node and the browser.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
