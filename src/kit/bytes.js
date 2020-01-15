@@ -12,10 +12,10 @@ export default function bytesHelper () {
 	 * @return {string}
 	 */
 	return function bytes (value) {
-		var bytecount = Math.abs(parseInt(value, 10));
-		if (isNaN(bytes)) {
+		var bytecount = Math.abs(parseFloat(value));
+		if (isNaN(bytecount)) {
 			// console.error("Handlebars helper bytes couldn't parse '" + value + "'");
-			return value; // Graceful degradation
+			return ''; // Graceful degradation
 		}
 
 		var resInt, resValue;
