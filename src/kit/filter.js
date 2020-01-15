@@ -77,7 +77,7 @@ export function test (t) {
 		{
 			template: '{{filter original 2 }}',
 			input: { original: [ 0, 1, 2, undefined, 3, null, 4 ] },
-			output: '0,1,,3,,4',
+			output: '2',
 		},
 		{
 			template: '{{#filter original "a" 1}}|{{#each this}}{{@key}}:{{this}},{{/each}}|{{else}}no{{/filter}}',
