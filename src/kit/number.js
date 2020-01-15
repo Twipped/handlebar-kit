@@ -49,7 +49,7 @@ export function test (t) {
 		{
 			template: '{{number a b currency=c}}',
 			input: { a: 1234.56, b: 2, c: 'USD' },
-			output: 'US$ 1,234.56',
+			output: '$1,234.56',
 		},
 		{
 			template: '{{number a}}',
