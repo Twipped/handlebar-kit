@@ -6,8 +6,8 @@
   "module": "dist/index.esm.js",
   "scripts": {
     "test": "tap -R list src/test.js src/test-util.js",
-    "test-dev": "tap -R classic no-coverage",
-    "test-util": "tap src/test-util.js",
+    "test-dev": "tap -R classic --no-coverage src/test.js",
+    "test-util": "tap -R classic --no-coverage src/test-util.js",
     "docs": "node docs/index.js",
     "lint": "eslint ./ --fix",
     "build": "rollup -c",
