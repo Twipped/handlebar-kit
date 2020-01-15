@@ -26,7 +26,7 @@ export default function isHelper () {
 
 		if (!options.fn) return result || '';
 
-		return result ? options.fn(result) : options.inverse(this);
+		return result ? options.fn(this) : options.inverse(this);
 	};
 
 	/***/
