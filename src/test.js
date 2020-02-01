@@ -7,22 +7,23 @@ import { test as add }          from './kit/add';
 import { test as after }        from './kit/after';
 import { test as all }          from './kit/all';
 import { test as any }          from './kit/any';
+import { test as array }        from './kit/array';
+import { test as bytes }        from './kit/bytes';
 import { test as ceil }         from './kit/ceil';
 import { test as compare }      from './kit/compare';
 import { test as date }         from './kit/date';
 import { test as div }          from './kit/div';
 import { test as empty }        from './kit/empty';
 import { test as endsWith }     from './kit/endsWith';
+import { test as even }         from './kit/even';
 import { test as filter }       from './kit/filter';
 import { test as first }        from './kit/first';
 import { test as floor }        from './kit/floor';
 import { test as fromNow }      from './kit/fromNow';
+import { test as get }          from './kit/get';
 import { test as gt }           from './kit/gt';
 import { test as gte }          from './kit/gte';
-import { test as bytes }        from './kit/bytes';
-import { test as number }       from './kit/number';
-import { test as seconds }      from './kit/seconds';
-import { test as time }         from './kit/time';
+import { test as has }          from './kit/has';
 import { test as includes }     from './kit/includes';
 import { test as inject }       from './kit/inject';
 import { test as is }           from './kit/is';
@@ -41,7 +42,9 @@ import { test as mean }         from './kit/mean';
 import { test as min }          from './kit/min';
 import { test as mul }          from './kit/mul';
 import { test as notEmpty }     from './kit/notEmpty';
+import { test as number }       from './kit/number';
 import { test as numberFormat } from './kit/numberFormat';
+import { test as odd }          from './kit/odd';
 import { test as ordinalize }   from './kit/ordinalize';
 import { test as padEnd }       from './kit/padEnd';
 import { test as padStart }     from './kit/padStart';
@@ -51,6 +54,7 @@ import { test as random }       from './kit/random';
 import { test as replace }      from './kit/replace';
 import { test as reverse }      from './kit/reverse';
 import { test as round }        from './kit/round';
+import { test as seconds }      from './kit/seconds';
 import { test as slice }        from './kit/slice';
 import { test as slugify }      from './kit/slugify';
 import { test as sort }         from './kit/sort';
@@ -58,6 +62,7 @@ import { test as split }        from './kit/split';
 import { test as startsWith }   from './kit/startsWith';
 import { test as stringify }    from './kit/stringify';
 import { test as sub }          from './kit/sub';
+import { test as time }         from './kit/time';
 import { test as ucfirst }      from './kit/ucfirst';
 import { test as ucsentences }  from './kit/ucsentences';
 import { test as ucwords }      from './kit/ucwords';
@@ -71,22 +76,23 @@ const tests = {
 	after,
 	all,
 	any,
+	array,
+	bytes,
 	ceil,
 	compare,
 	date,
 	div,
 	empty,
 	endsWith,
+	even,
 	filter,
 	first,
 	floor,
 	fromNow,
+	get,
 	gt,
 	gte,
-	bytes,
-	number,
-	seconds,
-	time,
+	has,
 	includes,
 	inject,
 	is,
@@ -105,7 +111,9 @@ const tests = {
 	min,
 	mul,
 	notEmpty,
+	number,
 	numberFormat,
+	odd,
 	ordinalize,
 	padEnd,
 	padStart,
@@ -115,6 +123,7 @@ const tests = {
 	replace,
 	reverse,
 	round,
+	seconds,
 	slice,
 	slugify,
 	sort,
@@ -122,6 +131,7 @@ const tests = {
 	startsWith,
 	stringify,
 	sub,
+	time,
 	ucfirst,
 	ucsentences,
 	ucwords,

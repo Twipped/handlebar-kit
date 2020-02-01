@@ -4,7 +4,9 @@ import after        from './kit/after';
 import all          from './kit/all';
 import any          from './kit/any';
 import append       from './kit/append';
+import array        from './kit/array';
 import block        from './kit/block';
+import bytes        from './kit/bytes';
 import ceil         from './kit/ceil';
 import compare      from './kit/compare';
 import content      from './kit/content';
@@ -12,17 +14,16 @@ import date         from './kit/date';
 import div          from './kit/div';
 import empty        from './kit/empty';
 import endsWith     from './kit/endsWith';
+import even         from './kit/even';
 import extend       from './kit/extend';
 import filter       from './kit/filter';
 import first        from './kit/first';
 import floor        from './kit/floor';
 import fromNow      from './kit/fromNow';
+import get          from './kit/get';
 import gt           from './kit/gt';
 import gte          from './kit/gte';
-import bytes        from './kit/bytes';
-import number       from './kit/number';
-import seconds      from './kit/seconds';
-import time         from './kit/time';
+import has          from './kit/has';
 import includes     from './kit/includes';
 import inject       from './kit/inject';
 import is           from './kit/is';
@@ -42,7 +43,9 @@ import mean         from './kit/mean';
 import min          from './kit/min';
 import mul          from './kit/mul';
 import notEmpty     from './kit/notEmpty';
+import number       from './kit/number';
 import numberFormat from './kit/numberFormat';
+import odd          from './kit/odd';
 import ordinalize   from './kit/ordinalize';
 import padEnd       from './kit/padEnd';
 import padStart     from './kit/padStart';
@@ -54,6 +57,7 @@ import random       from './kit/random';
 import replace      from './kit/replace';
 import reverse      from './kit/reverse';
 import round        from './kit/round';
+import seconds      from './kit/seconds';
 import slice        from './kit/slice';
 import slugify      from './kit/slugify';
 import sort         from './kit/sort';
@@ -61,6 +65,7 @@ import split        from './kit/split';
 import startsWith   from './kit/startsWith';
 import stringify    from './kit/stringify';
 import sub          from './kit/sub';
+import time         from './kit/time';
 import ucfirst      from './kit/ucfirst';
 import ucsentences  from './kit/ucsentences';
 import ucwords      from './kit/ucwords';
@@ -75,6 +80,7 @@ export {
 	all,
 	any,
 	append,
+	array,
 	block,
 	ceil,
 	compare,
@@ -84,16 +90,19 @@ export {
 	empty,
 	endsWith,
 	extend,
+	even,
 	filter,
 	first,
 	floor,
 	fromNow,
+	get,
 	gt,
 	gte,
 	bytes,
 	number,
 	seconds,
 	time,
+	has,
 	includes,
 	inject,
 	is,
@@ -115,6 +124,7 @@ export {
 	notEmpty,
 	numberFormat,
 	ordinalize,
+	odd,
 	padEnd,
 	padStart,
 	phone,

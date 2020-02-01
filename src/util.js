@@ -65,16 +65,23 @@ export function merge (...sources) {
 }
 
 export function get (obj, path, defaultValue) {
-	if (typeof path === 'number') path = [ String(path) ];
-	else if (isString(path)) path = String.prototype.split.call(path, /[,[\].]+?/);
+	if (path === null && path === undefined && path === '') return defaultValue;
+	if (isNumber(path)) path = [ String(path) ];
+	else if (isString(path)) {
+		if (hasOwn(obj, path)) return obj[path];
+		path = path.split(/[,[\].]+?/);
+	}
+
 	const result = path
 		.filter((s) => s !== null && s !== undefined && s !== '')
-		.reduce((res, key) => ((res !== null && res !== undefined) ? res[key] : res), obj);
+		.reduce((res, key) =>
+			((res !== null && res !== undefined) ? res[key] : res)
+		, obj);
 	return (result === undefined || result === obj) ? defaultValue : result;
 }
 
 export function has (obj, path) {
-	if (typeof path === 'number') path = [ String(path) ];
+	if (isNumber(path)) path = [ String(path) ];
 	else if (isString(path)) path = String.prototype.split.call(path, /[,[\].]+?/);
 	let res = obj;
 	for (const key of path) {
@@ -257,7 +264,7 @@ export function toPairs (object) {
 }
 
 export function fromPairs (entries) {
-	return mapReduce(entries, ([v, k]) => [ v, k ]);
+	return mapReduce(entries, ([ v, k ]) => [ v, k ]);
 }
 
 export function slice (collection, begin, end) {
@@ -447,8 +454,7 @@ export function reduce (collection, cb, init) {
 	}
 }
 
-export function flatten (collection, depth) {
-	if (depth === undefined) depth = Infinity;
+export function flatten (collection, depth = Infinity) {
 	if (depth <= 0) return slice(collection);
 	return reduce(collection,
 		(acc, val) => acc.concat(...(
