@@ -420,9 +420,13 @@ require('hbs-kit').load(Handlebars);</code></pre>
 							
 								<li class=" "><a href="#functionadd"><span class="name">add</span></a></li>
 							
+								<li class=" "><a href="#functionadd"><span class="name">add</span></a></li>
+							
 								<li class=" "><a href="#functionceil"><span class="name">ceil</span></a></li>
 							
 								<li class=" "><a href="#functiondiv"><span class="name">div</span></a></li>
+							
+								<li class=" "><a href="#functioneven"><span class="name">even</span></a></li>
 							
 								<li class=" "><a href="#functionfloor"><span class="name">floor</span></a></li>
 							
@@ -433,6 +437,8 @@ require('hbs-kit').load(Handlebars);</code></pre>
 								<li class=" "><a href="#functionmin"><span class="name">min</span></a></li>
 							
 								<li class=" "><a href="#functionmul"><span class="name">mul</span></a></li>
+							
+								<li class=" "><a href="#functionodd"><span class="name">odd</span></a></li>
 							
 								<li class=" "><a href="#functionpi"><span class="name">pi</span></a></li>
 							
@@ -445,6 +451,15 @@ require('hbs-kit').load(Handlebars);</code></pre>
 								<li class=" "><a href="#functionround"><span class="name">round</span></a></li>
 							
 								<li class=" "><a href="#functionsub"><span class="name">sub</span></a></li>
+							
+							</ul>
+						</li>
+						<li class="category"><a>objects</a>
+							<ul class="nav subnav">
+							
+								<li class=" "><a href="#functionget"><span class="name">get</span></a></li>
+							
+								<li class=" "><a href="#functionhas"><span class="name">has</span></a></li>
 							
 							</ul>
 						</li>
@@ -811,6 +826,57 @@ May be used inline or as a conditional block.</p>
     mode: 'append',
     fn: options.fn,
   };
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionadd" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>add <small></small></h2></div>
+					
+						<p>Produce an array from the passed arguments</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">add(values)</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>values</strong> mixed
+									
+									<br>Values to compose the array from
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> Array.&lt;mixed&gt; <em class="pull-right"></em></div>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionadd + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function array (...args) {
+  const options = args.pop();
+
+  if (!args.length) {
+    throw new Error('Handlebars Helper "array" needs at least 1 argument');
+  }
+
+  if (options.hash && options.hash.flatten) {
+    args = flatten(args);
+  }
+
+  if (!options.fn) return args;
+
+  return map(args, (result, key, i) => {
+    const data = Handlebars.createFrame(options.data);
+    data.index = i;
+    data.key = key;
+    data.first = (i === 0);
+    data.last  = (i === args.length - 1);
+    return options.fn(result, { data });
+  }).join('');
 };</code></pre>
 							</div>
 						</div>
@@ -1414,6 +1480,53 @@ May be used inline or as a conditional block.</p>
 						</div>
 					</div>
 				
+					<div id="functioneven" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>even <small></small></h2></div>
+					
+						<p>Tests if the passed argument is an even number</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{even value}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> number
+									
+									<br>Value to test
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#even value}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/even}}</div><p>Truthy block will evaluate with the result value as the current context ({this}).</p>
+</div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functioneven + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function even (...args) {
+  if (args.length < 2) {
+    throw new Error('Handlebars Helper "even" needs a minimum of 1 arguments');
+  }
+
+  const options = args.pop();
+  const value = args.shift();
+
+  const result = !(value % 2);
+  if (!options.fn) return result || '';
+  return result ? options.fn(this) : options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
 					<div id="functionextend" style="position:relative;top:-60px;"></div>
 					<div class="piece  ">
 						<div class="page-header"><h2>extend <small></small></h2></div>
@@ -1776,6 +1889,63 @@ May be used inline or as an iterator. Else condition evaluates if result is empt
 						</div>
 					</div>
 				
+					<div id="functionget" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>get <small></small></h2></div>
+					
+						<p>Returns the value at the object path defined via arguments</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{get object path}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> object
+									
+									<br>Value to test
+								</li>
+								<li class="list-group-item">
+									<strong>path</strong> string, Array.&lt;string&gt;
+									
+									<br>Path of the value to retrieve
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> mixed <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#get value}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/get}}</div><p>Truthy block will evaluate with the result value as the current context ({this}).</p>
+</div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionget + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function get (...args) {
+  if (args.length < 3) {
+    throw new Error('Handlebars Helper "get" needs a minimum of 3 arguments');
+  }
+
+  const options = args.pop();
+  const value = args.shift();
+  if (args.length === 1) {
+    args = args[0];
+  } else {
+    args = flatten(args);
+  }
+
+  const result = getUtil(value, args);
+  if (!options.fn) return result || '';
+  return result ? options.fn(result) : options.inverse(this);
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
 					<div id="functiongt" style="position:relative;top:-60px;"></div>
 					<div class="piece  ">
 						<div class="page-header"><h2>gt <small></small></h2></div>
@@ -1875,6 +2045,63 @@ May be used inline or as a conditional block.</p>
   }
   return options.inverse(this);
 
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionhas" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>has <small></small></h2></div>
+					
+						<p>Tests if a value exists at the object path defined via arguments</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{get object path}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> object
+									
+									<br>Value to test
+								</li>
+								<li class="list-group-item">
+									<strong>path</strong> string, Array.&lt;string&gt;
+									
+									<br>Path of the value to retrieve
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#has value}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/has}}</div><p>Truthy block will evaluate with the result value as the current context ({this}).</p>
+</div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionhas + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function has (...args) {
+  if (args.length < 3) {
+    throw new Error('Handlebars Helper "has" needs a minimum of 3 arguments');
+  }
+
+  const options = args.pop();
+  const value = args.shift();
+  if (args.length === 1) {
+    args = args[0];
+  } else {
+    args = flatten(args);
+  }
+
+  const result = hasUtil(value, args);
+  if (!options.fn) return result || '';
+  return result ? options.fn(result) : options.inverse(this);
 };</code></pre>
 							</div>
 						</div>
@@ -2054,7 +2281,7 @@ If haystack is an object, needle is used as a key name.
 							</div>
 							<div class="panel-collapse collapse">
 								<pre class="panel-body prettyprint"><code class="language-javascript">function is (...args) {
-  if (arguments.length < 3) {
+  if (args.length < 3) {
     throw new Error('Handlebars Helper "is" needs a minimum of 2 arguments');
   }
 
@@ -2108,7 +2335,7 @@ If haystack is an object, needle is used as a key name.
 							</div>
 							<div class="panel-collapse collapse">
 								<pre class="panel-body prettyprint"><code class="language-javascript">function isLike (...args) {
-  if (arguments.length < 3) {
+  if (args.length < 3) {
     throw new Error('Handlebars Helper "isLike" needs a minimum of 2 arguments');
   }
 
@@ -2165,7 +2392,7 @@ If haystack is an object, needle is used as a key name.
 							</div>
 							<div class="panel-collapse collapse">
 								<pre class="panel-body prettyprint"><code class="language-javascript">function isNot (...args) {
-  if (arguments.length < 3) {
+  if (args.length < 3) {
     throw new Error('Handlebars Helper "isNot" needs a minimum of 2 arguments');
   }
 
@@ -2218,7 +2445,7 @@ If haystack is an object, needle is used as a key name.
 							</div>
 							<div class="panel-collapse collapse">
 								<pre class="panel-body prettyprint"><code class="language-javascript">function isNotLike (...args) {
-  if (arguments.length < 3) {
+  if (args.length < 3) {
     throw new Error('Handlebars Helper "isNotLike" needs a minimum of 2 arguments');
   }
 
@@ -2277,7 +2504,7 @@ Else condition evaluates if result is empty.</p>
 							</div>
 							<div class="panel-collapse collapse">
 								<pre class="panel-body prettyprint"><code class="language-javascript">function join (...args) {
-  if (arguments.length === 1) {
+  if (args.length === 1) {
     throw new Error('Handlebars Helper "join" needs at least one parameter');
   }
 
@@ -2533,7 +2760,7 @@ May be used inline or as an iterator. Else condition evaluates if result is 0.</
 							</div>
 							<div class="panel-collapse collapse">
 								<pre class="panel-body prettyprint"><code class="language-javascript">function length (...args) {
-  if (arguments.length === 1) {
+  if (args.length === 1) {
     throw new Error('Handlebars Helper "length" needs 1 parameter');
   }
 
@@ -3135,6 +3362,53 @@ May be used inline or as a conditional block.</p>
 
   return precision ? result.join(decimalPoint) : result[0];
 
+};</code></pre>
+							</div>
+						</div>
+					</div>
+				
+					<div id="functionodd" style="position:relative;top:-60px;"></div>
+					<div class="piece  ">
+						<div class="page-header"><h2>odd <small></small></h2></div>
+					
+						<p>Tests if the passed argument is an odd number</p>
+
+						<h3>Usage:</h3>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{odd value}}</div></div>
+							<ol class="list-group">
+								<li class="list-group-item">
+									<strong>value</strong> number
+									
+									<br>Value to test
+								</li>
+							</ol>
+							<div class="panel-footer"><strong>Returns: </strong> boolean <em class="pull-right"></em></div>
+						</div>
+						<div class="signature panel panel-default">
+							<div class="panel-heading"><div class="panel-title">{{#odd value}}&lt;TEMPLATE&gt;[{{else}}&lt;TEMPLATE&gt;]{{/odd}}</div><p>Truthy block will evaluate with the result value as the current context ({this}).</p>
+</div>
+							<ol class="list-group">
+							</ol>
+						</div>
+
+
+						<div class="codeview panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-target="#functionodd + .piece .panel-collapse">
+								<i class="ico-embed"></i> View Code
+							</div>
+							<div class="panel-collapse collapse">
+								<pre class="panel-body prettyprint"><code class="language-javascript">function odd (...args) {
+  if (args.length < 2) {
+    throw new Error('Handlebars Helper "odd" needs a minimum of 1 arguments');
+  }
+
+  const options = args.pop();
+  const value = args.shift();
+
+  const result = !!(value % 2);
+  if (!options.fn) return result || '';
+  return result ? options.fn(this) : options.inverse(this);
 };</code></pre>
 							</div>
 						</div>

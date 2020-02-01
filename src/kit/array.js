@@ -9,7 +9,7 @@ export default function arrayHelper (Handlebars) {
 	 * @name add
 	 *
 	 * @signate {{array value1 value2 ... valueN}}
-	 * @param {...<mixed>} values Values to compose the array from
+	 * @param {mixed} values Values to compose the array from
 	 * @return {Array<mixed>}
 	 */
 	return function array (...args) {
