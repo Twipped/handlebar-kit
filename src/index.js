@@ -1,11 +1,6 @@
 
 import * as kit from './kit';
 export * from './kit';
-import * as Utilities from './util';
-
-export {
-	Utilities,
-};
 
 export function load (Handlebars, ...names) {
 	// if no helpers were defined, load all of them.

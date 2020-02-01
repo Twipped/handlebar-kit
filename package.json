@@ -11,7 +11,7 @@
     "docs": "node docs/index.js",
     "lint": "eslint ./ --fix",
     "build": "rollup -c",
-    "clean": "rm -rf ./dist"
+    "clean": "rm -rf ./dist ./util.js"
   },
   "repository": {
     "type": "git",
