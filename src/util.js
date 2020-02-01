@@ -466,7 +466,7 @@ export function flatten (collection, depth = Infinity) {
 	);
 }
 
-export function slugify (input, delimiter, separators) {
+export function slugify (input, delimiter = '-', separators = false) {
 	var i = separators && separators.length;
 	var slug = input;
 	var regexEscape = new RegExp(/[[/\\^$*+?.()|{}\]]/g);
