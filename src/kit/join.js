@@ -16,7 +16,7 @@ export default function joinHelper (Handlebars) {
 	 * @signature {{#join items[ separator]}}<TEMPLATE>[{{else}}<TEMPLATE>]{{/join}}
 	 */
 	return function join (...args) {
-		if (arguments.length === 1) {
+		if (args.length === 1) {
 			throw new Error('Handlebars Helper "join" needs at least one parameter');
 		}
 

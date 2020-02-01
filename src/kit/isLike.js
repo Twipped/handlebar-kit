@@ -15,7 +15,7 @@ export default function isLikeHelper () {
 	 */
 
 	return function isLike (...args) {
-		if (arguments.length < 3) {
+		if (args.length < 3) {
 			throw new Error('Handlebars Helper "isLike" needs a minimum of 2 arguments');
 		}
 

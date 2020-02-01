@@ -14,7 +14,7 @@ export default function isNotLikeHelper () {
 	 */
 
 	return function isNotLike (...args) {
-		if (arguments.length < 3) {
+		if (args.length < 3) {
 			throw new Error('Handlebars Helper "isNotLike" needs a minimum of 2 arguments');
 		}
 

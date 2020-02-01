@@ -15,7 +15,7 @@ export default function isHelper () {
 	 */
 
 	return function is (...args) {
-		if (arguments.length < 3) {
+		if (args.length < 3) {
 			throw new Error('Handlebars Helper "is" needs a minimum of 2 arguments');
 		}
 

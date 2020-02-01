@@ -29,7 +29,7 @@ export default function lengthHelper () {
 	 * @param {interger} target The target length it should match in order to evaluate.
 	 */
 	return function length (...args) {
-		if (arguments.length === 1) {
+		if (args.length === 1) {
 			throw new Error('Handlebars Helper "length" needs 1 parameter');
 		}
 
