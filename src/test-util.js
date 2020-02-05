@@ -14,6 +14,13 @@ tap.test('reduce', (t) => {
 	t.end();
 });
 
+tap.test('uniq', (t) => {
+	t.deepEqual(util.uniq([ 1, 2, 3, 2, 2, 1 ]), [ 1, 2, 3 ], 'uniq an array');
+	t.deepEqual(util.uniq([ 2.1, 1.2, 2.3 ], Math.floor), [ 2.1, 1.2 ], 'uniq with a predicate on primitives');
+	t.deepEqual(util.uniq([ { 'x': 1 }, { 'x': 2 }, { 'x': 1 } ], 'x'), [ { 'x': 1 }, { 'x': 2 } ], 'uniq with a predicate on objects');
+	t.end();
+});
+
 tap.test('map', (t) => {
 	t.deepEqual(
 		util.map([
@@ -54,6 +61,103 @@ tap.test('pick', (t) => {
 		{ e: 4, f: 5 },
 		'multi item pick',
 	);
+
+	t.end();
+});
+
+tap.test('deepPick', (s) => {
+	s.test('picks a and b from array of objects with a, b, c properties', (t) => {
+		const input = [
+			{ a: 1, b: 2, c: 3 },
+			{ a: 4, b: 5, c: 6 },
+			{ a: 7, b: 8, c: 9 },
+		];
+		const schema = [ { a: 1, b: 1 } ];
+		const output = [ { a: 1, b: 2 }, { a: 4, b: 5 }, { a: 7, b: 8 } ];
+		t.deepEqual(util.deepPick(input, schema), output);
+
+		t.end();
+	});
+
+	s.test('picks a and nested c and e properties in b', (t) => {
+		const input = { a: 1, b: { c: 2, d: 3, e: 4 } };
+		const schema = { a: true, b: { c: true, e: true } };
+		const output = { a: 1, b: { c: 2, e: 4 } };
+
+		t.deepEqual(util.deepPick(input, schema), output);
+
+		t.end();
+	});
+
+	s.test('picks properties from nested objects and arrays', (t) => {
+		const input = {
+			name: 'John Doe',
+			age: 35,
+			hobby: 'cars',
+			family: {
+				wife: { name: 'Susan', age: 32, hobby: 'baseball' },
+				children: [
+					{ name: 'Alex', age: 5, hobby: 'dancing' },
+					{ name: 'Alice', age: 3, hobby: 'music' },
+				]
+			},
+			cars: [
+				{ model: 'BMW X5', year: 2015 },
+				{ model: 'Tesla Model S', year: 2018 },
+			],
+		};
+
+		const schema = {
+			name: true,
+			age: true,
+			family: {
+				wife: { name: true, age: true },
+				children: [ {
+					name: true,
+					age: true,
+				} ],
+			},
+			cars: [ {
+				model: true,
+			} ],
+		};
+
+		const output = {
+			name: 'John Doe',
+			age: 35,
+			family: {
+				wife: { name: 'Susan', age: 32 },
+				children: [ { name: 'Alex', age: 5 }, { name: 'Alice', age: 3 } ],
+			},
+			cars: [ { model: 'BMW X5' }, { model: 'Tesla Model S' } ],
+		};
+
+		t.deepEqual(util.deepPick(input, schema), output);
+
+		t.end();
+	});
+
+	s.end();
+});
+
+tap.test('pathinate', (t) => {
+	t.deepEqual(
+		util.pathinate({ a: { b: 1, c: 2, d: { e: 3 } }, e: 4, f: 5 }),
+		[
+			'a.b',
+			'a.c',
+			'a.d.e',
+			'e',
+			'f',
+		],
+	);
+	// t.deepEqual(
+	// 	util.pathinate({ a: [ { b: 1 }, { b: 2 } ], c: [ [ 0 ] ] }),
+	// 	[
+	// 		'a[*].b',
+	// 		'c[*][*]',
+	// 	],
+	// );
 
 	t.end();
 });

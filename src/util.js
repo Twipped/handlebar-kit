@@ -1,16 +1,24 @@
 
-export function isNumber (input) { return typeof input === 'number' && !isNaN(input); }
-
-export function isString (input) { return typeof input === 'string'; }
-
-export function isFunction (input) { return typeof input === 'function'; }
-
+export function isNumber    (input) { return typeof input === 'number' && !isNaN(input); }
+export function isString    (input) { return typeof input === 'string'; }
+export function isBoolean   (input) { return typeof input === 'boolean'; }
+export function isFunction  (input) { return typeof input === 'function'; }
 export function isUndefined (input) { return typeof input === 'undefined'; }
+export function isMap       (input) { return input instanceof Map; }
+export function isSet       (input) { return input instanceof Set; }
 
-export function isMap (input) { return input instanceof Map; }
-export function isSet (input) { return input instanceof Set; }
+export function isPrimitive (input) {
+	switch (typeof input) {
+	case 'string':
+	case 'number':
+	case 'boolean':
+		return true;
+	default:
+		return false;
+	}
+}
 
-export const isArray = Array.isArray;
+export function isNull (input) { return input === null; }
 
 export function isObject (input) {
 	if (!input) return false;
@@ -20,6 +28,14 @@ export function isObject (input) {
 	if (input.constructor !== Object.prototype.constructor) return false;
 	return true;
 }
+
+export const isArray = Array.isArray;
+export function isArrayOfStrings    (input) { return allBy(input, isString); }
+export function isArrayOfNumbers    (input) { return allBy(input, isNumber); }
+export function isArrayOfBooleans   (input) { return allBy(input, isBoolean); }
+export function isArrayOfObjects    (input) { return allBy(input, isObject); }
+export function isArrayOfMappables  (input) { return allBy(input, isMappable); }
+export function isArrayOfPrimatives (input) { return allBy(input, isPrimitive); }
 
 export function truthy (value) {
 	if (isMappable(value)) return !!sizeOf(value);
@@ -186,6 +202,113 @@ export function all (...args) {
 	return result;
 }
 
+export function allBy (collection, predicate = null) {
+	if (!collection) return false;
+	if (predicate === null) {
+		predicate = (v) => v;
+	} else {
+		predicate = iteratee(predicate);
+	}
+
+	if (isArray(collection)) {
+		let i = 0;
+		for (const value of collection) {
+			if (!predicate(value, i, i++)) return false;
+		}
+		return true;
+	}
+
+	if (isSet(collection)) {
+		let i = 0;
+		for (const item of collection) {
+			if (!predicate(item, i, i++)) return false;
+		}
+		return true;
+	}
+
+	// received a Map
+	if (isMap(collection)) {
+		let i = 0;
+		for (const [ key, value ] of collection.entries()) {
+			if (!predicate(value, key, i++)) return false;
+		}
+		return true;
+	}
+
+	// received an object hash
+	if (isObject(collection)) {
+		let i = 0;
+		for (const [ key, value ] of Object.entries(collection)) {
+			if (!predicate(value, key, i++)) return false;
+		}
+		return true;
+	}
+
+	return !!collection;
+}
+
+export function any (...args) {
+	let input;
+	if (args.length > 1) {
+		input = args;
+	} else {
+		input = arrayify(args[0]);
+	}
+
+	for (const value of input) {
+		if (truthy(value)) {
+			return value;
+		}
+	}
+
+	return input[input.length - 1];
+}
+
+export function anyBy (collection, predicate = null) {
+	if (!collection) return false;
+	if (predicate === null) {
+		predicate = (v) => v;
+	} else {
+		predicate = iteratee(predicate);
+	}
+
+	if (isArray(collection)) {
+		let i = 0;
+		for (const value of collection) {
+			if (predicate(value, i, i++)) return true;
+		}
+		return false;
+	}
+
+	if (isSet(collection)) {
+		let i = 0;
+		for (const item of collection) {
+			if (predicate(item, i, i++)) return true;
+		}
+		return false;
+	}
+
+	// received a Map
+	if (isMap(collection)) {
+		let i = 0;
+		for (const [ key, value ] of collection.entries()) {
+			if (predicate(value, key, i++)) return true;
+		}
+		return false;
+	}
+
+	// received an object hash
+	if (isObject(collection)) {
+		let i = 0;
+		for (const [ key, value ] of Object.entries(collection)) {
+			if (predicate(value, key, i++)) return true;
+		}
+		return false;
+	}
+
+	return !!collection;
+}
+
 export function iteratee (match) {
 	if (isUndefined(match) || match === null) return Boolean;
 
@@ -349,6 +472,50 @@ export function map (collection, predicate) {
 	return mapReduce(collection, (value, key, index) => [ key, predicate(value, key, index) ]);
 }
 
+export function uniq (collection, predicate = null) {
+	if (predicate === null) {
+		predicate = (v) => v;
+	} else {
+		predicate = iteratee(predicate);
+	}
+
+	const exists = new Set();
+
+	if (isArray(collection)) {
+		const result = [];
+		collection.forEach((v) => {
+			const match = predicate(v);
+			if (exists.has(match)) return;
+			exists.add(match);
+			result.push(v);
+		});
+
+		return result;
+	}
+
+	if (isSet(collection)) return new Set(collection); // really?
+
+	if (isMap(collection)) {
+		return new Map(Array.from(collection.entries(), ([ k, v ]) => {
+			const match = predicate(v);
+			if (exists.has(match)) return false;
+			exists.add(match);
+			return [ k, v ];
+		}).filter(Boolean));
+	}
+
+	if (isObject(collection)) {
+		return mapReduce(collection, ([ v, k ]) => {
+			const match = predicate(v);
+			if (exists.has(match)) return null;
+			exists.add(match);
+			return [ k, v ];
+		});
+	}
+
+	return collection;
+}
+
 export function filter (collection, predicate) {
 	predicate = iteratee(predicate);
 
@@ -406,6 +573,64 @@ export function pick (collection, predicate) {
 		return set(obj, key, value);
 	}, {});
 }
+
+
+export function deepPick (collection, schema) {
+	if (isPrimitive(schema) && isPrimitive(collection)) return collection;
+
+	if (isArray(schema) && schema.length > 0) {
+		// collection does not match this schema tier, abort
+		if (!isArray(collection)) return;
+
+		schema = schema[0];
+		return collection.map((branch) => deepPick(branch, schema));
+	}
+
+	// if the schema at this tier is not an object,
+	// return the value at this tier only if schema is truthy
+	if (!isObject(schema)) return schema ? collection : undefined;
+	if (isPrimitive(collection)) return;
+
+	// if the collection isn't something we can pull data from, skip it
+	if (!isObject(collection) && !isFunction(collection)) return;
+
+	const result = {};
+	for (const [ key, subschema ] of Object.entries(schema)) {
+
+		const target = collection[key];
+		if (isUndefined(target)) continue;
+
+		const child = deepPick(target, subschema);
+		if (isUndefined(child)) continue;
+
+		result[key] = child;
+	}
+
+	return result;
+}
+
+
+
+export function pathinate (object, delimiter = '.') {
+	const paths = [];
+
+	function descend (branch, ancest) {
+		if (!isObject(branch)) {
+			paths.push(ancest.join(delimiter));
+			return;
+		}
+		for (const [ k, v ] of Object.entries(branch)) {
+			descend(v, ancest.concat([ k ]));
+		}
+		return;
+	}
+
+	descend(object, []);
+
+	return uniq(paths);
+}
+
+
 
 /**
  * Iterates over a collection and generates an object based on tuple returned from the iteratee.
