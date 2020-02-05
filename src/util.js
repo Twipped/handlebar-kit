@@ -421,7 +421,7 @@ export function mapReduce (collection, cb) {
 		// return true to continue looping
 		const res = cb(v, k, i) || [];
 		if (res === false) return false;
-		if (!res) return true;
+		if (!res || !isArray(res)) return true;
 		const [ key, value ] = res;
 		if (key === undefined || key === null || value === undefined) return true;
 		result[key] = value;
