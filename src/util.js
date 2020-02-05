@@ -64,6 +64,32 @@ export function merge (...sources) {
 	return result;
 }
 
+export function set (obj, path, value) {
+	if (path === null && path === undefined && path === '') return false;
+	if (isNumber(path)) path = [ String(path) ];
+	else if (isString(path)) {
+		if (hasOwn(obj, path)) {
+			obj[path] = value;
+			return obj;
+		}
+		path = path.split(/[,[\].]+?/);
+	}
+
+	const c = path.length - 1;
+	path
+		.filter((s) => s || s === 0)
+		.reduce((res, key, i) => {
+			if (i === c) {
+				res[key] = value;
+				return true;
+			}
+			if (isObject(res[key]) || isFunction(res[key])) return res[key];
+			return (res[key] = {});
+		}, obj);
+
+	return obj;
+}
+
 export function get (obj, path, defaultValue) {
 	if (path === null && path === undefined && path === '') return defaultValue;
 	if (isNumber(path)) path = [ String(path) ];
@@ -359,7 +385,9 @@ export function omit (collection, predicate) {
 }
 
 export function pick (collection, predicate) {
-	if (typeof predicate === 'function') {
+	if (!collection) return {};
+
+	if (isFunction(predicate)) {
 		return mapReduce(collection, (value, key, index) =>
 			(predicate(value, key, index)
 				? [ key, value ]
@@ -373,10 +401,9 @@ export function pick (collection, predicate) {
 
 	if (!isArray(predicate)) throw new Error('pick requires a string or array of strings');
 	return predicate.reduce((obj, key) => {
-		if (collection && hasOwn(collection, key)) {
-			obj[key] = collection[key];
-		}
-		return obj;
+		const value = get(collection, key);
+		if (isUndefined(value)) return obj;
+		return set(obj, key, value);
 	}, {});
 }
 

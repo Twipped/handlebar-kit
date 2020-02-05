@@ -33,3 +33,27 @@ tap.test('map', (t) => {
 	);
 	t.end();
 });
+
+tap.test('set', (t) => {
+	t.deepEqual(util.set({ 'a': { 'b': 1 } }, 'a.b', 2), { 'a': { 'b': 2 } }, 'overwrite value');
+	t.deepEqual(util.set({ 'a': { 'b': 1 } }, [ 'a', 'b' ], 2), { 'a': { 'b': 2 } }, 'overwrite value 2');
+	t.deepEqual(util.set({ 'a': null }, 'a.b', 2), { 'a': { 'b': 2 } }, 'overwrite shallow value');
+	t.deepEqual(util.set({}, 'a.b', 2), { 'a': { 'b': 2 } }, 'write to empty');
+	t.end();
+});
+
+tap.test('pick', (t) => {
+	const source = { a: { b: 1, c: 2, d: { e: 3 } }, e: 4, f: 5 };
+	t.deepEqual(
+		util.pick(source, 'a.b'),
+		{ 'a': { 'b': 1 } },
+		'single item pick',
+	);
+	t.deepEqual(
+		util.pick(source, [ 'e', 'f' ]),
+		{ e: 4, f: 5 },
+		'multi item pick',
+	);
+
+	t.end();
+});
