@@ -99,7 +99,7 @@ tap.test('deepPick', (s) => {
 				children: [
 					{ name: 'Alex', age: 5, hobby: 'dancing' },
 					{ name: 'Alice', age: 3, hobby: 'music' },
-				]
+				],
 			},
 			cars: [
 				{ model: 'BMW X5', year: 2015 },
@@ -161,3 +161,80 @@ tap.test('pathinate', (t) => {
 
 	t.end();
 });
+
+tap.test('groupBy', (s) => {
+	s.deepEqual(
+		util.groupBy([ 'one', 'two', 'three' ], 'length'),
+		{ '3': [ 'one', 'two' ], '5': [ 'three' ] },
+	);
+
+	s.test('number for iteratee on multi-index arrays', (t) => {
+		var array = [
+			[ 1, 'a' ],
+			[ 2, 'a' ],
+			[ 2, 'b' ],
+		];
+
+		t.deepEqual(util.groupBy(array, 0), { '1': [ [ 1, 'a' ] ], '2': [ [ 2, 'a' ], [ 2, 'b' ] ] });
+		t.deepEqual(util.groupBy(array, 1), { 'a': [ [ 1, 'a' ], [ 2, 'a' ] ], 'b': [ [ 2, 'b' ] ] });
+
+		t.end();
+	});
+
+	s.test('should work with an object for `collection`', (t) => {
+		const actual = util.groupBy({ 'a': 6.1, 'b': 4.2, 'c': 6.3 }, Math.floor);
+		t.deepEqual(actual, { '4': [ 4.2 ], '6': [ 6.1, 6.3 ] });
+
+		t.end();
+	});
+
+	s.end();
+});
+
+tap.test('keyBy', (s) => {
+
+
+	s.test('should transform keys by `iteratee`', (t) => {
+		const array = [
+			{ 'dir': 'left', 'code': 97 },
+			{ 'dir': 'right', 'code': 100 },
+		];
+
+		t.deepEqual(
+			util.keyBy(array, (object) => String.fromCharCode(object.code)),
+			{ 'a': { 'dir': 'left', 'code': 97 }, 'd': { 'dir': 'right', 'code': 100 } },
+		);
+
+		t.end();
+	});
+
+	s.test('should transform keys by `iteratee`', (t) => {
+		const array = [
+			{ 'dir': 'left', 'code': 97 },
+			{ 'dir': 'right', 'code': 100 },
+		];
+
+		t.deepEqual(
+			util.keyBy(array, 'dir'),
+			{ 'left': { 'dir': 'left', 'code': 97 }, 'right': { 'dir': 'right', 'code': 100 } },
+		);
+
+		t.end();
+	});
+
+	s.test('number for iteratee on multi-index arrays', (t) => {
+		var array = [
+			[ 1, 'a' ],
+			[ 2, 'a' ],
+			[ 2, 'b' ],
+		];
+
+		t.deepEqual(util.keyBy(array, 0), { '1': [ 1, 'a' ], '2': [ 2, 'b' ] });
+		t.deepEqual(util.keyBy(array, 1), { 'a': [ 2, 'a' ], 'b': [ 2, 'b' ] });
+
+		t.end();
+	});
+
+	s.end();
+});
+

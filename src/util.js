@@ -515,6 +515,22 @@ export function uniq (collection, predicate = null) {
 	return collection;
 }
 
+export function keyBy (collection, predicate) {
+	predicate = iteratee(predicate);
+	return mapReduce(collection, (value, key, index) =>
+		[ predicate(value, key, index), value ],
+	);
+}
+
+export function groupBy (collection, predicate) {
+	predicate = iteratee(predicate);
+	return reduce(collection, (result, value, key, index) => {
+		const k = predicate(value, key, index);
+		(result[k] || (result[k] = [])).push(value);
+		return result;
+	}, {});
+}
+
 export function filter (collection, predicate) {
 	predicate = iteratee(predicate);
 
