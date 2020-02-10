@@ -689,19 +689,21 @@ export function mapReduce (collection, cb) {
 	return result;
 }
 
-export function reduce (collection, cb, init) {
-	if (isArray(collection)) return collection.reduce(cb, init);
+export function reduce (collection, predicate, init) {
+	if (!isFunction(predicate)) throw new TypeError('Predicate must be a function');
+
+	if (isArray(collection)) return collection.reduce((r, v, i) => predicate(r, v, i, i), init);
 
 	if (isSet(collection)) {
-		return Array.from(collection).reduce(cb, init);
+		return Array.from(collection).reduce((r, v, i) => predicate(r, v, i, i), init);
 	}
 
 	if (isMap(collection)) {
-		return Array.from(collection.entries()).reduce((prev, [ key, value ], i) => cb(prev, value, key, i), init);
+		return Array.from(collection.entries()).reduce((prev, [ key, value ], i) => predicate(prev, value, key, i), init);
 	}
 
 	if (isObject(collection)) {
-		return Object.entries(collection).reduce((prev, [ key, value ], i) => cb(prev, value, key, i), init);
+		return Object.entries(collection).reduce((prev, [ key, value ], i) => predicate(prev, value, key, i), init);
 	}
 }
 
