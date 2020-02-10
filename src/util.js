@@ -320,8 +320,7 @@ export function iteratee (match) {
 			if (isObject(o)) return o[match];
 			if (isMap(o)) return o.get(match);
 			if (isSet(o)) return o.has(match);
-			if (isString(o)) return o === match;
-			if (isNumber(o)) return String(o) === match;
+			if (isPrimitive(o)) return o[match];
 			return o === match;
 		};
 	}
