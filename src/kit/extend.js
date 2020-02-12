@@ -21,7 +21,7 @@ export default function extendHelper (Handlebars) {
 		const options = args.pop();
 		const name = args[0];
 
-		var context = Object.create(this || null);
+		var context = Handlebars.createFrame(this || null);
 		var template = Handlebars.partials[name];
 
 		if (typeof template === 'undefined') {

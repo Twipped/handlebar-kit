@@ -5,7 +5,7 @@ const glob = require('glob');
 const dox = require('dox');
 const Handlebars = require('handlebars');
 const Kit = require('../dist');
-const { flatten, map, sort } = Kit.Utilities;
+const { flatten, map, sort } = require('../util');
 const markdown = require('markdown-it');
 const mdAnchor = require('markdown-it-anchor');
 const mdHighlight = require('markdown-it-highlightjs');
@@ -229,7 +229,7 @@ function processParsedItem (filename, item) {
 	categories.forEach((category) => category.push(item));
 
 	item.aliases.forEach((alias) => {
-		var achunk = Object.create(item);
+		var achunk = Handlebars.createFrame(item);
 		achunk.name = (item.ctx.parent && item.ctx.parent + '.' || '') + alias;
 		achunk.original = item.name;
 		achunk.isAlias = true;

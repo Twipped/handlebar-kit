@@ -1,5 +1,5 @@
 
-export default function injectHelper () {
+export default function injectHelper (Handlebars) {
 
 	/**
 	 * Any values passed as named arguments are injected into the handlebars data context, using the name provided for each argument.
@@ -19,7 +19,7 @@ export default function injectHelper () {
 		const options = args.pop();
 
 		if (options.fn) {
-			context = Object.create(this || null);
+			context = Handlebars.createFrame(this || null);
 		}
 
 		Object.assign(context, ...args);

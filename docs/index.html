@@ -1563,7 +1563,7 @@ contained text is disposed of.</p>
   const options = args.pop();
   const name = args[0];
 
-  var context = Object.create(this || null);
+  var context = Handlebars.createFrame(this || null);
   var template = Handlebars.partials[name];
 
   if (typeof template === 'undefined') {
@@ -2221,7 +2221,7 @@ If haystack is an object, needle is used as a key name.
   const options = args.pop();
 
   if (options.fn) {
-    context = Object.create(this || null);
+    context = Handlebars.createFrame(this || null);
   }
 
   Object.assign(context, ...args);
